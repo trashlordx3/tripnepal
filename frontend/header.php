@@ -45,7 +45,7 @@
                         <ul class="dropdown-menu" aria-labelledby="destinationDropdown">
                             <li><a class="dropdown-item" href="#">Kathmandu</a></li>
                             <li><a class="dropdown-item" href="#">Pokhara</a></li>
-                            <li><a class="dropdown-item" href="destination">More</a></li>
+                            <li><a class="dropdown-item" href="destinations">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -54,7 +54,7 @@
                         <ul class="dropdown-menu" aria-labelledby="activitiesDropdown">
                             <li><a class="dropdown-item" href="#">Trekking</a></li>
                             <li><a class="dropdown-item" href="#">Tour </a></li>
-                            <li><a class="dropdown-item" href="activity">More</a></li>
+                            <li><a class="dropdown-item" href="more-activity">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -66,7 +66,7 @@
                             <li><a class="dropdown-item" href="cultural">Cultural</a></li>
                             <li><a class="dropdown-item" href="budget">Budget Travel</a></li>
 
-                            <li><a class="dropdown-item" href="triptype">More</a></li>
+                            <li><a class="dropdown-item" href="trip-types">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

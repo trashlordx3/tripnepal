@@ -106,6 +106,11 @@
             color: #f44336;
         }
 
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+
         @media (max-width: 576px) {
             .login-container {
                 padding: 20px;
@@ -120,21 +125,21 @@ include("frontend/header.php");
 <div class="login-container">
     <h2>Signup</h2>
     <form id="loginForm">
-        <label for="username">Email <span style="color:red;">*</span></label>
-        <input type="text" id="username" name="username" placeholder="Email" required>
-        <div id="usernameError" class="error"></div>
+        <label for="email">Email <span style="color:red;">*</span></label>
+        <input type="text" id="email" name="email" placeholder="Email" required>
+        <div id="emailError" class="error"></div>
 
-        <label for="username">username <span style="color:red;">*</span></label>
-        <input type="text" id="username" name="username" placeholder="username" required>
+        <label for="username">Username <span style="color:red;">*</span></label>
+        <input type="text" id="username" name="username" placeholder="Username" required>
         <div id="usernameError" class="error"></div>
 
         <label for="password">Password <span style="color:red;">*</span></label>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <div id="passwordError" class="error"></div>
 
-
         <button type="submit" class="login-button">SIGN UP</button>
     </form>
+
     <div class="signup">
         Have An account? <a href="login">Login</a>
     </div>
@@ -148,6 +153,51 @@ include("frontend/footer.php");
 <?php
 include("frontend/scrollup.html");
 ?>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        let isValid = true;
+
+        // Clear previous error messages
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('usernameError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+
+        // Validate Email
+        const email = document.getElementById('email').value.trim();
+        if (!email) {
+            document.getElementById('emailError').textContent = 'Email is required.';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById('emailError').textContent = 'Email is not valid.';
+            isValid = false;
+        }
+
+        // Validate Username
+        const username = document.getElementById('username').value.trim();
+        if (!username) {
+            document.getElementById('usernameError').textContent = 'Username is required.';
+            isValid = false;
+        } else if (username.length < 3) {
+            document.getElementById('usernameError').textContent = 'Username must be at least 3 characters long.';
+            isValid = false;
+        }
+
+        // Validate Password
+        const password = document.getElementById('password').value.trim();
+        if (!password) {
+            document.getElementById('passwordError').textContent = 'Password is required.';
+            isValid = false;
+        } else if (password.length < 6) {
+            document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long.';
+            isValid = false;
+        }
+
+        // Prevent form submission if validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
