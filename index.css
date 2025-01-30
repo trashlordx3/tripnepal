@@ -157,14 +157,14 @@ body {
 }
 
 .footer {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 .footer-containers {
   display: flex;
   gap: 20px;
   color: white;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 .footer-column h3 {
