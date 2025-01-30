@@ -94,22 +94,22 @@
 include("frontend/header.php");
 ?>
 <header class="hero">
-    <h1>Trip Types</h1>
+    <h1>Available Destinations</h1>
 </header>
 
 <div class="trip-types">
-    <h1>Explore by Trip Types</h1>
-    <p>Discover the best travel experiences tailored to your interests.</p>
+    <h1>Explore by destinations</h1>
+    <p>Discover the best travel destination in nepal.</p>
     <div class="container">
         <div class="row g-4">
             <!-- Card 1 -->
             <div class="col-md-4">
                 <div class="trip-card">
-                    <img src="nature.jpg" alt="Nature Friendly Trip">
+                    <img src="assets/img/budget.jpg" alt="Nature Friendly Trip">
                     <div class="trip-card-body">
-                        <h3 class="trip-card-title">Nature Friendly</h3>
-                        <p class="trip-card-text">Experience the beauty of untouched landscapes and serene environments.
-                        </p>
+                        <h3 class="trip-card-title">Kathmandu</h3>
+                        <p class="trip-card-text">Explore ancient temples, bustling markets, and affordable stays in
+                            Nepal’s vibrant capital.</p>
                         <a href="#">Learn More</a>
                     </div>
                 </div>
@@ -117,23 +117,57 @@ include("frontend/header.php");
             <!-- Card 2 -->
             <div class="col-md-4">
                 <div class="trip-card">
-                    <img src="culture.jpg" alt="Cultural Trip">
+                    <img src="assets/img/pokhara.jpg" alt="Cultural Trip">
                     <div class="trip-card-body">
-                        <h3 class="trip-card-title">Cultural</h3>
-                        <p class="trip-card-text">Immerse yourself in the rich history and traditions of diverse
-                            cultures of Nepal.</p>
-                        <a href="activities">Learn More</a>
+                        <h3 class="trip-card-title">Pokhara</h3>
+                        <p class="trip-card-text">Enjoy serene lakes, mountain views,and budget-friendly homestays in
+                            this peaceful lakeside city.</p>
+                        <a href="#">Learn More</a>
                     </div>
                 </div>
             </div>
             <!-- Card 3 -->
             <div class="col-md-4">
                 <div class="trip-card">
-                    <img src="budget.jpg" alt="Budget Travel">
+                    <img src="assets/img/lumbini.jpg" alt="Budget Travel">
                     <div class="trip-card-body">
-                        <h3 class="trip-card-title">Budget Travel</h3>
-                        <p class="trip-card-text">Explore the world without breaking the bank with affordable travel
-                            options.</p>
+                        <h3 class="trip-card-title">Lumbini</h3>
+                        <p class="trip-card-text">Discover Buddha’s birthplace, serene monasteries, and budget stays in
+                            Lumbini, Nepal. </p>
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="trip-card">
+                    <img src="assets/img/chitwan.jpg" alt="Budget Travel">
+                    <div class="trip-card-body">
+                        <h3 class="trip-card-title">Chitwan</h3>
+                        <p class="trip-card-text">Spot wildlife, enjoy jungle safaris, and experience Tharu culture on a
+                            budget in this national park.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <!-- card 5 -->
+            <div class="col-md-4">
+                <div class="trip-card">
+                    <img src="assets/img/mustang.jpg" alt="Budget Travel">
+                    <div class="trip-card-body">
+                        <h3 class="trip-card-title">Mustang</h3>
+                        <p class="trip-card-text">Trek through rugged landscapes and ancient caves with affordable
+                            teahouses in this hidden gem.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="trip-card">
+                    <img src="assets/img/solukhumbu.jpg" alt="Budget Travel">
+                    <div class="trip-card-body">
+                        <h3 class="trip-card-title">Solukhumbu</h3>
+                        <p class="trip-card-text">Trek to Everest trails, stay in budget teahouses, and soak in epic
+                            mountain views.</p>
                         <a href="#">Learn More</a>
                     </div>
                 </div>

@@ -45,6 +45,7 @@
                         <ul class="dropdown-menu" aria-labelledby="destinationDropdown">
                             <li><a class="dropdown-item" href="#">Kathmandu</a></li>
                             <li><a class="dropdown-item" href="#">Pokhara</a></li>
+                            <li><a class="dropdown-item" href="#">Mustang</a></li>
                             <li><a class="dropdown-item" href="destinations">More</a></li>
                         </ul>
                     </li>
@@ -54,6 +55,7 @@
                         <ul class="dropdown-menu" aria-labelledby="activitiesDropdown">
                             <li><a class="dropdown-item" href="#">Trekking</a></li>
                             <li><a class="dropdown-item" href="#">Tour </a></li>
+                            <li><a class="dropdown-item" href="#">Hiking </a></li>
                             <li><a class="dropdown-item" href="more-activity">More</a></li>
                         </ul>
                     </li>
@@ -65,7 +67,6 @@
                             <li><a class="dropdown-item" href="nature">Nature Friendly</a></li>
                             <li><a class="dropdown-item" href="cultural">Cultural</a></li>
                             <li><a class="dropdown-item" href="budget">Budget Travel</a></li>
-
                             <li><a class="dropdown-item" href="trip-types">More</a></li>
                         </ul>
                     </li>
@@ -74,8 +75,8 @@
                             data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                         <ul class="dropdown-menu" aria-labelledby="pagesDropdown">
                             <li><a class="dropdown-item" href="aboutus">About Us</a></li>
-                            <li><a class="dropdown-item" href="#">Our Team</a></li>
-                            <li><a class="dropdown-item" href="#">FAQ'S</a></li>
+                            <li><a class="dropdown-item" href="our-team">Our Team</a></li>
+                            <li><a class="dropdown-item" href="faqs">FAQ'S</a></li>
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="contactus">Contact</a></li>

@@ -13,7 +13,6 @@
 
     </style>
 </head>
-
 <?php
 include("frontend/header.php");
 ?>

@@ -10,8 +10,16 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
     <style>
+        .container {
+            max-width: 100%;
+            height: max-content;
+            align-items: center;
+            margin: 0 auto;
+            transition: box-shadow 0.3s ease;
+            border-radius: 5px;
+        }
+
         .trip-container {
-            padding: 20px;
             max-width: 1000px;
             height: max-content;
             align-items: center;
@@ -124,7 +132,6 @@
             color: #333;
         }
 
-
         .dates {
             display: flex;
             align-items: center;
@@ -154,13 +161,11 @@
             background-color: #00c4b4;
         }
 
-        @media (max-width: 375px) {
+        @media (max-width: 600px) {
             .trip-container {
-                margin: 0 auto;
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
             }
-
 
             .dates {
                 margin-bottom: 10px;
@@ -172,13 +177,13 @@
 <?php
 include("frontend/header.php");
 ?>
-<section style="  padding: 80px 15px 80px 15px;">
+<?php for ($i = 0; $i < 5; $i++) { ?>
+
     <div class="trip-container">
         <div class="content-section">
             <div class="image-section">
                 <img alt="Aerial view of a beautiful beach with turquoise water and white sand, surrounded by lush green palm trees."
-                    src="assets/img/Manaslu.jpg"
-                    style="width: 300px; height: 250px; margin: 10px; border-radius: 5px;" />
+                    src="demo.jpeg" style="width: 300px; height: 250px; margin: 10px; border-radius: 5px;" />
                 <div class="featured-badge">
                     <i class="fas fa-star"></i>
                     Featured
@@ -186,7 +191,7 @@ include("frontend/header.php");
             </div>
             <div class="trip-info">
                 <div class="title">
-                    <h2 style="width:375x;">7 Days tour to Explore the Beauty of Philippines</h2>
+                    <h2 style="width: 250px;">7 Days tour to Explore the Beauty of Philippines</h2>
                 </div>
                 <div class="information">
                     <div class="content-left">
@@ -234,7 +239,8 @@ include("frontend/header.php");
             </div>
         </div>
     </div>
-</section>
+<?php } ?>
+
 <?php
 include("frontend/footer.php");
 ?>
