@@ -75,7 +75,7 @@ body {
 .hero-section {
   background-image: url(assets/img/hero.png);
   background-position: center;
-  height: 550px;
+  height: 700px;
   width: 100vw;
   background-repeat: no-repeat;
   background-size: cover;
@@ -214,6 +214,7 @@ body {
     width: 100%;
   }
 }
+/* features */
 
 /* scroll up button */
 .scroll-up {
