@@ -4,315 +4,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Looping Testimonial Carousel</title>
+    <title>Client Review Carousel</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 80%;
-            max-width: 600px;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            background: white;
-        }
-
-        /* Carousel track */
         .carousel {
+            margin: 0 auto;
+            width: 800px;
+            overflow: hidden;
+            position: relative;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .reviews {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            width: max-content;
         }
 
-        /* Each testimonial item */
-        .testimonial {
-            min-width: 100%;
-            flex: 0 0 100%;
-            padding: 20px;
-            text-align: center;
-            background: white;
+        .review {
+            min-width: 800px;
         }
 
-        /* Testimonial text */
-        .testimonial p {
-            font-size: 18px;
-            line-height: 1.5;
-            margin-bottom: 10px;
+        .buttons {
+            margin-top: 10px;
         }
 
-        .testimonial h4 {
-            font-size: 16px;
-            color: #555;
-        }
-
-        /* Navigation Buttons */
-        .carousel-container button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
+        .buttons button {
+            padding: 8px 12px;
+            margin: 5px;
             border: none;
-            padding: 10px 15px;
+            background: #007bff;
+            color: white;
             cursor: pointer;
-            border-radius: 50%;
-            font-size: 18px;
-        }
-
-        .carousel-container .prev {
-            left: 10px;
-            background: none;
-        }
-
-        .carousel-container .next {
-            right: 10px;
-            background: none;
-        }
-
-        .carousel-container button:hover {
-            background: none;
-
-        }
-
-        .testimonial-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 50px;
-            position: relative;
-        }
-
-        .testimonial-content {
-            display: flex;
-            align-items: center;
-            max-width: 800px;
-            text-align: left;
-        }
-
-        .testimonial-image {
-            position: relative;
-            margin-right: 20px;
-        }
-
-        .testimonial-image img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .testimonial-image .decorative-icon {
-            position: absolute;
-        }
-
-        .decorative-icon-1 {
-            top: -10px;
-            right: -10px;
-        }
-
-        .decorative-icon-2 {
-            bottom: -10px;
-            left: -10px;
-        }
-
-        .testimonial-text {
-            max-width: 500px;
-        }
-
-        .testimonial-text h5 {
-            color: #00bfa5;
-            font-size: 24px;
-        }
-
-        .testimonial-text h3 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .testimonial-text p {
-            font-size: 16px;
-            color: #333;
-            margin-top: 10px;
-        }
-
-        .testimonial-text .author {
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .testimonial-navigation {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-            color: #00bfa5;
-            cursor: pointer;
-        }
-
-        .testimonial-navigation.left {
-            left: 10px;
-        }
-
-        .testimonial-navigation.right {
-            right: 10px;
-            color: black;
-        }
-
-        .read-all-btn {
-            display: block;
-            margin: 30px auto 0;
-            padding: 10px 20px;
-            border: 2px solid #ff7f50;
-            color: #ff7f50;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
             border-radius: 5px;
         }
 
-        .read-all-btn:hover {
-            background-color: #ff7f50;
-            color: #fff;
+        .buttons button:hover {
+            background: #0056b3;
+        }
+
+        .container-testi {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .image-container {
+            position: relative;
+        }
+
+        .image-container img {
+            border-radius: 50%;
+            width: 128px;
+            height: 128px;
+            object-fit: cover;
+        }
+
+
+        .text-container {
+            max-width: 400px;
+        }
+
+        .quote-icon {
+            color: #38b2ac;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #718096;
+            margin-bottom: 16px;
+        }
+
+        .author {
+            color: #2d3748;
+            font-weight: 500;
         }
     </style>
-
 </head>
 
 <body>
-    <div class="carousel-container">
-        <div class="carousel">
-            <div class="testimonial">
-                <div class="testimonial-content">
-                    <div class="testimonial-image">
-                        <img alt="Portrait of a smiling woman with short blonde hair, wearing a striped shirt"
-                            height="150" src="assets/img/client.jpeg" width="150" />
+    <div class="carousel">
+        <div class="reviews" id="reviews">
+            <div class="review">
+                <div class="container-testi">
+                    <div class="image-container">
+                        <img src="https://placehold.co/128x128"
+                            alt="A young woman with a backpack and headphones, ready for travel">
                     </div>
-                    <div class="testimonial-text">
-                        <h5>
-                            <i class="fas fa-quote-left" style="color: green;">
-                            </i>
-                        </h5>
-                        <h3>
-                            Having fun with everyone
-                        </h3>
-                        <p>
-                            message
-                        </p>
-                        <p class="author">
-                            Madam Nozaia
-                        </p>
+                    <div class="text-container">
+                        <div class="quote-icon">“</div>
+                        <h2 class="title">Get Ahead in Travel with Booking</h2>
+                        <p class="description">Inquietude simplicity terminated she compliment remarkably few her nay.
+                            The weeks are ham asked jokes. Neglected perceived shy nay concluded.</p>
+                        <p class="author">Selvetica Forez</p>
                     </div>
                 </div>
             </div>
-            <div class="testimonial">
-                <p>"Client 2: Highly recommended for all professionals."</p>
-                <h4>- Client 2</h4>
-            </div>
-            <div class="testimonial">
-                <p>"Client 3: The best experience I've had so far!"</p>
-                <h4>- Client 3</h4>
-            </div>
-            <div class="testimonial">
-                <p>"Client 4: Fast response and quality work!"</p>
-                <h4>- Client 4</h4>
-            </div>
-            <div class="testimonial">
-                <p>"Client 5: Very satisfied with the results!"</p>
-                <h4>- Client 5</h4>
-            </div>
+            <div class="review">"Excellent customer support!" - Jane Smith</div>
+            <div class="review">"Very satisfied with the product!" - Alex Brown</div>
         </div>
-
-        <!-- Navigation Controls -->
-        <button class="prev" style="color: black;">&#10094;</button>
-
-        <button class="next" style="color: black;">&#10095;</button>
+        <div class="buttons">
+            <button onclick="prevReview()">&#10094; Prev</button>
+            <button onclick="nextReview()">Next &#10095;</button>
+        </div>
     </div>
-
     <script>
-        const carousel = document.querySelector('.carousel');
-        const testimonials = document.querySelectorAll('.testimonial');
-        const nextBtn = document.querySelector('.next');
-        const prevBtn = document.querySelector('.prev');
+        let index = 0;
+        const reviews = document.getElementById("reviews");
+        const totalReviews = document.querySelectorAll(".review").length;
 
-        let isSliding = false; // Prevent multiple clicks during transition
-
-        // Move first slide to the end (loop effect)
-        function nextSlide() {
-            if (isSliding) return;
-            isSliding = true;
-
-            // Slide to the left
-            carousel.style.transition = "transform 0.5s ease-in-out";
-            carousel.style.transform = "translateX(-100%)";
-
-            setTimeout(() => {
-                // Move first item to the end
-                const firstItem = carousel.firstElementChild;
-                carousel.appendChild(firstItem);
-
-                // Reset position instantly
-                carousel.style.transition = "none";
-                carousel.style.transform = "translateX(0)";
-
-                isSliding = false;
-            }, 500);
+        function showReview() {
+            reviews.style.transition = "transform 0.5s ease-in-out";
+            reviews.style.transform = `translateX(${-index * 800}px)`;
         }
 
-        // Move last slide to the front (loop effect)
-        function prevSlide() {
-            if (isSliding) return;
-            isSliding = true;
-
-            // Move last item to the beginning before sliding
-            const lastItem = carousel.lastElementChild;
-            carousel.insertBefore(lastItem, carousel.firstElementChild);
-
-            // Set instant position to the left
-            carousel.style.transition = "none";
-            carousel.style.transform = "translateX(-100%)";
-
-            setTimeout(() => {
-                // Slide back to the right
-                carousel.style.transition = "transform 0.5s ease-in-out";
-                carousel.style.transform = "translateX(0)";
-
-                isSliding = false;
-            }, 50);
+        function nextReview() {
+            if (index >= totalReviews - 1) {
+                index = 0;
+                reviews.style.transition = "none";
+                reviews.style.transform = `translateX(0px)`;
+                setTimeout(() => {
+                    reviews.style.transition = "transform 0.5s ease-in-out";
+                }, 50);
+            } else {
+                index++;
+            }
+            showReview();
         }
 
-        // Auto-slide function
-        function startAutoSlide() {
-            return setInterval(nextSlide, 4000); // Slides every 4 seconds
+        function prevReview() {
+            if (index <= 0) {
+                index = totalReviews - 1;
+                reviews.style.transition = "none";
+                reviews.style.transform = `translateX(${-index * 400}px)`;
+                setTimeout(() => {
+                    reviews.style.transition = "transform 0.5s ease-in-out";
+                }, 50);
+            } else {
+                index--;
+            }
+            showReview();
         }
 
-        let autoSlideInterval = startAutoSlide();
-
-        // Event Listeners
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetAutoSlide();
-        });
-
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetAutoSlide();
-        });
-
-        // Reset auto-slide timer on user interaction
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            autoSlideInterval = startAutoSlide();
+        function autoSlide() {
+            nextReview();
         }
-
     </script>
 </body>
 

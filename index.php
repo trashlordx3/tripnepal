@@ -12,6 +12,7 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="index.css">
+   <link rel="stylesheet" href="testimonial.css">
    <style>
       .feature-icon {
          background-color: #e0f7fa;
@@ -61,9 +62,10 @@
 
       /* card */
       .card-container {
+         padding: 0;
          display: flex;
          flex-wrap: wrap;
-         justify-content: space-between;
+         justify-content: space-evenly;
       }
 
       .card {
@@ -261,179 +263,110 @@
       }
 
       /* testimonials */
-      .carousel-container {
-         position: relative;
-         width: 100%;
+      .carousel-testi {
+         margin: 0 auto;
+         width: 1200px;
          overflow: hidden;
-         border-radius: 8px;
-         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+         position: relative;
          background: white;
+
+         border-radius: 10px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         text-align: center;
       }
 
-      /* Carousel track */
-      .carousel {
+      .reviews {
          display: flex;
          transition: transform 0.5s ease-in-out;
+         width: max-content;
       }
 
-      /* Each testimonial item */
-      .testimonial {
-         min-width: 100%;
-         flex: 0 0 100%;
-         padding: 20px;
-         text-align: center;
-         background: white;
+      .review {
+         min-width: 1200px;
       }
 
-      /* Testimonial text */
-      .testimonial p {
-         font-size: 18px;
-         line-height: 1.5;
-         margin-bottom: 10px;
+      .buttons {
+         margin-top: 10px;
       }
 
-      .testimonial h4 {
-         font-size: 16px;
-         color: #555;
-      }
-
-      /* Navigation Buttons */
-      .carousel-container button {
-         position: absolute;
-         top: 50%;
-         transform: translateY(-50%);
-         background: rgba(0, 0, 0, 0.5);
-         color: #fff;
+      .buttons button {
+         padding: 8px 12px;
+         margin: 5px;
          border: none;
-         padding: 10px 15px;
+         background: rgb(27, 184, 74);
+         color: white;
          cursor: pointer;
-         border-radius: 50%;
-         font-size: 18px;
-      }
-
-      .carousel-container .prev {
-         left: 10px;
-         background: none;
-      }
-
-      .carousel-container .next {
-         right: 10px;
-         background: none;
-      }
-
-      .carousel-container button:hover {
-         background: none;
-
-      }
-
-      .testimonial-container {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         padding: 50px;
-         position: relative;
-      }
-
-      .testimonial-content {
-         margin: 0 auto;
-         display: flex;
-         gap: 20px;
-         align-items: center;
-         max-width: 800px;
-         text-align: left;
-      }
-
-      .testimonial-image {
-         position: relative;
-         margin-right: 20px;
-      }
-
-      .testimonial-image img {
-         border-radius: 50%;
-         width: 150px;
-         height: 150px;
-         object-fit: cover;
-      }
-
-      .testimonial-image .decorative-icon {
-         position: absolute;
-      }
-
-      .decorative-icon-1 {
-         top: -10px;
-         right: -10px;
-      }
-
-      .decorative-icon-2 {
-         bottom: -10px;
-         left: -10px;
-      }
-
-      .testimonial-text {
-         max-width: 500px;
-      }
-
-      .testimonial-text h5 {
-         color: #00bfa5;
-         font-size: 24px;
-      }
-
-      .testimonial-text h3 {
-         font-size: 24px;
-         font-weight: bold;
-         margin-top: 10px;
-      }
-
-      .testimonial-text p {
-         font-size: 16px;
-         color: #333;
-         margin-top: 10px;
-      }
-
-      .testimonial-text .author {
-         font-size: 16px;
-         font-weight: bold;
-         margin-top: 10px;
-      }
-
-      .testimonial-navigation {
-         position: absolute;
-         top: 50%;
-         transform: translateY(-50%);
-         font-size: 24px;
-         color: #00bfa5;
-         cursor: pointer;
-      }
-
-      .testimonial-navigation.left {
-         left: 10px;
-      }
-
-      .testimonial-navigation.right {
-         right: 10px;
-         color: black;
-      }
-
-      .read-all-btn {
-         display: block;
-         margin: 30px auto 0;
-         padding: 10px 20px;
-         border: 2px solid #ff7f50;
-         color: #ff7f50;
-         text-align: center;
-         text-decoration: none;
-         font-size: 16px;
          border-radius: 5px;
       }
 
-      .read-all-btn:hover {
-         background-color: #ff7f50;
-         color: #fff;
+      .buttons button:hover {
+         background: rgb(1, 119, 17);
+      }
+
+      .container-testi {
+         background-color: white;
+         border-radius: 8px;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         display: flex;
+         align-items: center;
+         gap: 20px;
+      }
+
+      .image-container {
+         position: relative;
+      }
+
+      .image-container img {
+         border-radius: 50%;
+         width: 128px;
+         height: 128px;
+         object-fit: cover;
+      }
+
+
+      .text-container {
+         max-width: 800px;
+      }
+
+      .quote-icon {
+         color: #38b2ac;
+         font-size: 24px;
+
+      }
+
+      .title {
+         font-size: 24px;
+         font-weight: bold;
+         color: #2d3748;
+         margin-bottom: 8px;
+      }
+
+      .description {
+         color: #718096;
+         margin-bottom: 16px;
+      }
+
+      .author {
+         color: #2d3748;
+         font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+         .container-testi {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+         }
+
+         .carousel-testi,
+         .review {
+            max-width: 350px;
+         }
       }
    </style>
 </head>
 
-<body>
+<>
    <?php
    include("frontend/header.php");
    ?>
@@ -739,168 +672,145 @@
       </div>
       <div class="features">
          <div class="container text-center py-5">
-            <h2 style="font-family: Dancing Script" , serif;"></h2>
-            <h1>Client Testimonials</h1>
-            <p></p>
+            <h2 style="font-family: Dancing Script" , serif; color:green;">Testimonials</h2>
+            <h1>Client Reviews</h1>
+            <p>Get started with Reviews</p>
             <div class="divider"></div>
          </div>
       </div>
-      <div class="features">
-         <div class="container text-center py-5">
-            <div class="carousel-container">
-               <div class="carousel">
-                  <div class="testimonial">
-                     <div class="testimonial-content">
-                        <div class="testimonial-image">
-                           <img alt="Portrait of a smiling woman with short blonde hair, wearing a striped shirt"
-                              height="150" src="assets/img/client.jpeg" width="150" />
-                        </div>
-                        <div class="testimonial-text">
-                           <h5>
-                              <i class="fas fa-quote-left" style="color: green;">
-                              </i>
-                           </h5>
-                           <h3>
-                              Having fun with everyone
-                           </h3>
-                           <p>
-                              message
-                           </p>
-                           <p class="author">
-                              Madam Nozaia
-                           </p>
-                        </div>
+   </div>
+   <div class="features" style="margin-top:-40px;">
+      <div class="container text-center py-5 card-container">
+         <div class="carousel-testi">
+            <div class="reviews" id="reviews">
+               <div class="review">
+                  <div class="container-testi" id="review-container">
+                     <div class="image-container">
+                        <img src="assets/img/client.jpeg"
+                           alt="A young woman with a backpack and headphones, ready for travel">
+                     </div>
+                     <div class="text-container">
+                        <div class="quote-icon">“</div>
+                        <h2 class="title">Get Ahead in Travel with Booking</h2>
+                        <p class="description">Inquietude simplicity terminated she compliment remarkably few her nay.
+                           The weeks are ham asked jokes. Neglected perceived shy nay concluded.</p>
+                        <p class="author">Selvetica Forez</p>
                      </div>
                   </div>
-                  <div class="testimonial">
-                     <p>"Client 2: Highly recommended for all professionals."</p>
-                     <h4>- Client 2</h4>
-                  </div>
-                  <div class="testimonial">
-                     <p>"Client 3: The best experience I've had so far!"</p>
-                     <h4>- Client 3</h4>
-                  </div>
-                  <div class="testimonial">
-                     <p>"Client 4: Fast response and quality work!"</p>
-                     <h4>- Client 4</h4>
-                  </div>
-                  <div class="testimonial">
-                     <p>"Client 5: Very satisfied with the results!"</p>
-                     <h4>- Client 5</h4>
+               </div>
+               <div class="review">
+                  <div class="container-testi" id="review-container">
+                     <div class="image-container">
+                        <img src="assets/img/client.jpeg"
+                           alt="A young woman with a backpack and headphones, ready for travel">
+                     </div>
+                     <div class="text-container">
+                        <div class="quote-icon">“</div>
+                        <h2 class="title">Get Ahead in Travel with Booking</h2>
+                        <p class="description">Inquietude simplicity terminated she compliment remarkably few her nay.
+                           The weeks are ham asked jokes. Neglected perceived shy nay concluded.</p>
+                        <p class="author">Selvetica Forez</p>
+                     </div>
                   </div>
                </div>
-
-               <!-- Navigation Controls -->
-               <button class="prev" style="color: black;">&#10094;</button>
-
-               <button class="next" style="color: black;">&#10095;</button>
+               <div class="review">
+                  <div class="container-testi" id="review-container">
+                     <div class="image-container">
+                        <img src="assets/img/client.jpeg"
+                           alt="A young woman with a backpack and headphones, ready for travel">
+                     </div>
+                     <div class="text-container">
+                        <div class="quote-icon">“</div>
+                        <h2 class="title">Get Ahead in Travel with Booking</h2>
+                        <p class="description">Inquietude simplicity terminated she compliment remarkably few her nay.
+                           The weeks are ham asked jokes. Neglected perceived shy nay concluded.</p>
+                        <p class="author">Selvetica Forez</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="buttons">
+               <button onclick="prevReview()">&#10094; Prev</button>
+               <button onclick="nextReview()">Next &#10095;</button>
             </div>
          </div>
+         <script>
+            let div = document.getElementById("review-container");
+            let width = div.offsetWidth;
+            let index = 0;
+            const reviews = document.getElementById("reviews");
+            const totalReviews = document.querySelectorAll(".review").length;
+
+            function showReview() {
+               reviews.style.transition = "transform 0.5s ease-in-out";
+               reviews.style.transform = `translateX(${-index * width}px)`;
+            }
+
+            function nextReview() {
+               if (index >= totalReviews - 1) {
+                  index = 0;
+                  reviews.style.transition = "none";
+                  reviews.style.transform = `translateX(0px)`;
+                  setTimeout(() => {
+                     reviews.style.transition = "transform 0.5s ease-in-out";
+                  }, 50);
+               } else {
+                  index++;
+               }
+               showReview();
+            }
+
+
+            function prevReview() {
+               if (index <= 0) {
+                  index = totalReviews - 1;
+                  reviews.style.transition = "none";
+                  reviews.style.transform = `translateX(${-index * width}px)`;
+                  setTimeout(() => {
+                     reviews.style.transition = "transform 0.5s ease-in-out";
+                  }, 50);
+               } else {
+                  index--;
+               }
+               showReview();
+            }
+
+            function autoSlide() {
+               nextReview();
+            }
+         </script>
       </div>
-      <script>
-         const carousel = document.querySelector('.carousel');
-         const testimonials = document.querySelectorAll('.testimonial');
-         const nextBtn = document.querySelector('.next');
-         const prevBtn = document.querySelector('.prev');
+   </div>
 
-         let isSliding = false; // Prevent multiple clicks during transition
 
-         // Move first slide to the end (loop effect)
+
+   <script>
+      document.querySelectorAll(".card").forEach(card => {
+         let currentIndex = 0; // Index for each card
+         const slides = card.querySelectorAll(".slide");
+
+         function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove("active"));
+            slides[index].classList.add("active");
+         }
+
          function nextSlide() {
-            if (isSliding) return;
-            isSliding = true;
-
-            // Slide to the left
-            carousel.style.transition = "transform 0.5s ease-in-out";
-            carousel.style.transform = "translateX(-100%)";
-
-            setTimeout(() => {
-               // Move first item to the end
-               const firstItem = carousel.firstElementChild;
-               carousel.appendChild(firstItem);
-
-               // Reset position instantly
-               carousel.style.transition = "none";
-               carousel.style.transform = "translateX(0)";
-
-               isSliding = false;
-            }, 500);
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
          }
 
-         // Move last slide to the front (loop effect)
          function prevSlide() {
-            if (isSliding) return;
-            isSliding = true;
-
-            // Move last item to the beginning before sliding
-            const lastItem = carousel.lastElementChild;
-            carousel.insertBefore(lastItem, carousel.firstElementChild);
-
-            // Set instant position to the left
-            carousel.style.transition = "none";
-            carousel.style.transform = "translateX(-100%)";
-
-            setTimeout(() => {
-               // Slide back to the right
-               carousel.style.transition = "transform 0.5s ease-in-out";
-               carousel.style.transform = "translateX(0)";
-
-               isSliding = false;
-            }, 50);
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
          }
 
-         // Auto-slide function
-         function startAutoSlide() {
-            return setInterval(nextSlide, 4000); // Slides every 4 seconds
-         }
+         // Attach event listeners to next & prev buttons inside the card
+         card.querySelector(".next").addEventListener("click", nextSlide);
+         card.querySelector(".prev").addEventListener("click", prevSlide);
+      });
 
-         let autoSlideInterval = startAutoSlide();
+   </script>
 
-         // Event Listeners
-         nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetAutoSlide();
-         });
-
-         prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetAutoSlide();
-         });
-
-         // Reset auto-slide timer on user interaction
-         function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            autoSlideInterval = startAutoSlide();
-         }
-      </script>
-      <script>
-         document.querySelectorAll(".card").forEach(card => {
-            let currentIndex = 0; // Index for each card
-            const slides = card.querySelectorAll(".slide");
-
-            function showSlide(index) {
-               slides.forEach(slide => slide.classList.remove("active"));
-               slides[index].classList.add("active");
-            }
-
-            function nextSlide() {
-               currentIndex = (currentIndex + 1) % slides.length;
-               showSlide(currentIndex);
-            }
-
-            function prevSlide() {
-               currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-               showSlide(currentIndex);
-            }
-
-            // Attach event listeners to next & prev buttons inside the card
-            card.querySelector(".next").addEventListener("click", nextSlide);
-            card.querySelector(".prev").addEventListener("click", prevSlide);
-         });
-
-      </script>
-   </div>
-   </div>
    <?php
    include("frontend/footer.php");
    ?>
@@ -926,6 +836,6 @@
    </script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+   </body>
 
 </html>
