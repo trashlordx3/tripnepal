@@ -46,7 +46,7 @@
                             <li><a class="dropdown-item" href="#">Kathmandu</a></li>
                             <li><a class="dropdown-item" href="#">Pokhara</a></li>
                             <li><a class="dropdown-item" href="#">Mustang</a></li>
-                            <li><a class="dropdown-item" href="destinations.php">More</a></li>
+                            <li><a class="dropdown-item" href="destination">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

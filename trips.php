@@ -10,72 +10,23 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
     <style>
-        .trips-section {
-            width: 100%;
-            height: max-content;
-            align-items: center;
-            padding: 10px 80px 10px 80px;
-        }
-
-        .page-header {
-            padding-top: 50px;
-            margin: 0 auto;
-            max-width: 1200px;
-        }
-
-        .container {
-            max-width: 1200px;
-            font-size: 24px;
-            margin: 0 auto;
-        }
-
-        .sort-container {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 10px;
-        }
-
-        .sort-container .sort-text {
-            margin-right: 5px;
-            color: #6c757d;
-        }
-
-        .sort-container .dropdown-toggle {
-            color: #000;
-            text-decoration: none;
-        }
-
-        .sort-container .view-icons {
-            display: flex;
-            align-items: center;
-            margin-left: 0px;
-        }
-
-        .sort-container .view-icons i {
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
         .card-container {
-
             display: flex;
-            /* grid-template-columns: repeat(3, 1fr); */
-            /* 3 columns */
-            align-items: center;
-            justify-content: space-around;
-            gap: 15px;
-            /* Space between grid items */
-            background-color: #f4f4f4;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
         .card {
             border: none;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
+            max-width: 400px;
+            max-height: fit-content;
+
             margin: auto;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .badge-featured {
@@ -92,7 +43,8 @@
         .price {
             font-size: 24px;
             font-weight: bold;
-            color: #28a745;
+            color: black;
+
         }
 
         .original-price {
@@ -126,8 +78,8 @@
             position: relative;
             width: 100%;
             overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+
         }
 
         .carousel img {

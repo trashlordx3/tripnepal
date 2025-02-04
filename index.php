@@ -62,20 +62,22 @@
 
       /* card */
       .card-container {
-         padding: 0;
          display: flex;
          flex-wrap: wrap;
-         justify-content: space-evenly;
+         justify-content: space-between;
       }
 
       .card {
          border: none;
          border-radius: 10px;
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
          max-width: 400px;
          max-height: fit-content;
 
          margin: auto;
+      }
+
+      .card:hover {
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .badge-featured {
@@ -128,7 +130,7 @@
          width: 100%;
          overflow: hidden;
          border-radius: 3px;
-         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+
       }
 
       .carousel img {
@@ -522,7 +524,7 @@
                      </div>
                      <div class="me-3 card-contents">
                         <div class="price" style="margin-top:50%;">
-                           <h2>$3000</h2>
+                           <h2><?php echo "$" . number_format(3000); ?></h2>
                         </div>
                      </div>
                   </div>
@@ -592,7 +594,7 @@
       <div class="features" style="margin-top:-50px;">
          <div class="container text-center py-5 card-container">
             <div class="container-custom" style="margin:0 auto;">
-               <a href="#" class="btn btn-custom">VIEW ALL DESTINATIONS</a>
+               <a href="destination" class="btn btn-custom">VIEW ALL DESTINATIONS</a>
             </div>
          </div>
       </div>

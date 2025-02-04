@@ -4,165 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Review Carousel</title>
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        .carousel {
-            margin: 0 auto;
-            width: 800px;
-            overflow: hidden;
-            position: relative;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .reviews {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            width: max-content;
-        }
-
-        .review {
-            min-width: 800px;
-        }
-
-        .buttons {
-            margin-top: 10px;
-        }
-
-        .buttons button {
-            padding: 8px 12px;
-            margin: 5px;
-            border: none;
-            background: #007bff;
-            color: white;
+        .gallery img {
+            width: 500px;
+            height: 400px;
             cursor: pointer;
-            border-radius: 5px;
+            margin: 5px;
         }
 
-        .buttons button:hover {
-            background: #0056b3;
+        /* Custom modal size */
+        .modal-dialog {
+            max-width: 90%;
+            /* Increase the width of the modal */
+            max-height: 90vh;
+            /* Increase the height of the modal */
         }
 
-        .container-testi {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 24px;
+        /* Ensure the modal image fits within the modal */
+        .modal-body img {
+            max-width: 100%;
+            max-height: 70vh;
+            /* Adjust based on your needs */
+            object-fit: contain;
+            /* Ensures the image fits without distortion */
         }
 
-        .image-container {
-            position: relative;
+        /* Adjust the close button position */
+        .btn-close {
+            background-color: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
         }
 
-        .image-container img {
-            border-radius: 50%;
-            width: 128px;
-            height: 128px;
-            object-fit: cover;
-        }
-
-
-        .text-container {
-            max-width: 400px;
-        }
-
-        .quote-icon {
-            color: #38b2ac;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 8px;
-        }
-
-        .description {
-            color: #718096;
-            margin-bottom: 16px;
-        }
-
-        .author {
-            color: #2d3748;
-            font-weight: 500;
+        .img-fluid {
+            width: 1200px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
-    <div class="carousel">
-        <div class="reviews" id="reviews">
-            <div class="review">
-                <div class="container-testi">
-                    <div class="image-container">
-                        <img src="https://placehold.co/128x128"
-                            alt="A young woman with a backpack and headphones, ready for travel">
-                    </div>
-                    <div class="text-container">
-                        <div class="quote-icon">“</div>
-                        <h2 class="title">Get Ahead in Travel with Booking</h2>
-                        <p class="description">Inquietude simplicity terminated she compliment remarkably few her nay.
-                            The weeks are ham asked jokes. Neglected perceived shy nay concluded.</p>
-                        <p class="author">Selvetica Forez</p>
-                    </div>
+    <!-- Product Images -->
+    <div class="gallery">
+        <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)">
+        <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)">
+        <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)">
+    </div>
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button class="btn btn-dark" onclick="prevImage()">❮</button>
+                    <img id="modal-img" src="" class="img-fluid">
+                    <button class="btn btn-dark" onclick="nextImage()"> ❯</button>
                 </div>
             </div>
-            <div class="review">"Excellent customer support!" - Jane Smith</div>
-            <div class="review">"Very satisfied with the product!" - Alex Brown</div>
-        </div>
-        <div class="buttons">
-            <button onclick="prevReview()">&#10094; Prev</button>
-            <button onclick="nextReview()">Next &#10095;</button>
         </div>
     </div>
+
     <script>
-        let index = 0;
-        const reviews = document.getElementById("reviews");
-        const totalReviews = document.querySelectorAll(".review").length;
+        let images = ["assets/img/budget.jpg", "assets/img/chitwan.jpg", "assets/img/culture.jpg"];
+        let currentIndex = 0;
 
-        function showReview() {
-            reviews.style.transition = "transform 0.5s ease-in-out";
-            reviews.style.transform = `translateX(${-index * 800}px)`;
+        function openModal(index) {
+            currentIndex = index;
+            let modalImg = document.getElementById("modal-img");
+            modalImg.src = images[currentIndex];
+            let modal = new bootstrap.Modal(document.getElementById('imageModal'));
+            modal.show();
         }
 
-        function nextReview() {
-            if (index >= totalReviews - 1) {
-                index = 0;
-                reviews.style.transition = "none";
-                reviews.style.transform = `translateX(0px)`;
-                setTimeout(() => {
-                    reviews.style.transition = "transform 0.5s ease-in-out";
-                }, 50);
-            } else {
-                index++;
-            }
-            showReview();
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById("modal-img").src = images[currentIndex];
         }
 
-        function prevReview() {
-            if (index <= 0) {
-                index = totalReviews - 1;
-                reviews.style.transition = "none";
-                reviews.style.transform = `translateX(${-index * 400}px)`;
-                setTimeout(() => {
-                    reviews.style.transition = "transform 0.5s ease-in-out";
-                }, 50);
-            } else {
-                index--;
-            }
-            showReview();
-        }
-
-        function autoSlide() {
-            nextReview();
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById("modal-img").src = images[currentIndex];
         }
     </script>
 </body>
