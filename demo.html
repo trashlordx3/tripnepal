@@ -4,96 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Itinerary</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        .gallery img {
-            width: 500px;
-            height: 400px;
-            cursor: pointer;
-            margin: 5px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 20px;
         }
 
-        /* Custom modal size */
-        .modal-dialog {
-            max-width: 90%;
-            /* Increase the width of the modal */
-            max-height: 90vh;
-            /* Increase the height of the modal */
+        .itinerary {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        /* Ensure the modal image fits within the modal */
-        .modal-body img {
-            max-width: 100%;
-            max-height: 70vh;
-            /* Adjust based on your needs */
-            object-fit: contain;
-            /* Ensures the image fits without distortion */
+        .day {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
         }
 
-        /* Adjust the close button position */
-        .btn-close {
-            background-color: none;
+        .day:not(:last-child)::after {
+            content: "";
             position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1;
+            left: 12px;
+            /* Align with icon */
+            top: 100%;
+            height: 30px;
+            border-left: 2px dashed #007bff;
         }
 
-        .img-fluid {
-            width: 1200px;
-            margin-bottom: 20px;
+        .icon {
+            margin-right: 10px;
+            font-size: 18px;
         }
     </style>
 </head>
 
 <body>
-    <!-- Product Images -->
-    <div class="gallery">
-        <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)">
-        <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)">
-        <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)">
-    </div>
-
-    <!-- Modal Structure -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    <button class="btn btn-dark" onclick="prevImage()">❮</button>
-                    <img id="modal-img" src="" class="img-fluid">
-                    <button class="btn btn-dark" onclick="nextImage()"> ❯</button>
-                </div>
-            </div>
+    <div class="itinerary">
+        <div class="day active">
+            <span class="icon">🟢</span>
+            <p><strong>Day 01:</strong> Arrival in Kathmandu</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 02:</strong> Sightseeing in Kathmandu and preparation for the trekking</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 03:</strong> Kathmandu – Lukla (40 min flight) – Phakding; 3-4 hours trek</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 04:</strong> Phakding – Namche Bazaar: 5-6 hours</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 05:</strong> Namche Bazaar: Rest day</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 06:</strong> Namche Bazaar – Tyangboche: 6-7 hours</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 07:</strong> Tengboche – Dingboche: 5-6 hours</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 08:</strong> Dingboche: Rest day</p>
+        </div>
+        <div class="day">
+            <span class="icon">🔵</span>
+            <p><strong>Day 09:</strong> Dingboche – Lobuche: 5-6 hours</p>
         </div>
     </div>
-
-    <script>
-        let images = ["assets/img/budget.jpg", "assets/img/chitwan.jpg", "assets/img/culture.jpg"];
-        let currentIndex = 0;
-
-        function openModal(index) {
-            currentIndex = index;
-            let modalImg = document.getElementById("modal-img");
-            modalImg.src = images[currentIndex];
-            let modal = new bootstrap.Modal(document.getElementById('imageModal'));
-            modal.show();
-        }
-
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            document.getElementById("modal-img").src = images[currentIndex];
-        }
-
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % images.length;
-            document.getElementById("modal-img").src = images[currentIndex];
-        }
-    </script>
 </body>
 
 </html>

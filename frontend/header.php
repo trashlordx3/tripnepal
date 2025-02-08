@@ -16,10 +16,11 @@
                 </a>
             </div>
             <div class="d-flex align-items-center">
-                <span class="me-3"><i class="fas fa-phone" id="social-icon"></i> <a href="tel:+977 9742847684"
+                <span class="me-3"> <a href="tel:+977 9742847684"><i class="fas fa-phone" id="social-icon"></i></a> <a
+                        href="tel:+977 9742847684" class="phone-link"
                         style="color:white; text-decoration:none;">9741847684</a></span>
-                <span><i class="fas fa-envelope" id="social-icon"></i>
-                    <a href="mailto:contact@gmail.com"
+                <span><a href="mailto:contact@gmail.com"><i class="fas fa-envelope" id="social-icon"></i></a>
+                    <a href="mailto:contact@gmail.com" class="email-link"
                         style="color:white; text-decoration:none;">contact@gmail.com</a></span>
             </div>
         </div>
@@ -109,6 +110,11 @@
 
             lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
         });
+        document.addEventListener("DOMContentLoaded", function () {
+            let topHeaderHeight = document.getElementById("topHeader").offsetHeight;
+            let mainNavbarHeight = document.getElementById("mainNavbar").offsetHeight;
+
+            document.body.style.paddingTop = (topHeaderHeight + mainNavbarHeight) + "px";
+        });
     </script>
 </div>
-<div style="height:110px"></div>

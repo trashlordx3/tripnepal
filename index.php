@@ -65,6 +65,7 @@
          display: flex;
          flex-wrap: wrap;
          justify-content: space-between;
+         background-color: none;
       }
 
       .card {
@@ -129,12 +130,8 @@
          position: relative;
          width: 100%;
          overflow: hidden;
-         border-radius: 3px;
+         border-radius: 5px 5px 0px 0px;
 
-      }
-
-      .carousel img {
-         height: 300px;
       }
 
       .carousel-container {
@@ -149,28 +146,6 @@
 
       .active {
          display: block;
-      }
-
-      .prev,
-      .next {
-         position: absolute;
-         top: 50%;
-         transform: translateY(-50%);
-         background: transparent;
-         color: white;
-         border: none;
-         padding: 10px;
-         cursor: pointer;
-         font-size: 18px;
-         border-radius: 50%;
-      }
-
-      .prev {
-         left: 10px;
-      }
-
-      .next {
-         right: 10px;
       }
 
       #card-container {
@@ -271,9 +246,7 @@
          overflow: hidden;
          position: relative;
          background: white;
-
-         border-radius: 10px;
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         border-radius: 5px;
          text-align: center;
       }
 
@@ -306,9 +279,9 @@
       }
 
       .container-testi {
+         padding: 10px;
          background-color: white;
-         border-radius: 8px;
-         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         border-radius: 5px;
          display: flex;
          align-items: center;
          gap: 20px;
@@ -368,7 +341,7 @@
    </style>
 </head>
 
-<>
+<body>
    <?php
    include("frontend/header.php");
    ?>
@@ -462,7 +435,7 @@
    </div>
    <div class="features">
       <div class="container text-center py-5">
-         <h2 style="font-family: Dancing Script" , serif; color:green;">Popular Trips</h2>
+
          <h1>Explore popular trips</h1>
          <p>Get started with handpicked top rated trips.</p>
          <div class="divider"></div>
@@ -470,18 +443,17 @@
    </div>
 
    <div class="features">
-      <div class="container text-center py-5 card-container" id="card-container" style="row-gap:20px;">
+      <div class="container text-center py-5 card-container" id="card-container"
+         style="row-gap:20px; background-color:transparent;">
          <?php for ($i = 0; $i < 4; $i++) { ?>
             <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
                <div class="position-relative">
                   <div class="carousel">
                      <div class="carousel-container">
-                        <img src="assets/img/mustang.jpg" class="slide active">
-                        <img src="assets/img/Manaslu.jpg" class="slide">
-                        <img src="assets/img/nature.jpg" class="slide">
+                        <a href="">
+                           <img src="assets/img/mustang.jpg" class="slide active">
+                        </a>
                      </div>
-                     <button class="prev" onclick="prevSlide()">&#10094;</button>
-                     <button class="next" onclick="nextSlide()">&#10095;</button>
                   </div>
                   <span class="badge-featured">
                      Featured
@@ -490,11 +462,13 @@
                <div class="card-top">
                   <div class="card-body">
                      <div class="d-flex justify-content-between align-items-center" style="padding:10px 0px 10px 0px">
-                        <h5 class="card-title mb-0">
-                           Paris Effiel Tower Tour 1 Day Tour
-                        </h5>
-                        <i class="fas fa-heart wishlist-icon">
-                        </i>
+                        <a href="" style="text-decoration:none; color:black;" onmouseover="this.style.color='#008080'"
+                           onmouseout="this.style.color='black'">
+                           <h5 class=" card-title mb-0">
+                              Paris Effiel Tower Tour 1 Day Tour
+                           </h5>
+                        </a>
+
                      </div>
                      <div class="me-3 card-contents" style="padding:10px 0px 10px 0px; border-bottom:1px solid gray;">
                         <p class="mb-1">
@@ -541,7 +515,7 @@
       </div>
       <div class="features">
          <div class="container text-center py-5">
-            <h2 style="font-family: Dancing Script" , serif;">Popular Destinations</h2>
+
             <h1>Explore popular destinations</h1>
             <p>A new journey begin here within, find a destination that suits you and start travelling. We offer best
                travel packages.</p>
@@ -601,7 +575,7 @@
 
       <div class="features">
          <div class="container text-center py-5">
-            <h2 style="font-family: Dancing Script" , serif;">Best Travels Deals</h2>
+
             <h1>Explore The Best Travel Deals</h1>
             <p>A new journey begin here within, find a destination that suits you and start travelling. We offer best
                travel packages.</p>
@@ -609,7 +583,8 @@
          </div>
       </div>
       <div class="features">
-         <div class="container text-center py-5 card-container" id="card-container" style="row-gap:20px;">
+         <div class="container text-center py-5 card-container" id="card-container"
+            style="row-gap:20px; background-color:transparent;">
             <?php for ($i = 0; $i < 3; $i++) { ?>
                <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
                   <div class="position-relative">
@@ -619,8 +594,6 @@
                            <img src="assets/img/Manaslu.jpg" class="slide">
                            <img src="assets/img/nature.jpg" class="slide">
                         </div>
-                        <button class="prev" onclick="prevSlide()">&#10094;</button>
-                        <button class="next" onclick="nextSlide()">&#10095;</button>
                      </div>
                      <span class="badge-featured">
                         Featured
@@ -632,8 +605,7 @@
                            <h5 class="card-title mb-0">
                               Paris Effiel Tower Tour 1 Day Tour
                            </h5>
-                           <i class="fas fa-heart wishlist-icon">
-                           </i>
+
                         </div>
                         <div class="me-3 card-contents" style="padding:10px 0px 10px 0px; border-bottom:1px solid gray;">
                            <p class="mb-1">
@@ -674,7 +646,6 @@
       </div>
       <div class="features">
          <div class="container text-center py-5">
-            <h2 style="font-family: Dancing Script" , serif; color:green;">Testimonials</h2>
             <h1>Client Reviews</h1>
             <p>Get started with Reviews</p>
             <div class="divider"></div>
@@ -786,33 +757,6 @@
 
 
 
-   <script>
-      document.querySelectorAll(".card").forEach(card => {
-         let currentIndex = 0; // Index for each card
-         const slides = card.querySelectorAll(".slide");
-
-         function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove("active"));
-            slides[index].classList.add("active");
-         }
-
-         function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            showSlide(currentIndex);
-         }
-
-         function prevSlide() {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            showSlide(currentIndex);
-         }
-
-         // Attach event listeners to next & prev buttons inside the card
-         card.querySelector(".next").addEventListener("click", nextSlide);
-         card.querySelector(".prev").addEventListener("click", prevSlide);
-      });
-
-   </script>
-
    <?php
    include("frontend/footer.php");
    ?>
@@ -838,6 +782,6 @@
    </script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-   </body>
+</body>
 
 </html>
