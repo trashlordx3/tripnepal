@@ -95,20 +95,26 @@
         }
 
         .sticky-menu {
-            margin-top: 40px;
+            margin-top: 65px;
             height: 50px;
             justify-content: center;
             align-items: center;
             border: none;
             transition: all 0.s ease-in-out;
             position: fixed;
+            z-index: 10;
             top: 0;
             left: 0;
             background: white;
-            z-index: 10000;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
             /* Optional: Adds a shadow */
             padding: 10px;
+        }
+
+        #check-icon {
+            background-color: green;
+            border-radius: 50%;
+            padding: 3px;
         }
 
         .faq-head {
@@ -116,6 +122,9 @@
             justify-content: space-between;
         }
 
+        .accordion-button {
+            z-index: 0;
+        }
 
         .accordion-button {
             font-weight: bold;
@@ -134,6 +143,102 @@
             border-top: none;
         }
 
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        .enquiry-container {
+            max-width: 800px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+            color: #555;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #008080;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            background-color: #008080;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #008080;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .col-half {
+            flex: 1;
+            min-width: calc(48% - 10px);
+        }
+
+        @media (max-width: 600px) {
+            .enquiry-container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .col-half {
+                min-width: 98%;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+            }
+        }
 
         @media(max-width:768px) {
 
@@ -322,7 +427,8 @@
                             <h2>
                                 Hightlights
                             </h2>
-                            <i class="fas fa-check" id="check-icon"></i><span>Treck to the world-famous Everest Base
+                            <i class="fas fa-check" id="check-icon"></i><span>Treck to
+                                the world-famous Everest Base
                                 Camp</span><br>
                             <i class="fas fa-check" id="check-icon"></i><span>Treck to the world-famous Everest Base
                                 Camp</span><br>
@@ -339,7 +445,8 @@
                                     <span>Expand all</span>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch"
-                                            id="flexSwitchCheckDefault" style="border:1px solid #2a7d7d;">
+                                            data-bs-target="#collapseTwo" id="flexSwitchCheckDefault"
+                                            style="border:1px solid #2a7d7d;">
                                     </div>
                                 </div>
 
@@ -349,7 +456,7 @@
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseOne" style="z-index:0;">
+                                            data-bs-target="#collapseOne">
                                             Day 1 : Kathmandu to Pokhara (By flight or Bus).
                                         </button>
                                     </h2>
@@ -421,12 +528,287 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="cost"></div>
-                        <div class="dates"></div>
-                        <div class="faqs"></div>
-                        <div class="map"></div>
+
+                        <div class="cost">
+                            <h1>Cost</h1>
+                            <h2>
+                                The Cost Includes
+                            </h2>
+                            <ul style="margin-left:-10px;">
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>Pick-up or Drop-off service from and to
+                                        Airport(in our own vehicle)
+                                        Camp</p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>Pick-up or Drop-off service from and to
+                                        Airport(in our own vehicle)
+                                        Camp</p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>Food all along the trip(Breakfast, Lunch,
+                                        Dinner and a cup of coffee or tea) and accommodations during the trip in hotels
+                                        with
+                                        family environment
+                                    </p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    ansportation, food, accommodation and
+                                    insurance of Guide during the trip
+
+                                    </p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>First Aid Medical Kit(Your guide will
+                                        carry the Medical Kit but we also advise to bring yourself for your own use, as
+                                        far as
+                                        possible)
+                                    </p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>All the required permits and paperwork
+                                    </p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>Down jacket, all-season sleeping bag,
+                                        duffel bag and trekking map(in case if you don’t have your own. Down jacket,
+                                        sleeping
+                                        bag and duffel bag must be returned after completion of the trip)
+                                    </p>
+                                </li>
+                                <li style="display:flex; list-style-type:none;">
+                                    <i class="fas fa-check" id="check-icon"></i>
+                                    <p>Transportation to and from!!
+                                    </p>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="dates">
+
+                        </div>
+                        <div class="faqs">
+                            <div class="faq-head">
+                                <div>
+                                    <h1>Itinerary</h1>
+                                </div>
+
+                                <div style="display:flex; gap:10px;">
+                                    <span>Expand all</span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            data-bs-target="#collapseTwo" id="flexSwitchCheckDefault"
+                                            style="border:1px solid #2a7d7d;">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="accordion" id="faqAccordion">
+                                <!-- FAQ Item 1 -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne">
+                                            Day 1 : Kathmandu to Pokhara (By flight or Bus).
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                        data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Arrive at Tribhuwan International Airport, Kathmandu, you are welcomed by
+                                            the team and then you will be transferred to your hotel. This trail goes
+                                            through Ghorepani Poon Hill. Normally, the trek starts like Pokhara to
+                                            Nayapul and ends like Phedi to Pokhara. While early travel tended to be
+                                            slower, more dangerous, and more dominated by trade and migration, cultural
+                                            and technological advances over many years have tended to mean that travel
+                                            has become easier and more accessible. The evolution of technology in such
+                                            diverse fields as horse tack and bullet trains has contributed to this
+                                            trend.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- FAQ Item 2 -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                            Day 2 : Drive to Nayapul and trek to Ulleri
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            We cover a wide range of destinations, including Kathmandu, Pokhara,
+                                            Lumbini, Mustang, Chitwan, and
+                                            Solukhumbu. Explore our website for more details.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- FAQ Item 3 -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                            Day 3 : Trek to Ghorepani
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                        data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, we specialize in affordable travel packages, including budget
+                                            accommodations, local transport, and
+                                            cost-effective tours.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- FAQ Item 4 -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                            Day 4 : Early trek to Poon Hill, Back to Ghorepani and trek to tadapani
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" class="accordion-collapse collapse"
+                                        data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Absolutely! We offer customizable itineraries to suit your preferences,
+                                            whether you're looking for
+                                            adventure, relaxation, or cultural experiences.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="map">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.451214129912!2d85.32396061544552!3d27.717245982788245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1901cb67d5a1%3A0x6e8daaf9ed44a6a!2sKathmandu!5e0!3m2!1sen!2snp!4v1613561252925!5m2!1sen!2snp"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
                         <div class="review"></div>
-                        <div class="enquiry-form"></div>
+                        <div class="enquiry-form">
+                            <div class="enquiry-container">
+                                <h1>You can send your enquiry via the form below.</h1>
+                                <form id="enquiryForm">
+                                    <label for="trip-name">Trip name: *</label>
+                                    <p id="trip-name">Ghorepani Poon Hill Trek</p>
+
+                                    <label for="name">Your name: *</label>
+                                    <input type="text" id="name" name="name" placeholder="Enter Your Name *" required>
+
+                                    <label for="email">Your email: *</label>
+                                    <input type="email" id="email" name="email" placeholder="Enter Your Email *"
+                                        required>
+
+                                    <div class="row">
+                                        <div class="col-half">
+                                            <label for="country">Country *</label>
+                                            <select id="country" name="country" required onchange="adjustInputSize()">
+                                                <option value="">Choose a country*</option>
+                                                <option value="USA">United States of America</option>
+                                                <option value="UK">United Kingdom</option>
+                                                <option value="Canada">Canada</option>
+                                                <option value="Australia">Australia</option>
+                                                <option value="Germany">Germany</option>
+                                                <option value="France">France</option>
+                                                <option value="Japan">Japan</option>
+                                                <option value="India">India</option>
+                                                <option value="China">China</option>
+                                                <option value="Brazil">Brazil</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-half">
+                                            <label for="contact-number">Contact number: *</label>
+                                            <input type="text" id="contact-number" name="contact-number"
+                                                placeholder="Enter Your Contact Number*" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-half">
+                                            <label for="adults">No. of Adults *</label>
+                                            <input type="number" id="adults" name="adults"
+                                                placeholder="Enter Number of Adults*" required>
+                                        </div>
+                                        <div class="col-half">
+                                            <label for="children">No. of children</label>
+                                            <input type="number" id="children" name="children"
+                                                placeholder="Enter Number of Children">
+                                        </div>
+                                    </div>
+
+                                    <label for="subject">Enquiry Subject: *</label>
+                                    <input type="text" id="subject" name="subject" placeholder="Enquiry Subject"
+                                        required>
+
+                                    <label for="message">Your Message *</label>
+                                    <textarea id="message" name="message" rows="5" placeholder="Enter Your message*"
+                                        required></textarea>
+
+                                    <input type="submit" value="Send Email">
+                                </form>
+                            </div>
+
+                            <script>
+                                // Function to adjust input size based on selected country
+                                function adjustInputSize() {
+                                    const countrySelect = document.getElementById('country');
+                                    const selectedCountry = countrySelect.options[countrySelect.selectedIndex].text;
+                                    const contactNumberInput = document.getElementById('contact-number');
+
+                                    // Calculate the width based on the length of the selected country name
+                                    const width = Math.min(Math.max(selectedCountry.length * 10, 100), 300); // Min 100px, Max 300px
+                                    contactNumberInput.style.width = `${width}px`;
+                                }
+
+                                // Form submission handling
+                                document.getElementById('enquiryForm').addEventListener('submit', function (event) {
+                                    event.preventDefault();
+
+                                    const name = document.getElementById('name').value;
+                                    const email = document.getElementById('email').value;
+                                    const country = document.getElementById('country').value;
+                                    const contactNumber = document.getElementById('contact-number').value;
+                                    const adults = document.getElementById('adults').value;
+                                    const children = document.getElementById('children').value;
+                                    const subject = document.getElementById('subject').value;
+                                    const message = document.getElementById('message').value;
+
+                                    if (!validateEmail(email)) {
+                                        alert('Please enter a valid email address.');
+                                        return;
+                                    }
+
+                                    const formData = {
+                                        name,
+                                        email,
+                                        country,
+                                        contactNumber,
+                                        adults,
+                                        children,
+                                        subject,
+                                        message
+                                    };
+
+                                    console.log('Form Data Submitted:', formData);
+                                    alert('Your enquiry has been sent successfully!');
+                                });
+
+                                // Email validation function
+                                function validateEmail(email) {
+                                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                    return re.test(String(email).toLowerCase());
+                                }
+                            </script>
+                        </div>
                     </div>
                     <div class="trip-pricing">
                         <div class="check-ins"></div>
