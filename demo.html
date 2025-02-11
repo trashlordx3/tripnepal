@@ -5,88 +5,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Itinerary</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 20px;
-            padding: 20px;
         }
 
-        .itinerary {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .itinerary-container {
+            max-width: 700px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .itinerary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e0e0e0;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+        }
+
+        .toggle-switch {
             position: relative;
+            width: 40px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .toggle-switch::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .toggle-switch.active {
+            background: #007bff;
+        }
+
+        .toggle-switch.active::before {
+            left: 22px;
         }
 
         .day {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            position: relative;
+            border-bottom: 1px solid #ccc;
         }
 
-        .day:not(:last-child)::after {
-            content: "";
-            position: absolute;
-            left: 12px;
-            /* Align with icon */
-            top: 100%;
-            height: 30px;
-            border-left: 2px dashed #007bff;
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f0f0f0;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .day-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 15px;
+            background: #fff;
+            transition: max-height 0.5s ease-in-out, padding 0.3s ease-in-out;
+        }
+
+
+        .expanded .day-content {
+            padding: 10px 15px;
         }
 
         .icon {
-            margin-right: 10px;
-            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .expanded .icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
 
 <body>
-    <div class="itinerary">
-        <div class="day active">
-            <span class="icon">🟢</span>
-            <p><strong>Day 01:</strong> Arrival in Kathmandu</p>
+
+    <div class="itinerary-container">
+        <div class="itinerary-header">
+            <span>Itinerary</span>
+            <div class="toggle-container">
+                <label class="toggle-label">Expand All</label>
+                <div class="toggle-switch" onclick="toggleAll()"></div>
+            </div>
         </div>
+
         <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 02:</strong> Sightseeing in Kathmandu and preparation for the trekking</p>
+            <div class="day-header" onclick="toggleDay(this)">
+                <span>Day 1: Kathmandu to Pokhara (By flight or Bus)</span>
+                <span class="icon">⌄</span>
+            </div>
+            <div class="day-content">
+                Arrive at Tribhuwan Internafasdfasdfasadfasf adfasfas
+                asdfadfasf
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat nulla impedit obcaecati? Amet eligendi
+                alias, tempore consectetur assumenda architecto dolores.
+                tional Airport, Kathmandu. You are welcomed by the team and then transferred
+                to your hotel. This trail goes through Ghorepani Poon Hill.
+            </div>
         </div>
+
         <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 03:</strong> Kathmandu – Lukla (40 min flight) – Phakding; 3-4 hours trek</p>
+            <div class="day-header" onclick="toggleDay(this)">
+                <span>Day 2: Drive to Nayapul and trek to Ulleri</span>
+                <span class="icon">⌄</span>
+            </div>
+            <div class="day-content">
+                Drive to Nayapul and begin your trek to Ulleri, passing through lush landscapes and small villages.
+            </div>
         </div>
+
         <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 04:</strong> Phakding – Namche Bazaar: 5-6 hours</p>
+            <div class="day-header" onclick="toggleDay(this)">
+                <span>Day 3: Trek to Ghorepani</span>
+                <span class="icon">⌄</span>
+            </div>
+            <div class="day-content">
+                Continue your trek through rhododendron forests to reach the beautiful village of Ghorepani.
+            </div>
         </div>
+
         <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 05:</strong> Namche Bazaar: Rest day</p>
-        </div>
-        <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 06:</strong> Namche Bazaar – Tyangboche: 6-7 hours</p>
-        </div>
-        <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 07:</strong> Tengboche – Dingboche: 5-6 hours</p>
-        </div>
-        <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 08:</strong> Dingboche: Rest day</p>
-        </div>
-        <div class="day">
-            <span class="icon">🔵</span>
-            <p><strong>Day 09:</strong> Dingboche – Lobuche: 5-6 hours</p>
+            <div class="day-header" onclick="toggleDay(this)">
+                <span>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to Tadapani</span>
+                <span class="icon">⌄</span>
+            </div>
+            <div class="day-content">
+                An early morning trek to Poon Hill for a breathtaking sunrise view, then return to Ghorepani and proceed
+                to Tadapani.
+            </div>
         </div>
     </div>
+
+    <script>
+        function toggleDay(element) {
+            let day = element.parentElement;
+            let content = day.querySelector('.day-content');
+            let icon = element.querySelector('.icon');
+
+            if (day.classList.contains("expanded")) {
+                content.style.maxHeight = "0";
+                content.style.padding = "0 15px";
+                day.classList.remove("expanded");
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.style.padding = "10px 15px";
+                day.classList.add("expanded");
+            }
+        }
+
+        function toggleAll() {
+            let toggleSwitch = document.querySelector('.toggle-switch');
+            let days = document.querySelectorAll('.day');
+            let expand = !toggleSwitch.classList.contains("active");
+
+            days.forEach(day => {
+                let content = day.querySelector('.day-content');
+
+                if (expand) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.padding = "10px 15px";
+                    day.classList.add("expanded");
+                } else {
+                    content.style.maxHeight = "0";
+                    content.style.padding = "0 15px";
+                    day.classList.remove("expanded");
+                }
+            });
+
+            toggleSwitch.classList.toggle("active", expand);
+            document.querySelector(".toggle-label").textContent = expand ? "Collapse All" : "Expand All";
+        }
+    </script>
+
 </body>
 
 </html>

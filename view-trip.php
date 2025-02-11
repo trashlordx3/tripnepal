@@ -122,26 +122,106 @@
             justify-content: space-between;
         }
 
-        .accordion-button {
-            z-index: 0;
+        .itinerary-container {
+            background-color: none;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .accordion-button {
+        .faq-container {
+            background-color: none;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .itinerary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e0e0e0;
+            padding: 10px 15px;
             font-weight: bold;
-            color: #333;
         }
 
-        .accordion-button:not(.collapsed) {
-            background-color: #e9ecef;
-            color: #000;
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .accordion-body {
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-top: none;
+        .toggle-label {
+            font-size: 14px;
         }
+
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .toggle-switch::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .toggle-switch.active {
+            background: #007bff;
+        }
+
+        .toggle-switch.active::before {
+            left: 22px;
+        }
+
+        .day {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f0f0f0;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .day-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 15px;
+            background: #fff;
+            transition: max-height 0.5s ease-in-out, padding 0.3s ease-in-out;
+        }
+
+        .expanded .day-content {
+            padding: 10px 15px;
+        }
+
+        .icon {
+            transition: transform 0.3s ease;
+        }
+
+        .expanded .icon {
+            transform: rotate(180deg);
+        }
+
+
 
         iframe {
             width: 100%;
@@ -156,7 +236,7 @@
             border-radius: 8px;
         }
 
-        h1 {
+        .enquiry-container h1 {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 20px;
@@ -436,97 +516,70 @@
                                 Camp</span><br>
                         </div>
                         <div class="itinerary" id="itinerary">
-                            <div class="faq-head">
-                                <div>
-                                    <h1>Itinerary</h1>
-                                </div>
 
-                                <div style="display:flex; gap:10px;">
-                                    <span>Expand all</span>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                            data-bs-target="#collapseTwo" id="flexSwitchCheckDefault"
-                                            style="border:1px solid #2a7d7d;">
+                            <div class="itinerary-container">
+                                <div class="itinerary-header">
+                                    <span>Itinerary</span>
+                                    <div class="toggle-container">
+                                        <label class="toggle-label">Expand All</label>
+                                        <div class="toggle-switch" onclick="toggleAll()"></div>
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="accordion" id="faqAccordion">
-                                <!-- FAQ Item 1 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseOne">
-                                            Day 1 : Kathmandu to Pokhara (By flight or Bus).
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            Arrive at Tribhuwan International Airport, Kathmandu, you are welcomed by
-                                            the team and then you will be transferred to your hotel. This trail goes
-                                            through Ghorepani Poon Hill. Normally, the trek starts like Pokhara to
-                                            Nayapul and ends like Phedi to Pokhara. While early travel tended to be
-                                            slower, more dangerous, and more dominated by trade and migration, cultural
-                                            and technological advances over many years have tended to mean that travel
-                                            has become easier and more accessible. The evolution of technology in such
-                                            diverse fields as horse tack and bullet trains has contributed to this
-                                            trend.
-                                        </div>
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 1: Kathmandu to Pokhara (By flight or Bus)</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by the
+                                        team and then transferred
+                                        to your hotel. This trail goes through Ghorepani Poon Hill.
                                     </div>
                                 </div>
-                                <!-- FAQ Item 2 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                                            Day 2 : Drive to Nayapul and trek to Ulleri
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            We cover a wide range of destinations, including Kathmandu, Pokhara,
-                                            Lumbini, Mustang, Chitwan, and
-                                            Solukhumbu. Explore our website for more details.
-                                        </div>
+
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 2: Drive to Nayapul and trek to Ulleri</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet consectetur
+                                        adipisicing elit. Suscipit molestiae libero similique ratione laboriosam alias
+                                        neque exercitationem officia, fuga voluptates facere a dignissimos rerum
+                                        accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing through
+                                        lush
+                                        landscapes
+                                        and small villages.
                                     </div>
                                 </div>
-                                <!-- FAQ Item 3 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                            Day 3 : Trek to Ghorepani
-                                        </button>
-                                    </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            Yes, we specialize in affordable travel packages, including budget
-                                            accommodations, local transport, and
-                                            cost-effective tours.
-                                        </div>
+
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 3: Trek to Ghorepani</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        Continue your trek through rhododendron forests to reach the beautiful village
+                                        of Ghorepani.
                                     </div>
                                 </div>
-                                <!-- FAQ Item 4 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseFour">
-                                            Day 4 : Early trek to Poon Hill, Back to Ghorepani and trek to tadapani
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFour" class="accordion-collapse collapse"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            Absolutely! We offer customizable itineraries to suit your preferences,
-                                            whether you're looking for
-                                            adventure, relaxation, or cultural experiences.
-                                        </div>
+
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to
+                                            Tadapani</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        An early morning trek to Poon Hill for a breathtaking sunrise view, then return
+                                        to Ghorepani and proceed
+                                        to Tadapani.
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
 
                         <div class="cost">
@@ -595,94 +648,64 @@
 
                         </div>
                         <div class="faqs">
-                            <div class="faq-head">
-                                <div>
-                                    <h1>Itinerary</h1>
-                                </div>
-
-                                <div style="display:flex; gap:10px;">
-                                    <span>Expand all</span>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                            data-bs-target="#collapseTwo" id="flexSwitchCheckDefault"
-                                            style="border:1px solid #2a7d7d;">
+                            <div class="faq-container">
+                                <div class="itinerary-header">
+                                    <span>Itinerary</span>
+                                    <div class="toggle-container">
+                                        <label class="toggle-label">Expand All</label>
+                                        <div class="toggle-switch" onclick="toggleAll()"></div>
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="accordion" id="faqAccordion">
-                                <!-- FAQ Item 1 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseOne">
-                                            Day 1 : Kathmandu to Pokhara (By flight or Bus).
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            Arrive at Tribhuwan International Airport, Kathmandu, you are welcomed by
-                                            the team and then you will be transferred to your hotel. This trail goes
-                                            through Ghorepani Poon Hill. Normally, the trek starts like Pokhara to
-                                            Nayapul and ends like Phedi to Pokhara. While early travel tended to be
-                                            slower, more dangerous, and more dominated by trade and migration, cultural
-                                            and technological advances over many years have tended to mean that travel
-                                            has become easier and more accessible. The evolution of technology in such
-                                            diverse fields as horse tack and bullet trains has contributed to this
-                                            trend.
-                                        </div>
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 1: Kathmandu to Pokhara (By flight or Bus)</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by the
+                                        team and then transferred
+                                        to your hotel. This trail goes through Ghorepani Poon Hill.
                                     </div>
                                 </div>
-                                <!-- FAQ Item 2 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                                            Day 2 : Drive to Nayapul and trek to Ulleri
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            We cover a wide range of destinations, including Kathmandu, Pokhara,
-                                            Lumbini, Mustang, Chitwan, and
-                                            Solukhumbu. Explore our website for more details.
-                                        </div>
+
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 2: Drive to Nayapul and trek to Ulleri</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet consectetur
+                                        adipisicing elit. Suscipit molestiae libero similique ratione laboriosam alias
+                                        neque exercitationem officia, fuga voluptates facere a dignissimos rerum
+                                        accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing through
+                                        lush
+                                        landscapes
+                                        and small villages.
                                     </div>
                                 </div>
-                                <!-- FAQ Item 3 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                            Day 3 : Trek to Ghorepani
-                                        </button>
-                                    </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            Yes, we specialize in affordable travel packages, including budget
-                                            accommodations, local transport, and
-                                            cost-effective tours.
-                                        </div>
+
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 3: Trek to Ghorepani</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        Continue your trek through rhododendron forests to reach the beautiful village
+                                        of Ghorepani.
                                     </div>
                                 </div>
-                                <!-- FAQ Item 4 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseFour">
-                                            Day 4 : Early trek to Poon Hill, Back to Ghorepani and trek to tadapani
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFour" class="accordion-collapse collapse"
-                                        data-bs-parent="#faqAccordion">
-                                        <div class="accordion-body">
-                                            Absolutely! We offer customizable itineraries to suit your preferences,
-                                            whether you're looking for
-                                            adventure, relaxation, or cultural experiences.
-                                        </div>
+
+                                <div class="day">
+                                    <div class="day-header" onclick="toggleDay(this)">
+                                        <span>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to
+                                            Tadapani</span>
+                                        <span class="icon">⌄</span>
+                                    </div>
+                                    <div class="day-content">
+                                        An early morning trek to Poon Hill for a breathtaking sunrise view, then return
+                                        to Ghorepani and proceed
+                                        to Tadapani.
                                     </div>
                                 </div>
                             </div>
@@ -887,6 +910,49 @@
         // Example: Set the first menu item (Overview) as active by default
         setActiveMenuItem();
     </script>
+    <!-- for itinerary -->
+    <script>
+        function toggleDay(element) {
+            let day = element.parentElement;
+            let content = day.querySelector('.day-content');
+            let icon = element.querySelector('.icon');
+
+            if (day.classList.contains("expanded")) {
+                content.style.maxHeight = "0";
+                content.style.padding = "0 15px";
+                day.classList.remove("expanded");
+            } else {
+                content.style.maxHeight = content.scrollHeight + 20 + "px"; // Dynamically set max-height
+                content.style.padding = "10px 15px";
+                day.classList.add("expanded");
+            }
+        }
+
+        function toggleAll() {
+            let toggleSwitch = document.querySelector('.toggle-switch');
+            let days = document.querySelectorAll('.day');
+            let expand = !toggleSwitch.classList.contains("active");
+
+            days.forEach(day => {
+                let content = day.querySelector('.day-content');
+
+                if (expand) {
+                    content.style.maxHeight = content.scrollHeight + 20 + "px"; // Ensure full visibility
+                    content.style.padding = "10px 15px";
+                    day.classList.add("expanded");
+                } else {
+                    content.style.maxHeight = "0";
+                    content.style.padding = "0 15px";
+                    day.classList.remove("expanded");
+                }
+            });
+
+            toggleSwitch.classList.toggle("active", expand);
+            document.querySelector(".toggle-label").textContent = expand ? "Collapse All" : "Expand All";
+        }
+
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
