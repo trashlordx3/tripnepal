@@ -12,7 +12,7 @@
 
 /* header css */
 .header-section {
-  position: block;
+  position: fixed;
 }
 .bg-teal {
   background-color: #008080;

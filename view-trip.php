@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
@@ -89,14 +89,11 @@
             margin-top: 10px;
         }
 
-        #check-icon {
-            color: aqua;
-            margin-right: 10px;
-        }
+
 
         .sticky-menu {
             margin-top: 65px;
-            height: 50px;
+            height: 40px;
             justify-content: center;
             align-items: center;
             border: none;
@@ -112,9 +109,13 @@
         }
 
         #check-icon {
-            background-color: green;
-            border-radius: 50%;
-            padding: 3px;
+            color: green;
+            margin-right: 10px;
+        }
+
+        #cross-icon {
+            color: red;
+            margin-right: 10px;
         }
 
         .faq-head {
@@ -125,7 +126,7 @@
         .itinerary-container {
             background-color: none;
             max-width: 100%;
-            border: 1px solid #ccc;
+
             border-radius: 8px;
             overflow: hidden;
         }
@@ -133,7 +134,6 @@
         .faq-container {
             background-color: none;
             max-width: 100%;
-            border: 1px solid #ccc;
             border-radius: 8px;
             overflow: hidden;
         }
@@ -142,8 +142,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #e0e0e0;
-            padding: 10px 15px;
+
             font-weight: bold;
         }
 
@@ -187,15 +186,12 @@
             left: 22px;
         }
 
-        .day {
-            border-bottom: 1px solid #ccc;
-        }
+        /* .day {} */
 
         .day-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #f0f0f0;
             padding: 10px 15px;
             font-weight: bold;
             cursor: pointer;
@@ -296,6 +292,25 @@
             min-width: calc(48% - 10px);
         }
 
+
+        .pricing-btn {
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: rgb(62, 155, 25);
+            width: 45%;
+            border: none;
+            align-items: center;
+            align-content: center;
+            padding: 10px;
+            border-radius: 5px;
+
+        }
+
+        .pricing-btn:hover {
+            background-color: #008080;
+        }
+
         @media (max-width: 600px) {
             .enquiry-container {
                 margin: 10px;
@@ -321,6 +336,14 @@
         }
 
         @media(max-width:768px) {
+            .viewtrip-container {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .trip-info {
+                width: 100% !important;
+            }
 
             .gallery img {
                 height: 100px;
@@ -351,19 +374,21 @@
     ?>
     <div class="features">
         <div class="container py-5">
-
+            <h1>Travel One Place at a time</h1>
         </div>
     </div>
     <div class="features">
         <div class="container py-5">
             <div class="trip-image-container">
                 <!-- Product Images -->
-                <div class="gallery">
-                    <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)">
-                    <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)">
-                    <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)">
+                <div class="gallery" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)"
+                        style="height: 400px; width: 400px;">
+                    <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)"
+                        style="height: 400px; width: 400px;">
+                    <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)"
+                        style="height: 400px; width: 400px;">
                 </div>
-
                 <!-- Modal Structure -->
                 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -403,17 +428,19 @@
             </div>
             <div class="features">
                 <div class="container py-5">
-                    <div class="viewtrip-container" style="width: 100%;">
-                        <div class="trip-info" style="width:70%">
+                    <div class="viewtrip-container" style="width: 100%; display: flex; justify-content: space-between;">
+                        <div class="trip-info" style="width:68%">
                             <div class="trip-heading" style="display: flex;">
                                 <h1>7 Days touur to Explore the Beauuty of Himalaya</h1>
                                 <div class="duration" style="text-align:center; display:flex; flex-direction:column;">
-                                    <h1 style="background-color:aqua; border-radius:5px 5px 0px 0px; color:white;">7
+                                    <h1
+                                        style="background-color:rgb(83, 192, 192); border-radius:5px 5px 0px 0px; color:white;">
+                                        7
                                     </h1>
                                     <h1 style="margin-top:-5px;">Days</h1>
                                 </div>
                             </div>
-                            <div class="trip-facts">
+                            <div class="trip-facts" id="menu">
                                 <div class="flex items-center" ">
                                     <div><i class=" fas fa-bus text-teal-500 mr-2" id="fact-icon"></i>
                                     <span>Transportation</span>
@@ -487,12 +514,12 @@
                             </div>
                         </div>
                         <div class="itinery-menu">
-                            <a href="#overview" onclick="setActiveMenuItem(0)">overview</a>
-                            <a href="#itinerary" onclick="setActiveMenuItem(1)">Itinerary</a>
-                            <a href="#cost" onclick="setActiveMenuItem(2)">Cost</a>
-                            <a href="#faqs" onclick="setActiveMenuItem(3)">FAQs</a>
-                            <a href="#map" onclick="setActiveMenuItem(4)">Map</a>
-                            <a href="#enquiry" onclick="setActiveMenuItem(5)">Enquiry</a>
+                            <a href="#menu" onclick="setActiveMenuItem(0)">Overview</a>
+                            <a href="#overview" onclick="setActiveMenuItem(1)">Itinerary</a>
+                            <a href="#itinerary" onclick="setActiveMenuItem(2)">Cost</a>
+                            <a href="#cost" onclick="setActiveMenuItem(3)">FAQs</a>
+                            <a href="#faqs" onclick="setActiveMenuItem(4)">Map</a>
+                            <a href="#map" onclick="setActiveMenuItem(5)">Enquiry</a>
                         </div>
                         <div class="overview" id="overview">
                             <h2>Overview</h2>
@@ -516,10 +543,11 @@
                                 Camp</span><br>
                         </div>
                         <div class="itinerary" id="itinerary">
-
                             <div class="itinerary-container">
                                 <div class="itinerary-header">
-                                    <span>Itinerary</span>
+                                    <span>
+                                        <h1>Itinerary</h1>
+                                    </span>
                                     <div class="toggle-container">
                                         <label class="toggle-label">Expand All</label>
                                         <div class="toggle-switch" onclick="toggleAll()"></div>
@@ -528,53 +556,62 @@
 
                                 <div class="day">
                                     <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 1: Kathmandu to Pokhara (By flight or Bus)</span>
+                                        <span><strong>Day 1: Kathmandu to Pokhara (By flight or Bus)</strong></span>
                                         <span class="icon">⌄</span>
                                     </div>
                                     <div class="day-content">
-                                        Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by the
-                                        team and then transferred
-                                        to your hotel. This trail goes through Ghorepani Poon Hill.
+                                        <p>Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by the
+                                            team and then transferred
+                                            to your hotel. This trail goes through Ghorepani Poon Hill.
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="day">
                                     <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 2: Drive to Nayapul and trek to Ulleri</span>
+                                        <span><strong>Day 2: Drive to Nayapul and trek to Ulleri</strong></span>
                                         <span class="icon">⌄</span>
                                     </div>
                                     <div class="day-content">
-                                        Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet consectetur
-                                        adipisicing elit. Suscipit molestiae libero similique ratione laboriosam alias
-                                        neque exercitationem officia, fuga voluptates facere a dignissimos rerum
-                                        accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing through
-                                        lush
-                                        landscapes
-                                        and small villages.
+                                        <p> Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet consectetur
+                                            adipisicing elit. Suscipit molestiae libero similique ratione laboriosam
+                                            alias
+                                            neque exercitationem officia, fuga voluptates facere a dignissimos rerum
+                                            accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing through
+                                            lush
+                                            landscapes
+                                            and small villages.
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="day">
                                     <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 3: Trek to Ghorepani</span>
+                                        <span><strong>Day 3: Trek to Ghorepani</strong></span>
                                         <span class="icon">⌄</span>
                                     </div>
                                     <div class="day-content">
-                                        Continue your trek through rhododendron forests to reach the beautiful village
-                                        of Ghorepani.
+                                        <p>
+                                            Continue your trek through rhododendron forests to reach the beautiful
+                                            village
+                                            of Ghorepani.
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="day">
                                     <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to
-                                            Tadapani</span>
+                                        <span><strong>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to
+                                                Tadapani</strong></span>
                                         <span class="icon">⌄</span>
                                     </div>
                                     <div class="day-content">
-                                        An early morning trek to Poon Hill for a breathtaking sunrise view, then return
-                                        to Ghorepani and proceed
-                                        to Tadapani.
+                                        <p>
+                                            An early morning trek to Poon Hill for a breathtaking sunrise view, then
+                                            return
+                                            to Ghorepani and proceed
+                                            to Tadapani.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -582,158 +619,78 @@
 
                         </div>
 
-                        <div class="cost">
+                        <div class="cost" id="cost">
                             <h1>Cost</h1>
-                            <h2>
+                            <h3>
                                 The Cost Includes
-                            </h2>
-                            <ul style="margin-left:-10px;">
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>Pick-up or Drop-off service from and to
-                                        Airport(in our own vehicle)
-                                        Camp</p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>Pick-up or Drop-off service from and to
-                                        Airport(in our own vehicle)
-                                        Camp</p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>Food all along the trip(Breakfast, Lunch,
-                                        Dinner and a cup of coffee or tea) and accommodations during the trip in hotels
-                                        with
-                                        family environment
-                                    </p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    ansportation, food, accommodation and
-                                    insurance of Guide during the trip
+                            </h3>
+                            <?php for ($i = 0; $i < 5; $i++) { ?>
 
-                                    </p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>First Aid Medical Kit(Your guide will
-                                        carry the Medical Kit but we also advise to bring yourself for your own use, as
-                                        far as
-                                        possible)
-                                    </p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>All the required permits and paperwork
-                                    </p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>Down jacket, all-season sleeping bag,
-                                        duffel bag and trekking map(in case if you don’t have your own. Down jacket,
-                                        sleeping
-                                        bag and duffel bag must be returned after completion of the trip)
-                                    </p>
-                                </li>
-                                <li style="display:flex; list-style-type:none;">
-                                    <i class="fas fa-check" id="check-icon"></i>
-                                    <p>Transportation to and from!!
-                                    </p>
-                                </li>
-                            </ul>
+                                <i class="fas fa-check" id="check-icon"></i><span>Pick-up or Drop-off service from and
+                                    to Airport(in our own vehicle)</span><br>
+
+                            <?php } ?>
+                            <br><br>
+                            <h3>The Cost Excludes</h3>
+                            <?php for ($i = 0; $i < 5; $i++) { ?>
+
+                                <i class="fas fa-times" id="cross-icon"></i><span>Pick-up or
+                                    Drop-off service from
+                                    and
+                                    to Airport(in our own vehicle)</span><br>
+                            <?php } ?>
 
                         </div>
-                        <div class="dates">
+                        <div class="dates" id="dates">
 
                         </div>
-                        <div class="faqs">
+                        <div class="faqs" id="faqs">
                             <div class="faq-container">
                                 <div class="itinerary-header">
-                                    <span>Itinerary</span>
-                                    <div class="toggle-container">
-                                        <label class="toggle-label">Expand All</label>
-                                        <div class="toggle-switch" onclick="toggleAll()"></div>
-                                    </div>
+                                    <span>
+                                        <h1>FAQ's</h1>
+                                    </span>
                                 </div>
+                                <?php for ($i = 0; $i < 5; $i++) { ?>
+                                    <div class="day">
+                                        <div class="day-header" onclick="toggleDay(this)">
+                                            <span><strong>How to Book Trip</strong></span>
+                                            <span class="icon">⌄</span>
+                                        </div>
+                                        <div class="day-content">
+                                            <p>Use the form</p>
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
-                                <div class="day">
-                                    <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 1: Kathmandu to Pokhara (By flight or Bus)</span>
-                                        <span class="icon">⌄</span>
-                                    </div>
-                                    <div class="day-content">
-                                        Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by the
-                                        team and then transferred
-                                        to your hotel. This trail goes through Ghorepani Poon Hill.
-                                    </div>
-                                </div>
-
-                                <div class="day">
-                                    <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 2: Drive to Nayapul and trek to Ulleri</span>
-                                        <span class="icon">⌄</span>
-                                    </div>
-                                    <div class="day-content">
-                                        Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet consectetur
-                                        adipisicing elit. Suscipit molestiae libero similique ratione laboriosam alias
-                                        neque exercitationem officia, fuga voluptates facere a dignissimos rerum
-                                        accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing through
-                                        lush
-                                        landscapes
-                                        and small villages.
-                                    </div>
-                                </div>
-
-                                <div class="day">
-                                    <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 3: Trek to Ghorepani</span>
-                                        <span class="icon">⌄</span>
-                                    </div>
-                                    <div class="day-content">
-                                        Continue your trek through rhododendron forests to reach the beautiful village
-                                        of Ghorepani.
-                                    </div>
-                                </div>
-
-                                <div class="day">
-                                    <div class="day-header" onclick="toggleDay(this)">
-                                        <span>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to
-                                            Tadapani</span>
-                                        <span class="icon">⌄</span>
-                                    </div>
-                                    <div class="day-content">
-                                        An early morning trek to Poon Hill for a breathtaking sunrise view, then return
-                                        to Ghorepani and proceed
-                                        to Tadapani.
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <div class="map">
+                        <div class="map" id="map">
+                            <h1>Map</h1><br>
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.451214129912!2d85.32396061544552!3d27.717245982788245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1901cb67d5a1%3A0x6e8daaf9ed44a6a!2sKathmandu!5e0!3m2!1sen!2snp!4v1613561252925!5m2!1sen!2snp"
-                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                allowfullscreen="" loading="fast" referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>
-                        <div class="review"></div>
-                        <div class="enquiry-form">
+                        <div class="review" id="review"></div>
+                        <div class="enquiry-form" id="enquiry-form">
+                            <h1>Enquiry Form</h1>
                             <div class="enquiry-container">
                                 <h1>You can send your enquiry via the form below.</h1>
                                 <form id="enquiryForm">
-                                    <label for="trip-name">Trip name: *</label>
-                                    <p id="trip-name">Ghorepani Poon Hill Trek</p>
+                                    <label for="trip-name">Trip name: <span style="color: red;">*</span></label>
+                                    <input type="text" id="name" name="trip-name" placeholder="Enter Your Name *"
+                                        required value="Ghorepani Poon Hill Trek">
 
-                                    <label for="name">Your name: *</label>
+                                    <label for="name">Your name: <span style="color: red;">*</span></label>
                                     <input type="text" id="name" name="name" placeholder="Enter Your Name *" required>
-
-                                    <label for="email">Your email: *</label>
+                                    <label for="email">Your email: <span style="color: red;">*</span></label>
                                     <input type="email" id="email" name="email" placeholder="Enter Your Email *"
                                         required>
 
                                     <div class="row">
                                         <div class="col-half">
-                                            <label for="country">Country *</label>
+                                            <label for="country">Country <span style="color: red;">*</span></label>
                                             <select id="country" name="country" required onchange="adjustInputSize()">
                                                 <option value="">Choose a country*</option>
                                                 <option value="USA">United States of America</option>
@@ -749,7 +706,8 @@
                                             </select>
                                         </div>
                                         <div class="col-half">
-                                            <label for="contact-number">Contact number: *</label>
+                                            <label for="contact-number">Contact number: <span
+                                                    style="color: red;">*</span></label>
                                             <input type="text" id="contact-number" name="contact-number"
                                                 placeholder="Enter Your Contact Number*" required>
                                         </div>
@@ -757,7 +715,7 @@
 
                                     <div class="row">
                                         <div class="col-half">
-                                            <label for="adults">No. of Adults *</label>
+                                            <label for="adults">No. of Adults <span style="color: red;">*</span></label>
                                             <input type="number" id="adults" name="adults"
                                                 placeholder="Enter Number of Adults*" required>
                                         </div>
@@ -768,11 +726,11 @@
                                         </div>
                                     </div>
 
-                                    <label for="subject">Enquiry Subject: *</label>
+                                    <label for="subject">Enquiry Subject: <span style="color: red;">*</span></label>
                                     <input type="text" id="subject" name="subject" placeholder="Enquiry Subject"
                                         required>
 
-                                    <label for="message">Your Message *</label>
+                                    <label for="message">Your Message <span style="color: red;">*</span></label>
                                     <textarea id="message" name="message" rows="5" placeholder="Enter Your message*"
                                         required></textarea>
 
@@ -834,7 +792,34 @@
                         </div>
                     </div>
                     <div class="trip-pricing">
-                        <div class="check-ins"></div>
+                        <div class="check-ins" style="width: 370px;">
+                            <div class="price"
+                                style="text-align: center; background-color:rgb(83, 192, 192); border-radius: 5px 5px 0px 0px;">
+                                <h1>Trip Price</h1>
+                            </div>
+                            <div class="pricing">
+                                <span style="font-size: 2rem;">$ 3000</span><span style="color: gray;">/Adult</span>
+                            </div>
+                            <div class="pricing">
+                                <span style="font-size: 2rem;">$ 300</span><span style="color: gray;">/Child</span>
+                            </div>
+                            <div class="highlite" style="margin:10px 0px 10px 0px;">
+                                <i class="fas fa-check" id="check-icon"></i><span>Best Price Guaranteed</span><br>
+                                <i class="fas fa-check" id="check-icon"></i><span>No Booking Fees</span><br>
+                                <i class="fas fa-check" id="check-icon"></i><span>Professional Guides</span><br>
+                            </div>
+
+                            <div class="action" style="display: flex; justify-content: space-between;">
+                                <a href="#enquiry-form" class="pricing-btn">Enquiry
+
+                                </a>
+                                <a href="" class="pricing-btn">
+
+                                    Book Now
+                                </a>
+
+                            </div>
+                        </div>
                         <div class="trip-fact-right"></div>
                     </div>
                 </div>
