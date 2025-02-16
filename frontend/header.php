@@ -27,7 +27,8 @@
     </div>
 
     <!-- Main Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top" id="mainNavbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top" id="mainNavbar"
+        style="padding:0px; height:50px;">
         <div class="container">
             <a class="navbar-brand" href="index" style="align-items: center;">
                 <img src="assets/img/logo.jpg" alt="Logo" width="50" height="40" class="d-inline-block align-text-top">

@@ -92,20 +92,20 @@
 
 
         .sticky-menu {
-            margin-top: 65px;
+            margin-top: 70px;
             height: 40px;
             justify-content: center;
             align-items: center;
             border: none;
+            z-index: 9;
             transition: all 0.s ease-in-out;
             position: fixed;
-            z-index: 10;
             top: 0;
             left: 0;
             background: white;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
             /* Optional: Adds a shadow */
-            padding: 10px;
+            padding: 15px;
         }
 
         #check-icon {
@@ -292,7 +292,6 @@
             min-width: calc(48% - 10px);
         }
 
-
         .pricing-btn {
             text-align: center;
             text-decoration: none;
@@ -311,14 +310,139 @@
             background-color: #008080;
         }
 
-        @media (max-width: 600px) {
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background-color: none;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            max-width: 400px;
+            max-height: fit-content;
+
+            margin: auto;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-featured {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ffc107;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+
+        .btn-view-details {
+            background-color: #fd7e14;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .btn-view-details:hover {
+            background-color: #e96b0c;
+        }
+
+        .next-departure {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .wishlist-icon {
+            color: #dc3545;
+            font-size: 20px;
+        }
+
+        .card-contents {
+            text-align: left;
+        }
+
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 5px 5px 0px 0px;
+
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 100%;
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        #card-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 columns */
+            gap: 20px;
+            /* Spacing between grid items */
+
+            background-color: #f4f4f4;
+        }
+
+        /* view more trips */
+        .btn-custom {
+            border: 1px solid #F4A261;
+            color: #F4A261;
+            background-color: transparent;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .btn-custom:hover {
+            background-color: #F4A261;
+            color: white;
+        }
+
+        #view-details-link a {
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            background-color: orange;
+
+        }
+
+        #view-details-link a:hover {
+            background-color: #008080;
+        }
+
+
+        @media(max-width:768px) {
             .enquiry-container {
                 margin: 10px;
                 padding: 15px;
-            }
-
-            h1 {
-                font-size: 20px;
             }
 
             .row {
@@ -333,9 +457,7 @@
             input[type="submit"] {
                 width: 100%;
             }
-        }
 
-        @media(max-width:768px) {
             .viewtrip-container {
                 display: flex;
                 flex-direction: column;
@@ -362,6 +484,14 @@
 
             .itinery-menu {
                 gap: 10px;
+            }
+
+            #card-container {
+                grid-template-columns: 1fr;
+            }
+
+            .side-trip-facts {
+                display: none !important;
             }
 
         }
@@ -446,12 +576,20 @@
                                     <span>Transportation</span>
                                 </div>
                                 <div class=""><span>Bus, Airlines</span></div>
-
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class=" fas fa-bus text-teal-500 mr-2"
+                                        id="fact-icon"></i><span>Transportation</span>
+                                </div>
+                                <div class=""><span>Bus, Airlines</span>
+                                </div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-hotel text-teal-500 mr-2"
-                                        id="fact-icon"></i><span>Accomodation</span></div>
-                                <div class=""><span>3 Stars Hotels</span></div>
+                                        id="fact-icon"></i><span>Accomodation</span>
+                                </div>
+                                <div class=""><span>3 Stars Hotels</span>
+                                </div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-mountain text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
@@ -794,36 +932,202 @@
                     <div class="trip-pricing">
                         <div class="check-ins" style="width: 370px;">
                             <div class="price"
-                                style="text-align: center; background-color:rgb(83, 192, 192); border-radius: 5px 5px 0px 0px;">
-                                <h1>Trip Price</h1>
+                                style="text-align: center; background-color:rgb(83, 192, 192); border-radius: 5px 5px 0px 0px; padding:10px;">
+                                <h3>Trip Price</h3>
                             </div>
-                            <div class="pricing">
-                                <span style="font-size: 2rem;">$ 3000</span><span style="color: gray;">/Adult</span>
+                            <div class="pricing" style="text-align: center;">
+                                <span>From </span><span style="font-size: 2rem;">$3000</span><span
+                                    style="color: gray;">/Adult</span>
                             </div>
-                            <div class="pricing">
-                                <span style="font-size: 2rem;">$ 300</span><span style="color: gray;">/Child</span>
+                            <div class="pricing" style="text-align: center;">
+                                <span style="font-size: 2rem;">$300</span><span style="color: gray;">/Child</span>
                             </div>
                             <div class="highlite" style="margin:10px 0px 10px 0px;">
                                 <i class="fas fa-check" id="check-icon"></i><span>Best Price Guaranteed</span><br>
                                 <i class="fas fa-check" id="check-icon"></i><span>No Booking Fees</span><br>
                                 <i class="fas fa-check" id="check-icon"></i><span>Professional Guides</span><br>
                             </div>
+                            <div class="trip-fact-right">
+                                <h4>Next Departure:</h4>
+                                <ul style="list-style-type: none;">
+                                    <li>Jan 2025</li>
+                                    <li>Feb 2025</li>
+                                    <li>March 2025</li>
+                                    <li>April 2025</li>
+                                </ul>
 
+                            </div>
                             <div class="action" style="display: flex; justify-content: space-between;">
                                 <a href="#enquiry-form" class="pricing-btn">Enquiry
 
                                 </a>
                                 <a href="" class="pricing-btn">
-
                                     Book Now
                                 </a>
-
                             </div>
                         </div>
-                        <div class="trip-fact-right"></div>
+                        <div class="trip-fact-right" style="height: 100px;">
+                        </div>
+                        <div class="side-trip-facts"
+                            style="display: flex; flex-direction: column; grid-row-gap:30px; padding:30px 0px 0px 30px;">
+                            <div class="flex items-center">
+                                <div><i class=" fas fa-bus text-teal-500 mr-2"
+                                        id="fact-icon"></i><span>Transportation</span>
+                                </div>
+                                <div class=""><span>Bus, Airlines</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-hotel text-teal-500 mr-2"
+                                        id="fact-icon"></i><span>Accomodation</span>
+                                </div>
+                                <div class=""><span>3 Stars Hotels</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-mountain text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
+                                        Altitude</span>
+                                </div>
+                                <div class=""><span>5,416 metres</span></div>
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-plane-departure text-teal-500 mr-2"
+                                        id="fact-icon"></i><span>Departure
+                                        from</span></div>
+                                <div class=""><span>Kathmandu</span></div>
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-calendar-alt text-teal-500 mr-2" id="fact-icon"></i><span>Best
+                                        season</span></div>
+                                <div><span>Feb, Mar, Apr & May</span></div>
+                            </div>
+                            <div class="flex items-center">
+                                <div> <i class="fas fa-hiking text-teal-500 mr-2" id="fact-icon"></i><span>Tour
+                                        type</span></div>
+
+                                <div class=""><span>Eco-Tour, Hiking</span></div>
+
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-utensils text-teal-500 mr-2" id="fact-icon"></i><span>Meals</span>
+                                </div>
+                                <div class=""><span>All meals during the trek</span></div>
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-language text-teal-500 mr-2"
+                                        id="fact-icon"></i><span>Language</span></div>
+                                <div class=""><span>English, Spanish, French, Chinese</span></div>
+
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-dumbbell text-teal-500 mr-2" id="fact-icon"></i> <span>Fitness
+                                        level</span>
+                                </div>
+                                <div class=""><span>Easy to Moderate</span></div>
+
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-users text-teal-500 mr-2" id="fact-icon"></i><span>Group
+                                        Size</span></div>
+                                <div class=""><span>2-15</span></div>
+
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-child text-teal-500 mr-2" id="fact-icon"></i><span>Minimum
+                                        Age</span></div>
+                                <div class=""><span>12</span></div>
+                            </div>
+                            <div class="flex items-center">
+                                <div><i class="fas fa-user-alt text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
+                                        Age</span>
+                                </div>
+                                <div class=""><span>65</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="features">
+            <div class="container text-left py-5">
+                <h1>Explore Related trips</h1>
+            </div>
+        </div>
 
+        <div class="features">
+            <div class="container text-center py-5 card-container" id="card-container"
+                style="row-gap:20px; background-color:transparent;">
+                <?php for ($i = 0; $i < 3; $i++) { ?>
+                    <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
+                        <div class="position-relative">
+                            <div class="carousel">
+                                <div class="carousel-container">
+                                    <a href="">
+                                        <img src="assets/img/mustang.jpg" class="slide active">
+                                    </a>
+                                </div>
+                            </div>
+                            <span class="badge-featured">
+                                Featured
+                            </span>
+                        </div>
+                        <div class="card-top">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center"
+                                    style="padding:10px 0px 10px 0px">
+                                    <a href="" style="text-decoration:none; color:black;"
+                                        onmouseover="this.style.color='#008080'" onmouseout="this.style.color='black'">
+                                        <h5 class=" card-title mb-0">
+                                            Paris Effiel Tower Tour 1 Day Tour
+                                        </h5>
+                                    </a>
+
+                                </div>
+                                <div>
+                                    <div class=" d-flex mb-3">
+                                        <div class="me-3 card-contents" style="padding-left:15px;">
+                                            <p class="mb-1">
+                                                <i class="fas fa-map-marker-alt" style="color:green; margin-right:10px;">
+                                                </i>
+                                                France, India, Nepal, Srilanka
+                                            </p>
+                                            <p class="mb-1">
+                                                <i class="fas fa-clock" style="color:green; margin-right:5px;">
+                                                </i>
+                                                5 Hours
+                                            </p>
+                                            <p class="mb-1">
+                                                <i class="fas fa-users" style="color:green; margin-right:2px;">
+                                                </i>
+                                                1-10 People
+                                            </p>
+                                        </div>
+                                        <div class="me-3 card-contents">
+                                            <div class="price"
+                                                style="margin-top:50%; border-left: 1px solid gray; padding-left:20px;">
+                                                <h2><?php echo "$" . number_format(3000); ?></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
+                                    <p class="mb-1">
+                                        Travel is the movement of people between relatively distant geographical...
+                                    </p>
+                                </div>
+                                <div class="me-3 card-contents" id="view-details-link" style="padding:10px 0px 10px 0px;">
+                                    <a href="#">VIEW DETAILS</a>
+                                </div>
+                                <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
+                                    <h5>Next Departure: </h5>
+                                    <p class="mb-1">Jan 2025</p>
+                                    <p class="mb-1">Jan 2025</p>
+                                    <p class="mb-1">Jan 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
         <div class="features">

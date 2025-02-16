@@ -154,7 +154,6 @@
          /* 3 columns */
          gap: 20px;
          /* Spacing between grid items */
-         padding: 20px;
          background-color: #f4f4f4;
       }
 
@@ -506,151 +505,152 @@
             </div>
          <?php } ?>
       </div>
-      <div class="features" style="margin-top:-50px;">
-         <div class="container text-center py-5 card-container">
-            <div class="container-custom" style="margin:0 auto;">
-               <a href="#" class="btn btn-custom">VIEW ALL TRIPS</a>
+   </div>
+   <div class="features" style="margin-top:-50px;">
+      <div class="container text-center py-5 card-container">
+         <div class="container-custom" style="margin:0 auto;">
+            <a href="#" class="btn btn-custom">VIEW ALL TRIPS</a>
+         </div>
+      </div>
+   </div>
+   <div class="features">
+      <div class="container text-center py-5">
+
+         <h1>Explore popular destinations</h1>
+         <p>A new journey begin here within, find a destination that suits you and start travelling. We offer best
+            travel packages.</p>
+         <div class="divider"></div>
+      </div>
+   </div>
+   <div class="features" style="margin-top:-50px;">
+      <div class="container text-center py-5 card-container">
+         <div class="row g-4">
+            <!-- Card 1 -->
+            <div class="col-md-4">
+               <div class="trip-card">
+                  <img src="assets/img/budget.jpg" alt="Nature Friendly Trip">
+                  <div class="trip-card-body">
+                     <h3 class="trip-card-title">Kathmandu</h3>
+                     <p class="trip-card-text">Explore ancient temples, bustling markets, and affordable stays in
+                        Nepal’s vibrant capital.</p>
+                     <a href="#">Learn More</a>
+                  </div>
+               </div>
             </div>
-         </div>
-      </div>
-      <div class="features">
-         <div class="container text-center py-5">
-
-            <h1>Explore popular destinations</h1>
-            <p>A new journey begin here within, find a destination that suits you and start travelling. We offer best
-               travel packages.</p>
-            <div class="divider"></div>
-         </div>
-      </div>
-      <div class="features" style="margin-top:-50px;">
-         <div class="container text-center py-5 card-container">
-            <div class="row g-4">
-               <!-- Card 1 -->
-               <div class="col-md-4">
-                  <div class="trip-card">
-                     <img src="assets/img/budget.jpg" alt="Nature Friendly Trip">
-                     <div class="trip-card-body">
-                        <h3 class="trip-card-title">Kathmandu</h3>
-                        <p class="trip-card-text">Explore ancient temples, bustling markets, and affordable stays in
-                           Nepal’s vibrant capital.</p>
-                        <a href="#">Learn More</a>
-                     </div>
+            <!-- Card 2 -->
+            <div class="col-md-4">
+               <div class="trip-card">
+                  <img src="assets/img/pokhara.jpg" alt="Cultural Trip">
+                  <div class="trip-card-body">
+                     <h3 class="trip-card-title">Pokhara</h3>
+                     <p class="trip-card-text">Enjoy serene lakes, mountain views,and budget-friendly homestays in
+                        this peaceful lakeside city.</p>
+                     <a href="#">Learn More</a>
                   </div>
                </div>
-               <!-- Card 2 -->
-               <div class="col-md-4">
-                  <div class="trip-card">
-                     <img src="assets/img/pokhara.jpg" alt="Cultural Trip">
-                     <div class="trip-card-body">
-                        <h3 class="trip-card-title">Pokhara</h3>
-                        <p class="trip-card-text">Enjoy serene lakes, mountain views,and budget-friendly homestays in
-                           this peaceful lakeside city.</p>
-                        <a href="#">Learn More</a>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 3 -->
-               <div class="col-md-4">
-                  <div class="trip-card">
-                     <img src="assets/img/lumbini.jpg" alt="Budget Travel">
-                     <div class="trip-card-body">
-                        <h3 class="trip-card-title">Lumbini</h3>
-                        <p class="trip-card-text">Discover Buddha’s birthplace, serene monasteries, and budget stays in
-                           Lumbini, Nepal. </p>
-                        <a href="#">Learn More</a>
-                     </div>
-                  </div>
-               </div>
-
             </div>
-         </div>
-      </div>
-      <div class="features" style="margin-top:-50px;">
-         <div class="container text-center py-5 card-container">
-            <div class="container-custom" style="margin:0 auto;">
-               <a href="destination" class="btn btn-custom">VIEW ALL DESTINATIONS</a>
+            <!-- Card 3 -->
+            <div class="col-md-4">
+               <div class="trip-card">
+                  <img src="assets/img/lumbini.jpg" alt="Budget Travel">
+                  <div class="trip-card-body">
+                     <h3 class="trip-card-title">Lumbini</h3>
+                     <p class="trip-card-text">Discover Buddha’s birthplace, serene monasteries, and budget stays in
+                        Lumbini, Nepal. </p>
+                     <a href="#">Learn More</a>
+                  </div>
+               </div>
             </div>
+
          </div>
       </div>
-
-      <div class="features">
-         <div class="container text-center py-5">
-
-            <h1>Explore The Best Travel Deals</h1>
-            <p>A new journey begin here within, find a destination that suits you and start travelling. We offer best
-               travel packages.</p>
-            <div class="divider"></div>
+   </div>
+   <div class="features" style="margin-top:-50px;">
+      <div class="container text-center py-5 card-container">
+         <div class="container-custom" style="margin:0 auto;">
+            <a href="destination" class="btn btn-custom">VIEW ALL DESTINATIONS</a>
          </div>
       </div>
-      <div class="features">
-         <div class="container text-center py-5 card-container" id="card-container"
-            style="row-gap:20px; background-color:transparent;">
-            <?php for ($i = 0; $i < 3; $i++) { ?>
-               <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
-                  <div class="position-relative">
-                     <div class="carousel">
-                        <div class="carousel-container">
-                           <img src="assets/img/mustang.jpg" class="slide active">
-                           <img src="assets/img/Manaslu.jpg" class="slide">
-                           <img src="assets/img/nature.jpg" class="slide">
-                        </div>
-                     </div>
-                     <span class="badge-featured">
-                        Featured
-                     </span>
-                  </div>
-                  <div class="card-top">
-                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center" style="padding:10px 0px 10px 0px">
-                           <h5 class="card-title mb-0">
-                              Paris Effiel Tower Tour 1 Day Tour
-                           </h5>
+   </div>
 
-                        </div>
-                        <div class="me-3 card-contents" style="padding:10px 0px 10px 0px; border-bottom:1px solid gray;">
-                           <p class="mb-1">
-                              Travel is the movement of people between relatively distant geographical...
-                           </p>
-                        </div>
+   <div class="features">
+      <div class="container text-center py-5">
+
+         <h1>Explore The Best Travel Deals</h1>
+         <p>A new journey begin here within, find a destination that suits you and start travelling. We offer best
+            travel packages.</p>
+         <div class="divider"></div>
+      </div>
+   </div>
+   <div class="features">
+      <div class="container text-center py-5 card-container" id="card-container"
+         style="row-gap:20px; background-color:transparent;">
+         <?php for ($i = 0; $i < 3; $i++) { ?>
+            <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
+               <div class="position-relative">
+                  <div class="carousel">
+                     <div class="carousel-container">
+                        <img src="assets/img/mustang.jpg" class="slide active">
+                        <img src="assets/img/Manaslu.jpg" class="slide">
+                        <img src="assets/img/nature.jpg" class="slide">
                      </div>
                   </div>
-                  <div>
-                     <div class=" d-flex mb-3">
-                        <div class="me-3 card-contents" style="padding-left:15px;">
-                           <p class="mb-1">
-                              <i class="fas fa-map-marker-alt" style="color:green; margin-right:10px;">
-                              </i>
-                              France, India, Nepal, Srilanka
-                           </p>
-                           <p class="mb-1">
-                              <i class="fas fa-clock" style="color:green; margin-right:5px;">
-                              </i>
-                              5 Hours
-                           </p>
-                           <p class="mb-1">
-                              <i class="fas fa-users" style="color:green; margin-right:2px;">
-                              </i>
-                              1-10 People
-                           </p>
-                        </div>
-                        <div class="me-3 card-contents">
-                           <div class="price" style="margin-top:50%;">
-                              <h2>$3000</h2>
-                           </div>
+                  <span class="badge-featured">
+                     Featured
+                  </span>
+               </div>
+               <div class="card-top">
+                  <div class="card-body">
+                     <div class="d-flex justify-content-between align-items-center" style="padding:10px 0px 10px 0px">
+                        <h5 class="card-title mb-0">
+                           Paris Effiel Tower Tour 1 Day Tour
+                        </h5>
+
+                     </div>
+                     <div class="me-3 card-contents" style="padding:10px 0px 10px 0px; border-bottom:1px solid gray;">
+                        <p class="mb-1">
+                           Travel is the movement of people between relatively distant geographical...
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div>
+                  <div class=" d-flex mb-3">
+                     <div class="me-3 card-contents" style="padding-left:15px;">
+                        <p class="mb-1">
+                           <i class="fas fa-map-marker-alt" style="color:green; margin-right:10px;">
+                           </i>
+                           France, India, Nepal, Srilanka
+                        </p>
+                        <p class="mb-1">
+                           <i class="fas fa-clock" style="color:green; margin-right:5px;">
+                           </i>
+                           5 Hours
+                        </p>
+                        <p class="mb-1">
+                           <i class="fas fa-users" style="color:green; margin-right:2px;">
+                           </i>
+                           1-10 People
+                        </p>
+                     </div>
+                     <div class="me-3 card-contents">
+                        <div class="price" style="margin-top:50%;">
+                           <h2>$3000</h2>
                         </div>
                      </div>
                   </div>
                </div>
-            <?php } ?>
-         </div>
+            </div>
+         <?php } ?>
       </div>
-      <div class="features">
-         <div class="container text-center py-5">
-            <h1>Client Reviews</h1>
-            <p>Get started with Reviews</p>
-            <div class="divider"></div>
-         </div>
+   </div>
+   <div class="features">
+      <div class="container text-center py-5">
+         <h1>Client Reviews</h1>
+         <p>Get started with Reviews</p>
+         <div class="divider"></div>
       </div>
+   </div>
    </div>
    <div class="features" style="margin-top:-40px;">
       <div class="container text-center py-5 card-container">

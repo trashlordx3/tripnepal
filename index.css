@@ -9,11 +9,12 @@
   font-weight: 400;
   font-style: normal;
 }
+body {
+  padding-top: 160px;
+  /* Adjust this value if needed */
+}
 
 /* header css */
-.header-section {
-  position: fixed;
-}
 .bg-teal {
   background-color: #008080;
 }
@@ -23,7 +24,7 @@
 }
 
 .navbar {
-  max-height: 100px;
+  min-height: 70px;
   transition: top 0.3s ease-in-out;
 }
 
@@ -51,7 +52,8 @@
 
 /* Add this to ensure the navbar is below the top header */
 .navbar.fixed-top {
-  top: 40px; /* Adjust this value to match the height of the top header */
+  top: 40px;
+  /* Adjust this value to match the height of the top header */
 }
 
 .top-header {
@@ -67,7 +69,6 @@
 .navbar.fixed-top.show-navbar {
   top: 0;
 }
-
 #social-icon {
   color: white;
   margin-left: 15px;
@@ -227,6 +228,9 @@
     width: 100%;
   }
 }
+
+/* card container index.php */
+
 /* features */
 
 /* testimonials css */
