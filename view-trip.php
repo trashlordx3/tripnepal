@@ -9,515 +9,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
-    <style>
-        .gallery img {
-            width: 200px;
-            height: 100px;
-            cursor: pointer;
-            margin: 5px;
-        }
+    <link rel="stylesheet" href="assets/css/view-trip.css">
 
-        /* Custom modal size */
-        .modal-dialog {
-            max-width: 80%;
-            /* Increase the width of the modal */
-            max-height: 90vh;
-            /* Increase the height of the modal */
-        }
-
-
-        /* Ensure the modal image fits within the modal */
-        .modal-body img {
-            max-width: 100%;
-            max-height: 70vh;
-            /* Adjust based on your needs */
-            object-fit: contain;
-            /* Ensures the image fits without distortion */
-        }
-
-        /* Adjust the close button position */
-        .btn-close {
-            background-color: green;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1;
-        }
-
-        .img-fluid {
-            width: 1000px;
-            margin-bottom: 20px;
-        }
-
-        .trip-info {
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
-        }
-
-        .trip-facts {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-row-gap: 20px;
-            grid-column-gap: 100px;
-        }
-
-
-        #fact-icon {
-            color: green;
-            margin-right: 5px;
-        }
-
-        .itinery-menu {
-            border-bottom: 1px solid gray;
-            padding: 10px 20px 10px 10px;
-            margin-top: 20px;
-            width: 100%;
-            display: flex;
-            gap: 4rem;
-
-        }
-
-        .itinery-menu a {
-            text-decoration: none;
-            color: black;
-
-        }
-
-        .overview {
-            margin-top: 10px;
-        }
-
-
-
-        .sticky-menu {
-            margin-top: 70px;
-            height: 40px;
-            justify-content: center;
-            align-items: center;
-            border: none;
-            z-index: 9;
-            transition: all 0.s ease-in-out;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: white;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-            /* Optional: Adds a shadow */
-            padding: 15px;
-        }
-
-        #check-icon {
-            color: green;
-            margin-right: 10px;
-        }
-
-        #cross-icon {
-            color: red;
-            margin-right: 10px;
-        }
-
-        .faq-head {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .itinerary-container {
-            background-color: none;
-            max-width: 100%;
-
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .faq-container {
-            background-color: none;
-            max-width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .itinerary-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            font-weight: bold;
-        }
-
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toggle-label {
-            font-size: 14px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 40px;
-            height: 20px;
-            background: #ccc;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background 0.3s ease-in-out;
-        }
-
-        .toggle-switch::before {
-            content: "";
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: 0.3s ease-in-out;
-        }
-
-        .toggle-switch.active {
-            background: #007bff;
-        }
-
-        .toggle-switch.active::before {
-            left: 22px;
-        }
-
-        /* .day {} */
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .day-content {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 15px;
-            background: #fff;
-            transition: max-height 0.5s ease-in-out, padding 0.3s ease-in-out;
-        }
-
-        .expanded .day-content {
-            padding: 10px 15px;
-        }
-
-        .icon {
-            transition: transform 0.3s ease;
-        }
-
-        .expanded .icon {
-            transform: rotate(180deg);
-        }
-
-
-
-        iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
-        }
-
-        .enquiry-container {
-            max-width: 800px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        .enquiry-container h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 700;
-            color: #555;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 98%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #008080;
-            outline: none;
-        }
-
-        input[type="submit"] {
-            background-color: #008080;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 700;
-            padding: 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #008080;
-        }
-
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .col-half {
-            flex: 1;
-            min-width: calc(48% - 10px);
-        }
-
-        .pricing-btn {
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            background-color: rgb(62, 155, 25);
-            width: 45%;
-            border: none;
-            align-items: center;
-            align-content: center;
-            padding: 10px;
-            border-radius: 5px;
-
-        }
-
-        .pricing-btn:hover {
-            background-color: #008080;
-        }
-
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            background-color: none;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            max-width: 400px;
-            max-height: fit-content;
-
-            margin: auto;
-        }
-
-        .card:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .badge-featured {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #ffc107;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-        }
-
-        .price {
-            font-size: 24px;
-            font-weight: bold;
-            color: black;
-
-        }
-
-        .original-price {
-            text-decoration: line-through;
-            color: #6c757d;
-        }
-
-        .btn-view-details {
-            background-color: #fd7e14;
-            color: #fff;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-
-        .btn-view-details:hover {
-            background-color: #e96b0c;
-        }
-
-        .next-departure {
-            font-size: 14px;
-            color: #6c757d;
-        }
-
-        .wishlist-icon {
-            color: #dc3545;
-            font-size: 20px;
-        }
-
-        .card-contents {
-            text-align: left;
-        }
-
-
-        .carousel {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            border-radius: 5px 5px 0px 0px;
-
-        }
-
-        .carousel-container {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .slide {
-            width: 100%;
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-
-        #card-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            /* 3 columns */
-            gap: 20px;
-            /* Spacing between grid items */
-
-            background-color: #f4f4f4;
-        }
-
-        /* view more trips */
-        .btn-custom {
-            border: 1px solid #F4A261;
-            color: #F4A261;
-            background-color: transparent;
-            padding: 10px 20px;
-            font-size: 14px;
-        }
-
-        .btn-custom:hover {
-            background-color: #F4A261;
-            color: white;
-        }
-
-        #view-details-link a {
-            padding: 10px;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            background-color: orange;
-
-        }
-
-        #view-details-link a:hover {
-            background-color: #008080;
-        }
-
-
-        @media(max-width:768px) {
-            .enquiry-container {
-                margin: 10px;
-                padding: 15px;
-            }
-
-            .row {
-                flex-direction: column;
-                gap: 0;
-            }
-
-            .col-half {
-                min-width: 98%;
-            }
-
-            input[type="submit"] {
-                width: 100%;
-            }
-
-            .viewtrip-container {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .trip-info {
-                width: 100% !important;
-            }
-
-            .gallery img {
-                height: 100px;
-                width: 170px;
-            }
-
-            .trip-facts {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                grid-row-gap: 20px;
-                grid-column-gap: 40px;
-
-
-            }
-
-            .itinery-menu {
-                gap: 10px;
-            }
-
-            #card-container {
-                grid-template-columns: 1fr;
-            }
-
-            .side-trip-facts {
-                display: none !important;
-            }
-
-        }
-    </style>
 </head>
 
 <body>
     <?php
     include("frontend/header.php");
     ?>
-    <div class="features">
-        <div class="container py-5">
-            <h1>Travel One Place at a time</h1>
-        </div>
-    </div>
+
     <div class="features">
         <div class="container py-5">
             <div class="trip-image-container">
                 <!-- Product Images -->
                 <div class="gallery" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
                     <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)"
-                        style="height: 400px; width: 400px;">
+                        style="height: 300px; width: 400px;">
                     <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)"
-                        style="height: 400px; width: 400px;">
+                        style="height: 300px; width: 400px;">
                     <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)"
-                        style="height: 400px; width: 400px;">
+                        style="height: 300px; width: 400px;">
                 </div>
                 <!-- Modal Structure -->
                 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
@@ -577,13 +88,7 @@
                                 </div>
                                 <div class=""><span>Bus, Airlines</span></div>
                             </div>
-                            <div class="flex items-center">
-                                <div><i class=" fas fa-bus text-teal-500 mr-2"
-                                        id="fact-icon"></i><span>Transportation</span>
-                                </div>
-                                <div class=""><span>Bus, Airlines</span>
-                                </div>
-                            </div>
+
                             <div class="flex items-center">
                                 <div><i class="fas fa-hotel text-teal-500 mr-2"
                                         id="fact-icon"></i><span>Accomodation</span>
@@ -657,7 +162,6 @@
                             <a href="#itinerary" onclick="setActiveMenuItem(2)">Cost</a>
                             <a href="#cost" onclick="setActiveMenuItem(3)">FAQs</a>
                             <a href="#faqs" onclick="setActiveMenuItem(4)">Map</a>
-                            <a href="#map" onclick="setActiveMenuItem(5)">Enquiry</a>
                         </div>
                         <div class="overview" id="overview">
                             <h2>Overview</h2>
@@ -930,118 +434,156 @@
                         </div>
                     </div>
                     <div class="trip-pricing">
-                        <div class="check-ins" style="width: 370px;">
-                            <div class="price"
-                                style="text-align: center; background-color:rgb(83, 192, 192); border-radius: 5px 5px 0px 0px; padding:10px;">
-                                <h3>Trip Price</h3>
+                        <div class="check-ins" style="width:330px;">
+                            <div class="price-head">
+                                <h3>Price</h3>
                             </div>
-                            <div class="pricing" style="text-align: center;">
-                                <span>From </span><span style="font-size: 2rem;">$3000</span><span
-                                    style="color: gray;">/Adult</span>
+                            <div class="pricing"
+                                style="text-align: center; display:flex; justify-content:space-evenly; padding:15px 0px 15px 0px;">
+                                <div class="price1">
+                                    <span style="color: black;">From </span> <span
+                                        style="font-size: 2rem;">$300</span><span style="color: black;">/Person</span>
+                                </div>
                             </div>
-                            <div class="pricing" style="text-align: center;">
-                                <span style="font-size: 2rem;">$300</span><span style="color: gray;">/Child</span>
-                            </div>
-                            <div class="highlite" style="margin:10px 0px 10px 0px;">
+                            <div class="highlite"
+                                style="margin:10px 0px 10px 0px; padding-bottom:2rem; padding-left:10px;">
                                 <i class="fas fa-check" id="check-icon"></i><span>Best Price Guaranteed</span><br>
                                 <i class="fas fa-check" id="check-icon"></i><span>No Booking Fees</span><br>
                                 <i class="fas fa-check" id="check-icon"></i><span>Professional Guides</span><br>
                             </div>
-                            <div class="trip-fact-right">
+                            <div class="trip-fact-right" style="padding-left: 10px;">
                                 <h4>Next Departure:</h4>
-                                <ul style="list-style-type: none;">
+                                <ul style=" list-style-type: none;">
                                     <li>Jan 2025</li>
                                     <li>Feb 2025</li>
                                     <li>March 2025</li>
                                     <li>April 2025</li>
                                 </ul>
-
                             </div>
                             <div class="action" style="display: flex; justify-content: space-between;">
-                                <a href="#enquiry-form" class="pricing-btn">Enquiry
-
-                                </a>
-                                <a href="" class="pricing-btn">
+                                <a href="" class="pricing-btn"><i class="fas fa-ticket-alt text-teal-500 mr-2"></i>
                                     Book Now
                                 </a>
                             </div>
+                            <div style="text-align: center;padding:20px 0px 10px 0px;">
+                                <p>Need help in booking ? <a href="#enquiry-form" style="text-decoration: none;">Enquiry
+                                        Now</a></p>
+                            </div>
                         </div>
+                        <script>
+                            // document.addEventListener("DOMContentLoaded", function () {
+                            //     const checkIns = document.querySelector(".check-ins");
+                            //     const parentDiv = checkIns.parentElement; // Get parent container
+                            //     checkIns.style.display = "block";
+
+                            //     const showAfter = 1700;  // When to stick
+                            //     const hideAfter = parentDiv.offsetTop + parentDiv.offsetHeight - checkIns.offsetHeight; // Stop sticking when reaching bottom of parent
+
+                            //     window.addEventListener("scroll", function () {
+                            //         let scrollY = window.scrollY;
+
+                            //         if (scrollY >= showAfter && scrollY <= hideAfter) {
+                            //             checkIns.style.position = "fixed";
+                            //             checkIns.style.top = "150px";
+                            //             checkIns.style.width = "330px";
+                            //             checkIns.style.zIndex = "1000";
+                            //             checkIns.style.backgroundColor = "white";
+                            //             checkIns.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
+                            //             checkIns.style.opacity = "1";
+                            //             checkIns.style.transform = "translateY(0)";
+                            //             checkIns.style.pointerEvents = "auto";
+                            //         } else if (scrollY > hideAfter) {
+                            //             checkIns.style.position = "absolute";
+                            //             checkIns.style.top = `${hideAfter - parentDiv.offsetTop}px`; // Stick to bottom of parent
+                            //             checkIns.style.opacity = "1"; // Keep it visible
+                            //         } else {
+                            //             checkIns.style.position = "static";
+                            //             checkIns.style.opacity = "1"; // Make sure it stays visible when at top
+                            //             checkIns.style.transform = "translateY(0)";
+                            //             checkIns.style.pointerEvents = "auto";
+                            //             checkIns.style.boxShadow = "none";
+                            //         }
+                            //     });
+                            // });
+                        </script>
                         <div class="trip-fact-right" style="height: 100px;">
-                        </div>
-                        <div class="side-trip-facts"
-                            style="display: flex; flex-direction: column; grid-row-gap:30px; padding:30px 0px 0px 30px;">
-                            <div class="flex items-center">
-                                <div><i class=" fas fa-bus text-teal-500 mr-2"
-                                        id="fact-icon"></i><span>Transportation</span>
-                                </div>
-                                <div class=""><span>Bus, Airlines</span>
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-hotel text-teal-500 mr-2"
-                                        id="fact-icon"></i><span>Accomodation</span>
-                                </div>
-                                <div class=""><span>3 Stars Hotels</span>
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-mountain text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
-                                        Altitude</span>
-                                </div>
-                                <div class=""><span>5,416 metres</span></div>
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-plane-departure text-teal-500 mr-2"
-                                        id="fact-icon"></i><span>Departure
-                                        from</span></div>
-                                <div class=""><span>Kathmandu</span></div>
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-calendar-alt text-teal-500 mr-2" id="fact-icon"></i><span>Best
-                                        season</span></div>
-                                <div><span>Feb, Mar, Apr & May</span></div>
-                            </div>
-                            <div class="flex items-center">
-                                <div> <i class="fas fa-hiking text-teal-500 mr-2" id="fact-icon"></i><span>Tour
-                                        type</span></div>
 
-                                <div class=""><span>Eco-Tour, Hiking</span></div>
-
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-utensils text-teal-500 mr-2" id="fact-icon"></i><span>Meals</span>
+                            <div class="side-trip-facts"
+                                style="display: flex; flex-direction: column; grid-row-gap:30px; padding:30px 0px 0px 30px;">
+                                <div class="flex items-center">
+                                    <div><i class=" fas fa-bus text-teal-500 mr-2"
+                                            id="fact-icon"></i><span>Transportation</span>
+                                    </div>
+                                    <div class=""><span>Bus, Airlines</span>
+                                    </div>
                                 </div>
-                                <div class=""><span>All meals during the trek</span></div>
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-language text-teal-500 mr-2"
-                                        id="fact-icon"></i><span>Language</span></div>
-                                <div class=""><span>English, Spanish, French, Chinese</span></div>
-
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-dumbbell text-teal-500 mr-2" id="fact-icon"></i> <span>Fitness
-                                        level</span>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-hotel text-teal-500 mr-2"
+                                            id="fact-icon"></i><span>Accomodation</span>
+                                    </div>
+                                    <div class=""><span>3 Stars Hotels</span>
+                                    </div>
                                 </div>
-                                <div class=""><span>Easy to Moderate</span></div>
-
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-users text-teal-500 mr-2" id="fact-icon"></i><span>Group
-                                        Size</span></div>
-                                <div class=""><span>2-15</span></div>
-
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-child text-teal-500 mr-2" id="fact-icon"></i><span>Minimum
-                                        Age</span></div>
-                                <div class=""><span>12</span></div>
-                            </div>
-                            <div class="flex items-center">
-                                <div><i class="fas fa-user-alt text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
-                                        Age</span>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-mountain text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
+                                            Altitude</span>
+                                    </div>
+                                    <div class=""><span>5,416 metres</span></div>
                                 </div>
-                                <div class=""><span>65</span></div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-plane-departure text-teal-500 mr-2"
+                                            id="fact-icon"></i><span>Departure
+                                            from</span></div>
+                                    <div class=""><span>Kathmandu</span></div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-calendar-alt text-teal-500 mr-2" id="fact-icon"></i><span>Best
+                                            season</span></div>
+                                    <div><span>Feb, Mar, Apr & May</span></div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div> <i class="fas fa-hiking text-teal-500 mr-2" id="fact-icon"></i><span>Tour
+                                            type</span></div>
+
+                                    <div class=""><span>Eco-Tour, Hiking</span></div>
+
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-utensils text-teal-500 mr-2"
+                                            id="fact-icon"></i><span>Meals</span>
+                                    </div>
+                                    <div class=""><span>All meals during the trek</span></div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-language text-teal-500 mr-2"
+                                            id="fact-icon"></i><span>Language</span></div>
+                                    <div class=""><span>English, Spanish, French, Chinese</span></div>
+
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-dumbbell text-teal-500 mr-2" id="fact-icon"></i> <span>Fitness
+                                            level</span>
+                                    </div>
+                                    <div class=""><span>Easy to Moderate</span></div>
+
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-users text-teal-500 mr-2" id="fact-icon"></i><span>Group
+                                            Size</span></div>
+                                    <div class=""><span>2-15</span></div>
+
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-child text-teal-500 mr-2" id="fact-icon"></i><span>Minimum
+                                            Age</span></div>
+                                    <div class=""><span>12</span></div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div><i class="fas fa-user-alt text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
+                                            Age</span>
+                                    </div>
+                                    <div class=""><span>65</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
