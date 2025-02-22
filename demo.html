@@ -4,202 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Itinerary</title>
+    <title>Multiple Counters</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
         }
 
-        .itinerary-container {
-            max-width: 700px;
-
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
+        .counter-container {
+            margin: 20px auto;
         }
 
-        .itinerary-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #e0e0e0;
-            padding: 10px 15px;
-            font-weight: bold;
+        .counter {
+            font-size: 2rem;
+            margin: 20px;
         }
 
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toggle-label {
-            font-size: 14px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 40px;
-            height: 20px;
-            background: #ccc;
-            border-radius: 20px;
+        button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
             cursor: pointer;
-            transition: background 0.3s ease-in-out;
+            border-radius: 5px;
         }
 
-        .toggle-switch::before {
-            content: "";
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: 0.3s ease-in-out;
+        .plus {
+            background-color: green;
+            color: white;
         }
 
-        .toggle-switch.active {
-            background: #007bff;
-        }
-
-        .toggle-switch.active::before {
-            left: 22px;
-        }
-
-        .day {
-            border-bottom: 1px solid #ccc;
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f0f0f0;
-            padding: 10px 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .day-content {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 15px;
-            background: #fff;
-            transition: max-height 0.5s ease-in-out, padding 0.3s ease-in-out;
-        }
-
-
-        .expanded .day-content {
-            padding: 10px 15px;
-        }
-
-        .icon {
-            transition: transform 0.3s ease;
-        }
-
-        .expanded .icon {
-            transform: rotate(180deg);
+        .minus {
+            background-color: red;
+            color: white;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="itinerary-container">
-        <div class="itinerary-header">
-            <span>Itinerary</span>
-            <div class="toggle-container">
-                <label class="toggle-label">Expand All</label>
-                <div class="toggle-switch" onclick="toggleAll()"></div>
-            </div>
-        </div>
+    <h2>Counter 1</h2>
+    <div class="counter-container">
+        <button type="button" class="minus" onclick="changeCount(this, -1)">-</button>
+        <span class="counter" data-count="1">1</span>
+        <button type="button" class="plus" onclick="changeCount(this, 1)">+</button>
+    </div>
 
-        <div class="day">
-            <div class="day-header" onclick="toggleDay(this)">
-                <span>Day 1: Kathmandu to Pokhara (By flight or Bus)</span>
-                <span class="icon">⌄</span>
-            </div>
-            <div class="day-content">
-                Arrive at Tribhuwan Internafasdfasdfasadfasf adfasfas
-                asdfadfasf
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat nulla impedit obcaecati? Amet eligendi
-                alias, tempore consectetur assumenda architecto dolores.
-                tional Airport, Kathmandu. You are welcomed by the team and then transferred
-                to your hotel. This trail goes through Ghorepani Poon Hill.
-            </div>
-        </div>
-
-        <div class="day">
-            <div class="day-header" onclick="toggleDay(this)">
-                <span>Day 2: Drive to Nayapul and trek to Ulleri</span>
-                <span class="icon">⌄</span>
-            </div>
-            <div class="day-content">
-                Drive to Nayapul and begin your trek to Ulleri, passing through lush landscapes and small villages.
-            </div>
-        </div>
-
-        <div class="day">
-            <div class="day-header" onclick="toggleDay(this)">
-                <span>Day 3: Trek to Ghorepani</span>
-                <span class="icon">⌄</span>
-            </div>
-            <div class="day-content">
-                Continue your trek through rhododendron forests to reach the beautiful village of Ghorepani.
-            </div>
-        </div>
-
-        <div class="day">
-            <div class="day-header" onclick="toggleDay(this)">
-                <span>Day 4: Early trek to Poon Hill, Back to Ghorepani and trek to Tadapani</span>
-                <span class="icon">⌄</span>
-            </div>
-            <div class="day-content">
-                An early morning trek to Poon Hill for a breathtaking sunrise view, then return to Ghorepani and proceed
-                to Tadapani.
-            </div>
-        </div>
+    <h2>Counter 2</h2>
+    <div class="counter-container">
+        <button type="button" class="minus" onclick="changeCount(this, -1)">-</button>
+        <span class="counter" data-count="1">1</span>
+        <button type="button" class="plus" onclick="changeCount(this, 1)">+</button>
     </div>
 
     <script>
-        function toggleDay(element) {
-            let day = element.parentElement;
-            let content = day.querySelector('.day-content');
-            let icon = element.querySelector('.icon');
+        function changeCount(button, value) {
+            let counterElement = button.parentElement.querySelector(".counter");
+            let count = parseInt(counterElement.getAttribute("data-count"));
 
-            if (day.classList.contains("expanded")) {
-                content.style.maxHeight = "0";
-                content.style.padding = "0 15px";
-                day.classList.remove("expanded");
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                content.style.padding = "10px 15px";
-                day.classList.add("expanded");
-            }
-        }
+            count += value;
 
-        function toggleAll() {
-            let toggleSwitch = document.querySelector('.toggle-switch');
-            let days = document.querySelectorAll('.day');
-            let expand = !toggleSwitch.classList.contains("active");
+            if (count < 1) count = 1; // Prevent going below 1
 
-            days.forEach(day => {
-                let content = day.querySelector('.day-content');
-
-                if (expand) {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    content.style.padding = "10px 15px";
-                    day.classList.add("expanded");
-                } else {
-                    content.style.maxHeight = "0";
-                    content.style.padding = "0 15px";
-                    day.classList.remove("expanded");
-                }
-            });
-
-            toggleSwitch.classList.toggle("active", expand);
-            document.querySelector(".toggle-label").textContent = expand ? "Collapse All" : "Expand All";
+            counterElement.setAttribute("data-count", count);
+            counterElement.innerText = count;
         }
     </script>
 
