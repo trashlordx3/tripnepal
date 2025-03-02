@@ -18,6 +18,9 @@
     <?php
     include("frontend/header.php");
     ?>
+    <div class="features">
+        <div class="container py-5 "></div>
+    </div>
     <?php
     include("frontend/footer.php");
     ?>

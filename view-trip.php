@@ -461,7 +461,8 @@
                                 </ul>
                             </div>
                             <div class="action" style="display: flex; justify-content: space-between;">
-                                <a href="" class="pricing-btn"><i class="fas fa-ticket-alt text-teal-500 mr-2"></i>
+                                <a href="book-trip" class="pricing-btn"><i
+                                        class="fas fa-ticket-alt text-teal-500 mr-2"></i>
                                     Book Now
                                 </a>
                             </div>
