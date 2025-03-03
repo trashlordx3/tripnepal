@@ -101,17 +101,79 @@
             background-color: #008080;
         }
 
+        .user-contents form {
+            width: 50%;
+            padding: 20px;
+            background-color: whitesmoke;
+            box-shadow:
+                5px 5px 10px rgb(201, 201, 201),
+                /* Bottom-right shadow */
+                -5px 5px 10px rgb(201, 201, 201);
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            row-gap: 20px;
+            column-gap: 10px;
+        }
+
+        .user-contents form form-child {
+            padding: 5px;
+
+        }
+
+        .user-contents form label {
+            background-color: #008080;
+            width: 100%;
+            color: white;
+            padding: 5px;
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .user-contents form input,
+        .user-contents form select {
+            width: 100%;
+            border: 1px solid gray;
+            padding: 10px;
+            border: none;
+            border-radius: 0px 0px 5px 5px;
+
+        }
+
+        .user-contents form button {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            background-color: #008080;
+            color: white;
+            border: none;
+            margin: 0 auto;
+        }
+
         @media (max-width: 768px) {
             .profile-top {
                 display: flex;
                 flex-direction: column;
             }
 
+            .top-container,
+            .navigation-menu,
+            .user-contents {
+                width: 95%;
+            }
+
             .user-contents {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
+
+            }
+
+            .user-contents form {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                row-gap: 20px;
+                column-gap: 10px;
             }
         }
     </style>
@@ -132,12 +194,11 @@
                         Welcome suresh!
                     </h1>
                 </div>
-                <a class="logout-btn" href="loginm.php" onclick="return confirm('Are you sure want to logout?');">
+                <a class="logout-btn" href="login" onclick="return confirm('Are you sure want to logout?');">
                     <i class="fas fa-sign-out-alt mr-2">
                     </i>
                     Log Out
                 </a>
-
             </div>
             <div class="navigation-menu">
                 <a href="my-account" class="nav-btn"><i class="fas fa-calendar-alt"></i>
@@ -156,7 +217,7 @@
 
                 // Set the first link as active if there are any links
                 if (links.length > 0) {
-                    links[0].classList.add('active'); // Changed to 0 to set the first link as active
+                    links[2].classList.add('active'); // Changed to 0 to set the first link as active
                 }
 
                 // Add click event listener to each link
@@ -176,40 +237,45 @@
                     });
                 });
             </script>
-
             <div class="user-contents">
-                <h1>Your Bookings</h1>
-            </div>
-            <div class="user-contents">
-                <div class="booking-image">
-                    <img src="assets/img/lumbini.jpg" alt="" height="200" width="200">
-                </div>
-                <div class="booking-details"">
-                    <h4> Trip to MustangTrip to MustangTrip to Mustang</h4>
-                    <div>
-                        <h5>Departure : </h5>
-                        <h6>February 1, 2026</h6>
+                <h1>Account Setting</h1>
+                <form action="">
+                    <div class="form-child">
+                        <label for="">Email: <span style="color:red">*</span></label><br>
+                        <input type="text" name="" id="">
                     </div>
-                    <div>
-                        <h5>Booking status : </h5>
-                        <h6>Pending</h6>
+                    <div class="form-child">
+                        <label for="">First Name: <span style="color:red">*</span></label><br>
+                        <input type="text" name="" id="">
                     </div>
-                    <div>
-                        <h5>Total : $1,300 </h5>
+                    <div class="form-child">
+                        <label for="">Last Name <span style="color:red">*</span></label><br>
+                        <input type="number">
+                    </div>
+                    <div class="form-child">
+                        <label for="">change Password: Yes/No</label><br>
 
+                        <select name="chpass" id="chpass">
+                            <option value="No" selected>No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
                     </div>
-                    <div>
-                        <h5>Paid : $0 </h5>
+                    <div class="form-child">
+                        <label for="">New Password:</label><br>
+                        <input type="number" name="" id="" placeholder="--blank if no change--">
+                    </div>
+                    <div class="form-child">
+                        <label for="countries">Confirm Password:</label>
+                        <br>
+                        <input type="text" name="" id="" placeholder="--blank if no change--">
+                    </div>
+                    <div class="form-child">
+                        <button type="submit">SAVE</button>
+                    </div>
+                </form>
 
-                    </div>
-                </div>
-                <div class=" view-detail">
-                    <div class="paynow">
-                        <a href="" class="paynow-btn">Pay Now</a>
-                        <a href="" class="paynow-btn">View Details</a>
-                    </div>
-                </div>
             </div>
+
         </div>
     </div>
     <?php
