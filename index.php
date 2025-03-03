@@ -449,7 +449,7 @@
                <div class="position-relative">
                   <div class="carousel">
                      <div class="carousel-container">
-                        <a href="view-trip">
+                        <a href="view-tripll">
                            <img src="assets/img/mustang.jpg" class="slide active">
                         </a>
                      </div>

@@ -319,22 +319,26 @@
                                 Best Deals
                             </div>
                             <div class="right-trips-link">
-                                <div class="md-6">
+                                <div class="md-6
+                                ">
                                     <i class="fas fa-hand-point-right" style="color:green; margin-right:10px;"></i><a
                                         href="">Trip to Kathmandu
                                         Valley</a>
                                 </div>
-                                <div class="md-6">
+                                <div class="md-6
+                                ">
                                     <i class="fas fa-hand-point-right" style="color:green; margin-right:10px;"></i><a
                                         href="">Trip to Kathmandu
                                         Valley</a>
                                 </div>
-                                <div class="md-6">
+                                <div class="md-6
+                                ">
                                     <i class="fas fa-hand-point-right" style="color:green; margin-right:10px;"></i><a
                                         href="">Trip to Kathmandu
                                         Valley</a>
                                 </div>
-                                <div class="md-6">
+                                <div class="md-6
+                                ">
                                     <i class="fas fa-hand-point-right" style="color:green; margin-right:10px;"></i><a
                                         href="">Trip to Kathmandu
                                         Valley</a>

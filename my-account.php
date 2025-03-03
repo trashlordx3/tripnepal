@@ -128,6 +128,14 @@
                 });
             </script>
             <div class="user-contents">
+                <div class="booking-image">
+                    <img src="/assets/img/mustang.jpg" alt="" height="200" width="200">
+                    <h3>Trip to Mustang</h3>
+                </div>
+                <div class="booking-details">
+
+                </div>
+                <div class="view-detail"></div>
 
             </div>
 
