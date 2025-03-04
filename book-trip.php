@@ -170,6 +170,14 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>
+                                        City :
+                                    </label>
+                                    <input class="form-control" id="city" required="" type="text" />
+                                    <div class="error" id="cityError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>
                                         Country :
                                     </label>
                                     <select class="form-control" id="country" required="">
@@ -455,7 +463,15 @@
             } else {
                 telError.textContent = '';
             }
-
+            // validate city
+            const cityName = document.getElementById('city`');
+            const cityError = document.getElementById('cityError');
+            if (fullName.value.trim() === '') {
+                cityError.textContent = 'Please enter your city name.';
+                isValid = false;
+            } else {
+                cityError.textContent = '';
+            }
             // Validate Country
             const country = document.getElementById('country');
             const countryError = document.getElementById('countryError');

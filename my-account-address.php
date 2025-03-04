@@ -74,6 +74,7 @@
             align-items: center;
             justify-content: space-between;
             display: flex;
+            flex-direction: column;
         }
 
         .user-contents img {
@@ -102,7 +103,7 @@
         }
 
         .user-contents form {
-            width: 60%;
+            width: 100%;
             padding: 10px;
             background-color: whitesmoke;
             box-shadow:
@@ -187,7 +188,7 @@
                 <div class="profile-top" style="display: flex; gap: 20px; align-items: center;">
                     <img alt="User profile picture" class="" height="80"
                         src="https://storage.googleapis.com/a1aa/image/lYqBODwnaMU-b05_oodpY-_9bnJPEcMy7zRIn0c6F8k.jpg"
-                        width="80" style="border-radius: 50%;" />
+                        width="80" style="border-radius: 20%;" />
                     <h1 class="">
                         Welcome suresh!
                     </h1>
@@ -236,7 +237,7 @@
                 });
             </script>
             <div class="user-contents">
-                <h1>Billing Address</h1>
+                <h1 style="margin-bottom: 40px;"> Address Details</h1>
                 <form action="">
 
                     <div class="form-child">

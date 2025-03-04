@@ -74,6 +74,7 @@
             align-items: center;
             justify-content: space-between;
             display: flex;
+            flex-direction: column;
         }
 
         .user-contents img {
@@ -102,7 +103,7 @@
         }
 
         .user-contents form {
-            width: 50%;
+            width: 100%;
             padding: 20px;
             background-color: whitesmoke;
             box-shadow:
@@ -111,7 +112,7 @@
                 -5px 5px 10px rgb(201, 201, 201);
             border-radius: 5px;
             display: grid;
-            grid-template-columns: repeat(1, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             row-gap: 20px;
             column-gap: 10px;
         }
@@ -134,7 +135,7 @@
             width: 100%;
             border: 1px solid gray;
             padding: 10px;
-            border: none;
+
             border-radius: 0px 0px 5px 5px;
 
         }
@@ -147,6 +148,55 @@
             color: white;
             border: none;
             margin: 0 auto;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            position: relative;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .popup-content form input {
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .popup-content form input:nth-of-type(2) {
+            background-color: #008080;
+            color: white;
+        }
+
+        .popup img {
+            width: 300px;
+            height: 300px;
+            border-radius: 20%;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            background: #008080;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
         }
 
         @media (max-width: 768px) {
@@ -175,6 +225,12 @@
                 row-gap: 20px;
                 column-gap: 10px;
             }
+
+            .popup img {
+                width: 200px;
+                height: 200px;
+                border-radius: 20%;
+            }
         }
     </style>
 </head>
@@ -187,9 +243,12 @@
         <div class="container py-5 ">
             <div class="top-container">
                 <div class="profile-top" style="display: flex; gap: 20px; align-items: center;">
-                    <img alt="User profile picture" class="" height="80"
-                        src="https://storage.googleapis.com/a1aa/image/lYqBODwnaMU-b05_oodpY-_9bnJPEcMy7zRIn0c6F8k.jpg"
-                        width="80" style="border-radius: 50%;" />
+                    <div class="image">
+                        <img id="profilePic" alt="User profile picture" height="80"
+                            src="https://storage.googleapis.com/a1aa/image/lYqBODwnaMU-b05_oodpY-_9bnJPEcMy7zRIn0c6F8k.jpg"
+                            width="80" style="border-radius: 20%; cursor: pointer;" />
+                        <p style="text-align: center; padding-top: 5px;" id="profilePic">Edit</p>
+                    </div>
                     <h1 class="">
                         Welcome suresh!
                     </h1>
@@ -238,7 +297,7 @@
                 });
             </script>
             <div class="user-contents">
-                <h1>Account Setting</h1>
+                <h1 style="margin-bottom: 40px;"> Account Details</h1>
                 <form action="">
                     <div class="form-child">
                         <label for="">Email: <span style="color:red">*</span></label><br>
@@ -284,6 +343,51 @@
     <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
         <i class="fas fa-chevron-up"></i>
     </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()">X</button>
+            <img id="popupImg" src="" alt="Profile Picture">
+            <form action="">
+                <input type="file" id="fileInput" accept="image/*" style="margin-top: 10px;">
+                <p id="errorMessage" style="color: red; display: none;">Invalid file type. Please upload an image.</p>
+                <input type="submit" value="Save Change">
+            </form>
+        </div>
+    </div>
+    <script>
+        const profilePic = document.getElementById('profilePic');
+        const popup = document.getElementById('popup');
+        const popupImg = document.getElementById('popupImg');
+        const fileInput = document.getElementById('fileInput');
+        const errorMessage = document.getElementById('errorMessage');
+
+        profilePic.addEventListener('click', function () {
+            popup.style.display = 'flex';
+            popupImg.src = profilePic.src;
+        });
+
+        function closePopup() {
+            popup.style.display = 'none';
+        }
+
+        fileInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    errorMessage.style.display = 'block';
+                    fileInput.value = ""; // Clear the invalid file
+                    return;
+                }
+                errorMessage.style.display = 'none';
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    profilePic.src = e.target.result;
+                    popupImg.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
     <script>
         window.onscroll = function () {
             var scrollUpButton = document.getElementById("scrollUpButton");

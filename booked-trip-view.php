@@ -71,7 +71,7 @@
         .user-contents {
             max-width: 80%;
             margin: 0 auto;
-            align-items: center;
+
             justify-content: space-between;
             display: flex;
         }
@@ -100,6 +100,20 @@
             color: white;
             background-color: #008080;
         }
+
+        .booking-image {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-image a {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .trip-information .trip-time {}
 
         @media (max-width: 768px) {
             .profile-top {
@@ -145,81 +159,115 @@
 
             </div>
             <div class="navigation-menu">
-                <a href="my-account" class="nav-btn"><i class="fas fa-calendar-alt"></i>
-                    Booking</a>
-                <a href="my-account-address" class="nav-btn">
-                    <i class="fas fa-id-card"></i>
-                    Address
-                </a>
-                <a href="my-account-setting" class="nav-btn"><i class="fas fa-cog"></i>
-
-                    Account</a>
+                <a href="my-account" class="nav-btn"><i class="fas fa-arrow-left"></i>
+                    Go Back</a>
             </div>
-            <script>
-                // Select all the links with the class 'nav-btn'
-                const links = document.querySelectorAll('.nav-btn');
-
-                // Set the first link as active if there are any links
-                if (links.length > 0) {
-                    links[0].classList.add('active'); // Changed to 0 to set the first link as active
-                }
-
-                // Add click event listener to each link
-                links.forEach(link => {
-                    link.addEventListener('click', function (event) {
-                        // Prevent the default action of the link
-                        event.preventDefault();
-
-                        // Remove the 'active' class from all links
-                        links.forEach(l => l.classList.remove('active'));
-
-                        // Add the 'active' class to the clicked link
-                        this.classList.add('active');
-
-                        // Optionally, navigate to the link's href
-                        window.location.href = this.getAttribute('href');
-                    });
-                });
-            </script>
             <div class="user-contents">
-                <h1>Booking Details</h1>
+                <h1>Your Bookings Details</h1>
             </div>
             <div class="user-contents">
                 <div class="booking-image">
                     <img src="assets/img/lumbini.jpg" alt="" height="200" width="200">
+                    <a href="view-trip" class="paynow-btn">View Trip</a>
                 </div>
-                <div class="booking-details"">
-                    <h4> Trip to MustangTrip to MustangTrip to Mustang</h4>
-                    <div>
-                        <h5>Departure : </h5>
-                        <h6>February 1, 2026</h6>
-                    </div>
-                    <div>
-                        <h5>Booking status : </h5>
-                        <h6>Pending</h6>
-                    </div>
-                    <div>
-                        <h5>Total : $1,300 </h5>
-
-                    </div>
-                    <div>
-                        <h5>Paid : $0 </h5>
-
+                <div class="billing-details">
+                    <h2>Trip Information</h2>
+                    <div class=" trip-information">
+                        <h3>7 Days Mustang trek</h3>
+                        <span>Trip Code : </span> <span>WTF-234</span>
+                        <div class="trip-time">
+                            <span>Trip Start Date: </span>
+                            <span>Feb 1, 2026</span><br>
+                            <span>Trip End Date: </span>
+                            <span>Feb 1, 2026</span><br>
+                            <span>Duration: </span>
+                            <span>7 Days</span>
+                        </div>
                     </div>
                 </div>
-                <div class=" view-detail">
-                    <div class="paynow">
-                        <a href="" class="paynow-btn">Pay Now</a>
-                        <a href="booked-trip-view" class="paynow-btn">View Details</a>
+                <div class="booking-details">
+                    <h2>Billing Information</h2>
+                    <table>
+                        <tr>
+                            <td>Name : </td>
+                            <td> Suresh</td>
+                        </tr>
+                        <tr>
+                            <td>Email: </td>
+                            <td>sureshjimba@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>Address: </td>
+                            <td>New York</td>
+                        </tr>
+                        <tr>
+                            <td>Country: </td>
+                            <td>US</td>
+                        </tr>
+                        <tr>
+                            <td>Contact : </td>
+                            <td>+977 234234234</td>
+                        </tr>
+                    </table>
+                    <h5>Travellers</h5>
+                    <div>
+                        <span>No. of person: 2</span>
+                    </div>
+                    <h5>Extra Services</h5>
+                    <div>
+                        <span>Pickup from Kathmandu Airport: 1</span>
+                    </div>
+
+                </div>
+                <div class="payment-details">
+                    <h5>Payment Details</h5>
+                    <div><span>Total: </span> <span>$ 400</span> </div>
+                    <div><span>Status: </span> <span>Pending</span></div>
+                    <div>
+                        <div class="mb-4">
+                            <div class="bg-success text-white p-2 mb-2 book-title">
+                                Payment Method :
+                            </div>
+                            <label style="margin-left:20px;">
+                                Mode of Payment:
+                            </label>
+                            <select class="form-control" id="paymentMode" required="">
+                                <option value="">
+                                    Select Payment Mode
+                                </option>
+                                <option value="Paypal">
+                                    Paypal
+                                </option>
+                            </select>
+                            <div
+                                style="display: flex; justify-content:space-between; align-items:center; padding: 20px 0px 20px 0px;">
+                                <input class="mr-2" id="notRobot" required="" type="checkbox" />
+                                <label class="mr-2">
+                                    I'm not a robot
+                                </label>
+                                <img alt="reCAPTCHA verification" class="img-fluid" height="50"
+                                    src="https://storage.googleapis.com/a1aa/image/gXTOh7QaVJ0xctIwQI9PNHXYjL0ypahPF8sCScd6J-U.jpg"
+                                    width="50" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button class="btn btn-warning text-white px-5" type="submit">
+                            Pay Now
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="bg-success text-white p-2 mb-2 book-title"></div>
+
     <?php
     include("frontend/footer.php");
     ?>
-    <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
+    <div class=" scroll-up" id="scrollUpButton" onclick="scrollToTop()">
         <i class="fas fa-chevron-up"></i>
     </div>
 
