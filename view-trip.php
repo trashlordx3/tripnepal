@@ -17,7 +17,6 @@
     <?php
     include("frontend/header.php");
     ?>
-
     <div class="features">
         <div class="container py-5">
             <div class="trip-image-container">
@@ -323,7 +322,6 @@
                                     <label for="trip-name">Trip name: <span style="color: red;">*</span></label>
                                     <input type="text" id="name" name="trip-name" placeholder="Enter Your Name *"
                                         required value="Ghorepani Poon Hill Trek">
-
                                     <label for="name">Your name: <span style="color: red;">*</span></label>
                                     <input type="text" id="name" name="name" placeholder="Enter Your Name *" required>
                                     <label for="email">Your email: <span style="color: red;">*</span></label>
@@ -471,42 +469,7 @@
                                         Now</a></p>
                             </div>
                         </div>
-                        <script>
-                            // document.addEventListener("DOMContentLoaded", function () {
-                            //     const checkIns = document.querySelector(".check-ins");
-                            //     const parentDiv = checkIns.parentElement; // Get parent container
-                            //     checkIns.style.display = "block";
 
-                            //     const showAfter = 1700;  // When to stick
-                            //     const hideAfter = parentDiv.offsetTop + parentDiv.offsetHeight - checkIns.offsetHeight; // Stop sticking when reaching bottom of parent
-
-                            //     window.addEventListener("scroll", function () {
-                            //         let scrollY = window.scrollY;
-
-                            //         if (scrollY >= showAfter && scrollY <= hideAfter) {
-                            //             checkIns.style.position = "fixed";
-                            //             checkIns.style.top = "150px";
-                            //             checkIns.style.width = "330px";
-                            //             checkIns.style.zIndex = "1000";
-                            //             checkIns.style.backgroundColor = "white";
-                            //             checkIns.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
-                            //             checkIns.style.opacity = "1";
-                            //             checkIns.style.transform = "translateY(0)";
-                            //             checkIns.style.pointerEvents = "auto";
-                            //         } else if (scrollY > hideAfter) {
-                            //             checkIns.style.position = "absolute";
-                            //             checkIns.style.top = `${hideAfter - parentDiv.offsetTop}px`; // Stick to bottom of parent
-                            //             checkIns.style.opacity = "1"; // Keep it visible
-                            //         } else {
-                            //             checkIns.style.position = "static";
-                            //             checkIns.style.opacity = "1"; // Make sure it stays visible when at top
-                            //             checkIns.style.transform = "translateY(0)";
-                            //             checkIns.style.pointerEvents = "auto";
-                            //             checkIns.style.boxShadow = "none";
-                            //         }
-                            //     });
-                            // });
-                        </script>
                         <div class="trip-fact-right" style="height: 100px;">
 
                             <div class="side-trip-facts"
@@ -658,14 +621,19 @@
                                         Travel is the movement of people between relatively distant geographical...
                                     </p>
                                 </div>
-                                <div class="me-3 card-contents" id="view-details-link" style="padding:10px 0px 10px 0px;">
-                                    <a href="#">VIEW DETAILS</a>
-                                </div>
-                                <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
-                                    <h5>Next Departure: </h5>
-                                    <p class="mb-1">Jan 2025</p>
-                                    <p class="mb-1">Jan 2025</p>
-                                    <p class="mb-1">Jan 2025</p>
+                                <div class="departure-detail"
+                                    style="display: flex; align-items:end; justify-content: space-between;">
+
+                                    <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
+                                        <h5>Next Departure: </h5>
+                                        <p class="mb-1">Jan 2025</p>
+                                        <p class="mb-1">Jan 2025</p>
+                                        <p class="mb-1">Jan 2025</p>
+                                    </div>
+                                    <div class="me-3 card-contents" id="view-details-link"
+                                        style="padding:10px 0px 10px 0px;">
+                                        <a href="#">VIEW DETAILS</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -682,12 +650,6 @@
         </div>
     </div>
     </div>
-
-
-
-
-
-
     <?php
     include("frontend/footer.php");
     ?>

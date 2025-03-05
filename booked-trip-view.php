@@ -118,8 +118,6 @@
             font-size: 20px;
         }
 
-
-
         @media (max-width: 768px) {
             .profile-top {
                 display: flex;
@@ -131,6 +129,14 @@
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+            }
+
+            .user-contents img {
+                width: 100%;
+            }
+
+            .trip-information {
+                width: 100%;
             }
 
 

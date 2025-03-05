@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
-
     </script>
     <style>
         .top-container {
@@ -73,6 +72,7 @@
             margin: 0 auto;
             justify-content: space-between;
             display: flex;
+
         }
 
         .user-contents img {
@@ -88,9 +88,10 @@
         .paynow-btn {
             font-weight: bolder;
             font-size: 20px;
+            text-align: center;
             border-radius: 5px;
             text-decoration: none;
-            padding: 20px;
+            padding: 10px;
             border: 1px solid gray;
             color: #008080;
         }
@@ -104,10 +105,18 @@
             font-weight: bold;
         }
 
+        .trip-information {
+            width: 60%;
+        }
+
         @media (max-width: 768px) {
             .profile-top {
                 display: flex;
                 flex-direction: column;
+            }
+
+            .user-contents img {
+                width: 100%;
             }
 
             .user-contents {
@@ -115,6 +124,10 @@
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+            }
+
+            .trip-information {
+                width: 100%;
             }
 
 
@@ -191,9 +204,8 @@
                 <div class="booking-image">
                     <img src="assets/img/lumbini.jpg" alt="" height="200" width="200">
                 </div>
-                <div class="booking-details"">
                 <div class=" trip-information">
-                    <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
+                    <div class="bg-success text-white p-2 mb-2 book-title">
                         7 Days Mustang trek
                     </div>
                     <table>
@@ -216,42 +228,42 @@
                         </tr>
                     </table>
                 </div>
-            </div>
-            <div class=" view-detail">
-                <div class="paynow">
-                    <a href="" class="paynow-btn">Pay Now</a>
-                    <a href="booked-trip-view" class="paynow-btn">View Details</a>
+
+                <div class=" view-detail">
+                    <div class="paynow">
+                        <a href="" class="paynow-btn">Pay Now</a>
+                        <a href="booked-trip-view" class="paynow-btn">View Details</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    <?php
-    include("frontend/footer.php");
-    ?>
-    <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
-    </div>
 
-    <script>
-        window.onscroll = function () {
-            var scrollUpButton = document.getElementById("scrollUpButton");
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                scrollUpButton.style.display = "flex";
-            } else {
-                scrollUpButton.style.display = "none";
+        <?php
+        include("frontend/footer.php");
+        ?>
+        <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
+            <i class="fas fa-chevron-up"></i>
+        </div>
+
+        <script>
+            window.onscroll = function () {
+                var scrollUpButton = document.getElementById("scrollUpButton");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    scrollUpButton.style.display = "flex";
+                } else {
+                    scrollUpButton.style.display = "none";
+                }
+            };
+
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             }
-        };
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
