@@ -71,7 +71,6 @@
         .user-contents {
             max-width: 80%;
             margin: 0 auto;
-            align-items: center;
             justify-content: space-between;
             display: flex;
         }
@@ -99,6 +98,10 @@
         .paynow-btn:first-of-type {
             color: white;
             background-color: #008080;
+        }
+
+        .bold-span {
+            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -189,32 +192,39 @@
                     <img src="assets/img/lumbini.jpg" alt="" height="200" width="200">
                 </div>
                 <div class="booking-details"">
-                    <h4> Trip to MustangTrip to MustangTrip to Mustang</h4>
-                    <div>
-                        <h5>Departure : </h5>
-                        <h6>February 1, 2026</h6>
+                <div class=" trip-information">
+                    <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
+                        7 Days Mustang trek
                     </div>
-                    <div>
-                        <h5>Booking status : </h5>
-                        <h6>Pending</h6>
-                    </div>
-                    <div>
-                        <h5>Total : $1,300 </h5>
+                    <table>
+                        <tr>
+                            <td><span>Trip Code : </span></td>
+                            <td> <span class="bold-span">WTF-234</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Trip Start Date: </span></td>
+                            <td><span class="bold-span">Feb 1, 2026</span><br></td>
+                        </tr>
 
-                    </div>
-                    <div>
-                        <h5>Paid : $0 </h5>
-
-                    </div>
+                        <tr>
+                            <td> <span>Trip End Date: </span></td>
+                            <td> <span class="bold-span">Feb 1, 2026</span><br></td>
+                        </tr>
+                        <tr>
+                            <td><span>Duration: </span></td>
+                            <td><span class="bold-span">7 Days</span></td>
+                        </tr>
+                    </table>
                 </div>
-                <div class=" view-detail">
-                    <div class="paynow">
-                        <a href="" class="paynow-btn">Pay Now</a>
-                        <a href="booked-trip-view" class="paynow-btn">View Details</a>
-                    </div>
+            </div>
+            <div class=" view-detail">
+                <div class="paynow">
+                    <a href="" class="paynow-btn">Pay Now</a>
+                    <a href="booked-trip-view" class="paynow-btn">View Details</a>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <?php
     include("frontend/footer.php");

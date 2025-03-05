@@ -113,7 +113,12 @@
             font-weight: 300;
         }
 
-        .trip-information .trip-time {}
+        .bold-span {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+
 
         @media (max-width: 768px) {
             .profile-top {
@@ -162,7 +167,7 @@
                 <a href="my-account" class="nav-btn"><i class="fas fa-arrow-left"></i>
                     Go Back</a>
             </div>
-            <div class="user-contents">
+            <div class="user-contents" style="margin-bottom: 40px;">
                 <h1>Your Bookings Details</h1>
             </div>
             <div class="user-contents">
@@ -171,72 +176,92 @@
                     <a href="view-trip" class="paynow-btn">View Trip</a>
                 </div>
                 <div class="billing-details">
-                    <h2>Trip Information</h2>
+
                     <div class=" trip-information">
-                        <h3>7 Days Mustang trek</h3>
-                        <span>Trip Code : </span> <span>WTF-234</span>
-                        <div class="trip-time">
-                            <span>Trip Start Date: </span>
-                            <span>Feb 1, 2026</span><br>
-                            <span>Trip End Date: </span>
-                            <span>Feb 1, 2026</span><br>
-                            <span>Duration: </span>
-                            <span>7 Days</span>
+                        <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
+                            7 Days Mustang trek
                         </div>
+                        <table>
+                            <tr>
+                                <td><span>Trip Code : </span></td>
+                                <td> <span class="bold-span">WTF-234</span></td>
+                            </tr>
+                            <tr>
+                                <td><span>Trip Start Date: </span></td>
+                                <td><span class="bold-span">Feb 1, 2026</span><br></td>
+                            </tr>
+
+                            <tr>
+                                <td> <span>Trip End Date: </span></td>
+                                <td> <span class="bold-span">Feb 1, 2026</span><br></td>
+                            </tr>
+                            <tr>
+                                <td><span>Duration: </span></td>
+                                <td><span class="bold-span">7 Days</span></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div class="booking-details">
-                    <h2>Billing Information</h2>
+                    <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
+                        Billing Information
+                    </div>
                     <table>
                         <tr>
                             <td>Name : </td>
-                            <td> Suresh</td>
+                            <td class="bold-span"> Suresh</td>
                         </tr>
                         <tr>
                             <td>Email: </td>
-                            <td>sureshjimba@gmail.com</td>
+                            <td class="bold-span">sureshjimba@gmail.com</td>
                         </tr>
                         <tr>
                             <td>Address: </td>
-                            <td>New York</td>
+                            <td class="bold-span">New York</td>
                         </tr>
                         <tr>
                             <td>Country: </td>
-                            <td>US</td>
+                            <td class="bold-span">US</td>
                         </tr>
                         <tr>
                             <td>Contact : </td>
-                            <td>+977 234234234</td>
+                            <td class="bold-span">+977 234234234</td>
                         </tr>
                     </table>
-                    <h5>Travellers</h5>
+
                     <div>
-                        <span>No. of person: 2</span>
+                        <span>No. of person: </span><span class="bold-span">3</span>
                     </div>
-                    <h5>Extra Services</h5>
+                    <h4 style="margin-top: 20px;">Extra Services</h4>
                     <div>
-                        <span>Pickup from Kathmandu Airport: 1</span>
+                        <span>Pickup from Kathmandu Airport: </span> <span class="bold-span">Yes</span>
                     </div>
 
                 </div>
                 <div class="payment-details">
-                    <h5>Payment Details</h5>
-                    <div><span>Total: </span> <span>$ 400</span> </div>
-                    <div><span>Status: </span> <span>Pending</span></div>
+                    <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
+                        Payment Details
+                    </div>
+                    <div><span>Total: </span> <span class="bold-span">$ 400</span> </div>
+                    <div><span>Status: </span> <span class="bold-span">Pending</span></div>
                     <div>
                         <div class="mb-4">
-                            <div class="bg-success text-white p-2 mb-2 book-title">
+                            <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
                                 Payment Method :
                             </div>
-                            <label style="margin-left:20px;">
-                                Mode of Payment:
-                            </label>
+
                             <select class="form-control" id="paymentMode" required="">
-                                <option value="">
-                                    Select Payment Mode
+                                tion value="">
+                                Select Payment Mode
                                 </option>
                                 <option value="Paypal">
                                     Paypal
+                                </option>
+                                <option value="HBL Bank">
+                                    HBL Bank
+                                </option>
+                                <option value="Stripe">
+                                    Stripe
                                 </option>
                             </select>
                             <div
