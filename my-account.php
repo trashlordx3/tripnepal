@@ -226,6 +226,10 @@
                             <td><span>Duration: </span></td>
                             <td><span class="bold-span">7 Days</span></td>
                         </tr>
+                        <tr>
+                            <td><span>Payment: </span></td>
+                            <td><span class="bold-span">Pending</span></td>
+                        </tr>
                     </table>
                 </div>
 
