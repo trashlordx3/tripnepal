@@ -650,6 +650,7 @@
         </div>
     </div>
     </div>
+
     <?php
     include("frontend/footer.php");
     ?>

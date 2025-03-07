@@ -434,7 +434,6 @@
    </div>
    <div class="features">
       <div class="container text-center py-5">
-
          <h1>Explore popular trips</h1>
          <p>Get started with handpicked top rated trips.</p>
          <div class="divider"></div>

@@ -199,9 +199,6 @@
             border-radius: 5px;
         }
 
-        .bold-span {
-            font-weight: bold;
-        }
 
         @media (max-width: 768px) {
             .profile-top {
