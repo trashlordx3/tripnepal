@@ -57,7 +57,7 @@
         ?>
 
         <!-- Main Content -->
-        <div class="w-3/4 p-6 ml-64"><br><br>
+        <div class="w-3/4 p-6 ml-64 mt-16"><br><br>
             <!-- Profile Section -->
             <div class="profile-card mb-6">
                 <img src="https://via.placeholder.com/150" alt="Admin Avatar">

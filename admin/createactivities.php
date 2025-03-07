@@ -28,7 +28,7 @@
         include("frontend/asidebar.php");
         ?>
         <!-- Main Content -->
-        <div class="ml-64 p-6 w-full">
+        <div class="ml-64 p-6 w-full mt-16">
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h1 class="text-2xl font-bold mb-4"><br></h1>
                 <div class="bg-gray-100 p-4 rounded-lg mb-6">
