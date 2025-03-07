@@ -149,6 +149,9 @@
               <table class="min-w-full" id="userTable">
                 <thead>
                   <tr class="bg-gray-50">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Booking Id</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trip Id</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Location</th>
@@ -161,6 +164,9 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                   <tr>
+                    <td class="px-6 py-4">Ram </td>
+                    <td class="px-6 py-4">Ram </td>
+                    <td class="px-6 py-4">Ram </td>
                     <td class="px-6 py-4">Ram </td>
                     <td class="px-6 py-4">9764318052</td>
                     <td class="px-6 py-4">Kathmandu</td>
