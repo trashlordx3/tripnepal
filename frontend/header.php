@@ -29,7 +29,7 @@
     <!-- Main Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top" id="mainNavbar"
         style="padding:0px; height:50px;">
-        <div class="container">
+        <div class="container" style>
             <a class="navbar-brand" href="index" style="align-items: center;">
                 <img src="assets/img/logo.jpg" alt="Logo" width="50" height="40" class="d-inline-block align-text-top">
                 <span>NepalTrip</span>
@@ -38,26 +38,28 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav" style="background-color: white;">
+            <div class="collapse navbar-collapse ml-3" id="navbarNav"
+                style="background-color: white; padding-left:30px; border-radius:0px 0px 10px 10px; margin-top:10px; padding-bottom:10px;">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="destinationDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Destination</a>
                         <ul class="dropdown-menu" aria-labelledby="destinationDropdown">
-                            <li><a class="dropdown-item" href="#">Kathmandu</a></li>
-                            <li><a class="dropdown-item" href="#">Pokhara</a></li>
-                            <li><a class="dropdown-item" href="#">Mustang</a></li>
-                            <li><a class="dropdown-item" href="destination">More</a></li>
+                            <li><a class="dropdown-item" href="destinations?destination-is=Kathmandu">Kathmandu</a>
+                            </li>
+                            <li><a class="dropdown-item" href="destinations?destination-is=Pokhara">Pokhara</a></li>
+                            <li><a class="dropdown-item" href="destinations?destination-is=Kathmandu">Mustang</a></li>
+                            <li><a class="dropdown-item" href="destinations?destination-is=Kathmandu">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="activitiesDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Activities</a>
                         <ul class="dropdown-menu" aria-labelledby="activitiesDropdown">
-                            <li><a class="dropdown-item" href="#">Trekking</a></li>
-                            <li><a class="dropdown-item" href="#">Tour </a></li>
-                            <li><a class="dropdown-item" href="#">Hiking </a></li>
+                            <li><a class="dropdown-item" href="activities?activity-is=Trekking">Trekking</a></li>
+                            <li><a class="dropdown-item" href="activities?activity-is=Tour">Tour </a></li>
+                            <li><a class="dropdown-item" href="activities?activity-is=Hiking">Hiking </a></li>
                             <li><a class="dropdown-item" href="more-activity">More</a></li>
                         </ul>
                     </li>
@@ -65,10 +67,11 @@
                         <a class="nav-link dropdown-toggle" href="#" id="tripTypesDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Trip Types</a>
                         <ul class="dropdown-menu" aria-labelledby="tripTypesDropdown">
-
-                            <li><a class="dropdown-item" href="nature">Nature Friendly</a></li>
-                            <li><a class="dropdown-item" href="cultural">Cultural</a></li>
-                            <li><a class="dropdown-item" href="budget">Budget Travel</a></li>
+                            <li><a class="dropdown-item" href="triptypes?triptype-is=Nature%20Friendly">Nature
+                                    Friendly</a></li>
+                            <li><a class="dropdown-item" href="triptypes?triptype-is=Cultural">Cultural</a></li>
+                            <li><a class="dropdown-item" href="triptypes?triptype-is=Budget%20travel">Budget Travel</a>
+                            </li>
                             <li><a class="dropdown-item" href="trip-types">More</a></li>
                         </ul>
                     </li>
