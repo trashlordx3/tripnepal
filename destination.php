@@ -110,7 +110,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Kathmandu</h3>
                         <p class="trip-card-text">Explore ancient temples, bustling markets, and affordable stays in
                             Nepal’s vibrant capital.</p>
-                        <a href="#">Learn More</a>
+                        <a href="destinations?destination-is=Kathmandu">view trips</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Pokhara</h3>
                         <p class="trip-card-text">Enjoy serene lakes, mountain views,and budget-friendly homestays in
                             this peaceful lakeside city.</p>
-                        <a href="#">Learn More</a>
+                        <a href="destinations?destination-is=Pokhara">view trips</a>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Lumbini</h3>
                         <p class="trip-card-text">Discover Buddha’s birthplace, serene monasteries, and budget stays in
                             Lumbini, Nepal. </p>
-                        <a href="#">Learn More</a>
+                        <a href="destinations?destination-is=Lumbini">view trips</a>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Chitwan</h3>
                         <p class="trip-card-text">Spot wildlife, enjoy jungle safaris, and experience Tharu culture on a
                             budget in this national park.</p>
-                        <a href="#">Learn More</a>
+                        <a href="destinations?destination-is=Chitwan">view trips</a>
                     </div>
                 </div>
             </div>
@@ -157,7 +157,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Mustang</h3>
                         <p class="trip-card-text">Trek through rugged landscapes and ancient caves with affordable
                             teahouses in this hidden gem.</p>
-                        <a href="#">Learn More</a>
+                        <a href="destinations?destination-is=Mustang">view trips</a>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Solukhumbu</h3>
                         <p class="trip-card-text">Trek to Everest trails, stay in budget teahouses, and soak in epic
                             mountain views.</p>
-                        <a href="#">Learn More</a>
+                        <a href="destinations?destination-is=Solukhumbu">view trips</a>
                     </div>
                 </div>
             </div>

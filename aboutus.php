@@ -58,12 +58,12 @@ include("frontend/header.php");
         </div>
         <div class="col-md-6">
             <h2>About Us</h2>
-            <p>At TravelMonster, we are passionate about crafting extraordinary travel experiences. Whether you're
+            <p>At ThankyouNepalTrip, we are passionate about crafting extraordinary travel experiences. Whether you're
                 seeking a peaceful retreat, a thrilling adventure, or a deep dive into cultural wonders, we are here to
                 make it happen. Our team of travel experts ensures every journey is tailored to your preferences,
                 offering personalized itineraries, insider tips, and unparalleled service.</p>
             <p>We believe that travel is not just about visiting new places; it's about creating memories that last a
-                lifetime. Join us to explore the world like never before!</p>
+                lifetime. Join us to explore the Nepal like never before!</p>
         </div>
     </div>
 </section>
@@ -76,8 +76,9 @@ include("frontend/header.php");
             <div class="col-md-4">
                 <div class="icon-box">
                     <i class="fas fa-globe"></i>
-                    <h5>Global Reach</h5>
-                    <p>We offer destinations across continents, ensuring a global travel experience for everyone.</p>
+                    <h5>Nepal Base</h5>
+                    <p>We offer destinations across different cities and districts of Nepal, ensuring a Nepal travel
+                        experience for everyone.</p>
                 </div>
             </div>
             <div class="col-md-4">

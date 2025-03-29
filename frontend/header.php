@@ -49,8 +49,8 @@
                             <li><a class="dropdown-item" href="destinations?destination-is=Kathmandu">Kathmandu</a>
                             </li>
                             <li><a class="dropdown-item" href="destinations?destination-is=Pokhara">Pokhara</a></li>
-                            <li><a class="dropdown-item" href="destinations?destination-is=Kathmandu">Mustang</a></li>
-                            <li><a class="dropdown-item" href="destinations?destination-is=Kathmandu">More</a></li>
+                            <li><a class="dropdown-item" href="destinations?destination-is=Mustang">Mustang</a></li>
+                            <li><a class="dropdown-item" href="destination">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
