@@ -1,3 +1,48 @@
+<?php
+require 'connection.php'; // Include database connection
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $email = trim($_POST['email']);
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    // Validate inputs
+    // Check if email already exists
+    $checkEmail = "SELECT email FROM users WHERE email = ?";
+    $stmt = $conn->prepare($checkEmail);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $FailMsg = "Email already exists ! Use different email";
+    }
+    $stmt->close();
+
+    // Generate a unique user ID
+    $userid = uniqid('user_');
+
+    // Hash the password for security
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+    // Insert user data into the database
+    $sql = "INSERT INTO users (userid, email, first_name, password) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $userid, $email, $username, $hashed_password);
+
+    if ($stmt->execute()) {
+        $SuccessMsg = "Signup successful!";
+        header('location:login.php');
+    } else {
+        $FailMsg = "Signup unsuccessful!";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,22 +169,20 @@ include("frontend/header.php");
 ?>
 <div class="login-container">
     <h2>Signup</h2>
-    <form id="loginForm">
+    <form id="loginForm" method="post">
+        <span style="color: green; font-size: 20px;"><?php echo $SuccessMsg; ?></span>
+        <span style="color: red; font-size: 20px;"><?php echo $FailMsg; ?></span>
         <label for="email">Email <span style="color:red;">*</span></label>
         <input type="text" id="email" name="email" placeholder="Email" required>
         <div id="emailError" class="error"></div>
-
         <label for="username">Username <span style="color:red;">*</span></label>
         <input type="text" id="username" name="username" placeholder="Username" required>
         <div id="usernameError" class="error"></div>
-
         <label for="password">Password <span style="color:red;">*</span></label>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <div id="passwordError" class="error"></div>
-
         <button type="submit" class="login-button">SIGN UP</button>
     </form>
-
     <div class="signup">
         Have An account? <a href="login">Login</a>
     </div>

@@ -110,7 +110,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Trekking </h3>
                         <p class="trip-card-text">Experience the beauty of untouched trails, majestic mountains, and
                             serene.</p>
-                        <a href="#">Learn More</a>
+                        <a href="activities?activity-is=Trekking">View Trips</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Tour</h3>
                         <p class="trip-card-text">Immerse yourself in the rich history and traditions of diverse
                             cultures of Nepal.</p>
-                        <a href="activities">Learn More</a>
+                        <a href="activities?activity-is=Tour">View Trips</a>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title"> Rafting</h3>
                         <p class="trip-card-text">Feel the thrill of conquering roaring rivers surrounded by stunning
                             natural scenery.</p>
-                        <a href="#">Learn More</a>
+                        <a href="activities?activity-is=Rafting">View Trips</a>
                     </div>
                 </div>
             </div>

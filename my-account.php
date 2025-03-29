@@ -129,9 +129,6 @@
             .trip-information {
                 width: 100%;
             }
-
-
-
         }
     </style>
 </head>
@@ -148,7 +145,6 @@
                         src="https://storage.googleapis.com/a1aa/image/lYqBODwnaMU-b05_oodpY-_9bnJPEcMy7zRIn0c6F8k.jpg"
                         width="80" style="border-radius: 20%; cursor: pointer;" />
 
-
                     <h1 class="">
                         Welcome suresh!
                     </h1>
@@ -158,7 +154,6 @@
                     </i>
                     Log Out
                 </a>
-
             </div>
             <div class="navigation-menu">
                 <a href="my-account" class="nav-btn"><i class="fas fa-calendar-alt"></i>
@@ -179,25 +174,21 @@
                 if (links.length > 0) {
                     links[0].classList.add('active'); // Changed to 0 to set the first link as active
                 }
-
                 // Add click event listener to each link
                 links.forEach(link => {
                     link.addEventListener('click', function (event) {
                         // Prevent the default action of the link
                         event.preventDefault();
-
                         // Remove the 'active' class from all links
                         links.forEach(l => l.classList.remove('active'));
-
                         // Add the 'active' class to the clicked link
                         this.classList.add('active');
-
                         // Optionally, navigate to the link's href
                         window.location.href = this.getAttribute('href');
                     });
                 });
             </script>
-            <div class="user-contents">
+            <div class="user-contents" style="margin-bottom: 50px;">
                 <h1>Booking Details</h1>
             </div>
             <div class="user-contents">
@@ -217,7 +208,6 @@
                             <td><span>Trip Start Date: </span></td>
                             <td><span class="bold-span">Feb 1, 2026</span><br></td>
                         </tr>
-
                         <tr>
                             <td> <span>Trip End Date: </span></td>
                             <td> <span class="bold-span">Feb 1, 2026</span><br></td>
@@ -241,14 +231,12 @@
                 </div>
             </div>
         </div>
-
         <?php
         include("frontend/footer.php");
         ?>
         <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
             <i class="fas fa-chevron-up"></i>
         </div>
-
         <script>
             window.onscroll = function () {
                 var scrollUpButton = document.getElementById("scrollUpButton");

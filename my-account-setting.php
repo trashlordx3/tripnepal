@@ -301,11 +301,11 @@
                 <h1 style="margin-bottom: 40px;"> Account Details</h1>
                 <form action="">
                     <div class="form-child">
-                        <label for="">Email: <span style="color:red">*</span></label><br>
+                        <label for="">First Name: <span style="color:red">*</span></label><br>
                         <input type="text" name="" id="">
                     </div>
                     <div class="form-child">
-                        <label for="">First Name: <span style="color:red">*</span></label><br>
+                        <label for="">Email: <span style="color:red">*</span></label><br>
                         <input type="text" name="" id="">
                     </div>
                     <div class="form-child">

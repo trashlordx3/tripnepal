@@ -110,7 +110,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Nature Friendly</h3>
                         <p class="trip-card-text">Experience the beauty of untouched landscapes and serene environments.
                         </p>
-                        <a href="nature">Learn More</a>
+                        <a href="triptypes?triptype-is=Nature%20Friendly">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@ include("frontend/header.php");
 
                         <p class="trip-card-text">Immerse yourself in the rich history and traditions of diverse
                             cultures of Nepal.</p>
-                        <a href="activities">Learn More</a>
+                        <a href="triptypes?triptype-is=Cultural">Learn More</a>
 
                     </div>
                 </div>
@@ -136,7 +136,7 @@ include("frontend/header.php");
                         <h3 class="trip-card-title">Budget Travel</h3>
                         <p class="trip-card-text">Explore the world without breaking the bank with affordable travel
                             options.</p>
-                        <a href="budget">Learn More</a>
+                        <a href="triptypes?triptype-is=Budget%20Friendly">Learn More</a>
                     </div>
                 </div>
             </div>

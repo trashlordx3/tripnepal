@@ -1,10 +1,37 @@
 <?php
-//check
+require 'connection.php'; // Include your database connection file
+
+// Assume we are fetching the 'description' column based on a 'destination' value
 if (isset($_GET['triptype-is'])) {
     $triptype = $_GET['triptype-is'];
-    echo "The destination is " . $triptype;
-}
 
+    // Prepare the SQL query using a prepared statement to avoid SQL injection
+    $sql = "SELECT description FROM triptypes WHERE triptype = ?";
+    $stmt = $conn->prepare($sql);
+
+    // Bind the destination parameter
+    $stmt->bind_param("s", $triptype);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Bind the result to a variable
+    $stmt->bind_result($description);
+
+    // Fetch the result and store it in the variable
+    if ($stmt->fetch()) {
+        // Now $description contains the value fetched from the database
+    } else {
+        $description = "No description found for the triptype.";
+    }
+
+    // Close the statement
+    $stmt->close();
+} else {
+    $description = "No activity specified.";
+}
+// Close the connection
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -388,11 +415,17 @@ if (isset($_GET['triptype-is'])) {
     ?>
     <div class="destination-hero-head">
         <div class="destination-hero-img-container">
-            <img src="assets/img/kathmandubackground.jpg" alt="" class="background-destination-img">
+            <img src="assets/img/nature.jpg" alt="" class="background-destination-img">
         </div>
         <span class="destination-header-title">
             <h1><?php echo $triptype; ?> </h1>
         </span>
+    </div>
+    <div class="features">
+        <div class="container text-left py-1">
+            <h1 class="mt-4"><?php echo $triptype; ?></h1>
+            <p style="font-size: 1.5rem;"><?php echo htmlspecialchars($description); ?></p>
+        </div>
     </div>
     <div class="features">
         <div class="container text-left py-1">

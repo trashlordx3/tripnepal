@@ -28,7 +28,7 @@
 
     <!-- Main Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top" id="mainNavbar"
-        style="padding:0px; height:50px;">
+        style="padding:0px; height:50px; font-size:1.2rem; font-weight:600;">
         <div class="container" style>
             <a class="navbar-brand" href="index" style="align-items: center;">
                 <img src="assets/img/logo.jpg" alt="Logo" width="50" height="40" class="d-inline-block align-text-top">
@@ -70,7 +70,8 @@
                             <li><a class="dropdown-item" href="triptypes?triptype-is=Nature%20Friendly">Nature
                                     Friendly</a></li>
                             <li><a class="dropdown-item" href="triptypes?triptype-is=Cultural">Cultural</a></li>
-                            <li><a class="dropdown-item" href="triptypes?triptype-is=Budget%20travel">Budget Travel</a>
+                            <li><a class="dropdown-item" href="triptypes?triptype-is=Budget%20Friendly">Budget
+                                    Friendly</a>
                             </li>
                             <li><a class="dropdown-item" href="trip-types">More</a></li>
                         </ul>
