@@ -1,3 +1,29 @@
+<?php
+// Start the session and check authentication
+session_start();
+
+// Redirect to login page if not authenticated
+if (!isset($_SESSION['userid'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Include database connection
+require 'connection.php';
+
+// Get current user's data
+$user_id = $_SESSION['userid'];
+$sql = "SELECT * FROM users WHERE userid = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// Close connections
+$stmt->close();
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -149,7 +175,7 @@
                         Welcome suresh!
                     </h1>
                 </div>
-                <a class="logout-btn" href="login" onclick="return confirm('Are you sure want to logout?');">
+                <a class="logout-btn" href="logout" onclick="return confirm('Are you sure want to logout?');">
                     <i class="fas fa-sign-out-alt mr-2">
                     </i>
                     Log Out

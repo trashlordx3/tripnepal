@@ -305,13 +305,14 @@
                         <input type="text" name="" id="">
                     </div>
                     <div class="form-child">
-                        <label for="">Email: <span style="color:red">*</span></label><br>
-                        <input type="text" name="" id="">
-                    </div>
-                    <div class="form-child">
                         <label for="">Last Name <span style="color:red">*</span></label><br>
                         <input type="number">
                     </div>
+                    <div class="form-child">
+                        <label for="">Email: <span style="color:red">*</span></label><br>
+                        <input type="text" name="" id="">
+                    </div>
+
                     <div class="form-child">
                         <label for="">change Password: Yes/No</label><br>
 

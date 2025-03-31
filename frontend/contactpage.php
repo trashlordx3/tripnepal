@@ -1,20 +1,23 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>thankyounepaltrip!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
- </head>
- <body>
-    <?php
-    include("header.php");
-    ?>
-<header class="hero">
-      <h1>Contact Us</h1>
-</header>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thankyounepaltrip!</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <?php
+  include("header.php");
+  ?>
+  <header class="hero">
+    <h1>Contact Us</h1>
+  </header>
   <!-- Contact Section -->
   <div class="container-fluid bg-light py-5">
     <div class="container">
@@ -38,7 +41,8 @@
               </div>
               <div class="mb-3">
                 <label for="message" class="form-label">Message*</label>
-                <textarea class="form-control" id="message" rows="5" placeholder="Write your message" required></textarea>
+                <textarea class="form-control" id="message" rows="5" placeholder="Write your message"
+                  required></textarea>
               </div>
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="policy" required>
@@ -72,13 +76,14 @@
     </div>
   </div>
   <script src="contactus.js"></script>
-    <?php
-    include("location.php");
-    ?>
-    <?php
-    include("footer.php");
-    ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
- </body>
- </html>
+  <?php
+  include("location.php");
+  ?>
+  <?php
+  include("footer.php");
+  ?>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+</body>
+
+</html>
