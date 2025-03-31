@@ -17,29 +17,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->num_rows > 0) {
         $FailMsg = "Email already exists ! Use different email";
-    }
-    $stmt->close();
-
-    // Generate a unique user ID
-    $userid = uniqid('user_');
-
-    // Hash the password for security
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-    // Insert user data into the database
-    $sql = "INSERT INTO users (userid, email, first_name, password) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $userid, $email, $username, $hashed_password);
-
-    if ($stmt->execute()) {
-        $SuccessMsg = "Signup successful!";
-        header('location:login.php');
+        $stmt->close();
+        $conn->close();
     } else {
-        $FailMsg = "Signup unsuccessful!";
-    }
 
-    $stmt->close();
-    $conn->close();
+        // Generate a unique user ID
+        $userid = uniqid('user_');
+
+        // Hash the password for security
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+        // Insert user data into the database
+        $sql = "INSERT INTO users (userid, email, user_name, password) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $userid, $email, $username, $hashed_password);
+
+        if ($stmt->execute()) {
+            $SuccessMsg = "Signup successful!";
+            header('location:login.php');
+        } else {
+            $FailMsg = "Signup unsuccessful!";
+        }
+
+        $stmt->close();
+        $conn->close();
+    }
 }
 ?>
 
@@ -181,6 +183,9 @@ include("frontend/header.php");
         <label for="password">Password <span style="color:red;">*</span></label>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <div id="passwordError" class="error"></div>
+        <label for="password">Confirm Password <span style="color:red;">*</span></label>
+        <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password" required>
+        <div id="passwordError" class="error"></div>
         <button type="submit" class="login-button">SIGN UP</button>
     </form>
     <div class="signup">
@@ -227,14 +232,17 @@ include("frontend/scrollup.html");
 
         // Validate Password
         const password = document.getElementById('password').value.trim();
+        const cpassword = document.getElementById('cpassword').value.trim();
         if (!password) {
             document.getElementById('passwordError').textContent = 'Password is required.';
             isValid = false;
         } else if (password.length < 6) {
             document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long.';
             isValid = false;
+        } else if (cpassword != password) {
+            document.getElementById('passwordError').textContent = 'Password does not match !';
+            isValid = false;
         }
-
         // Prevent form submission if validation fails
         if (!isValid) {
             event.preventDefault();

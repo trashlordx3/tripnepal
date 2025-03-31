@@ -73,5 +73,9 @@ CREATE TABLE itinerary (
     UNIQUE KEY (tripid, day_number)
 );
 
-
-
+CREATE TABLE images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    tripid INT NOT NULL,
+    path VARCHAR(100) NOT NULL,
+    FOREIGN KEY (tripid) REFERENCES trips(tripid) ON DELETE CASCADE,
+);
