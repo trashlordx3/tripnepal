@@ -1,3 +1,10 @@
+<?php
+
+if (isset($_GET['tripname'])) {
+    $tripname = $_GET['tripname'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,9 +95,11 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>
-                                        Trip Name :
+                                        Trip Id : 2323
                                     </label>
-                                    <input class="form-control" readonly="" type="text" value="Nepal Luxury Escape" />
+                                    <label>
+                                        Trip Name : <h1>Helloasjdfjasdfjas alsdjflkasj dflalskjd flkajs fl jasl dfj</h1>
+                                    </label>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>
@@ -180,17 +189,7 @@
                                     <label>
                                         Country :
                                     </label>
-                                    <select class="form-control" id="country" required="">
-                                        <option value="">
-                                            --Select a country--
-                                        </option>
-                                        <option value="Nepal">
-                                            Nepal
-                                        </option>
-                                        <option value="India">
-                                            India
-                                        </option>
-                                    </select>
+                                    <input class="form-control" id="city" required="" type="text" />
                                     <div class="error" id="countryError">
                                     </div>
                                 </div>
@@ -245,7 +244,7 @@
                                 <div class="form-group col-md-6">
                                     <label>
                                         Airport Pickup :
-                                    </label>
+                                    </label><br>
                                     <div class="form-check form-check-inline">
                                         <input class="form-radio-input" id="pickupYes" name="pickup" required=""
                                             type="radio" value="yes" />
