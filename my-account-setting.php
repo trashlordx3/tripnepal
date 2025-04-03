@@ -316,7 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         Welcome <?php echo $user['user_name']; ?>
                     </h1>
                 </div>
-                <a class="logout-btn" href="login" onclick="return confirm('Are you sure want to logout?');">
+                <a class="logout-btn" href="logout" onclick="return confirm('Are you sure want to logout?');">
                     <i class="fas fa-sign-out-alt mr-2">
                     </i>
                     Log Out

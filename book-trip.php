@@ -1,5 +1,18 @@
 <?php
-
+require 'connection.php';
+session_start();
+$user_id = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT * FROM users WHERE userid = ?");
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+} else {
+    // Handle case where user doesn't exist
+    header('location:login.php');
+    exit;
+}
 if (isset($_GET['tripname'])) {
     $tripname = $_GET['tripname'];
 }
@@ -101,7 +114,69 @@ if (isset($_GET['tripname'])) {
                                         Trip Name : <h1>Helloasjdfjasdfjas alsdjflkasj dflalskjd flkajs fl jasl dfj</h1>
                                     </label>
                                 </div>
-                                <div class="form-group col-md-3">
+                            </div>
+                        </div>
+                        <!-- Personal Details -->
+                        <div class="mb-4">
+                            <div class="bg-success text-white p-2 mb-2 book-title">
+                                Personal Details :
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Full Name :
+                                    </label>
+                                    <input class="form-control" id="fullName" required="" type="text"
+                                        value="<?php echo $user['first_name'] . " " . $user['last_name']; ?>" />
+                                    <div class="error" id="fullNameError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Email :
+                                    </label>
+                                    <input class="form-control" id="email" required="" type="email"
+                                        value="<?php echo $user['email']; ?>" />
+                                    <div class="error" id="emailError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Address :
+                                    </label>
+                                    <input class="form-control" id="address" required="" type="text"
+                                        value="<?php echo $user['address']; ?>" />
+                                    <div class="error" id="addressError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Tel / Mobile :
+                                    </label>
+                                    <input class="form-control" id="tel" required="" type="tel"
+                                        value="<?php echo $user['phone_number']; ?>" />
+                                    <div class="error" id="telError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        City :
+                                    </label>
+                                    <input class="form-control" id="city" required="" type="text"
+                                        value="<?php echo $user['address']; ?>" />
+                                    <div class="error" id="cityError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Country :
+                                    </label>
+                                    <input class="form-control" id="city" required="" type="text"
+                                        value="<?php echo $user['country']; ?>" />
+                                    <div class="error" id="countryError">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
                                     <label>
                                         No. of person :
                                     </label>
@@ -119,7 +194,7 @@ if (isset($_GET['tripname'])) {
                                     <div class="error" id="adultsError">
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-6">
                                     <label>
                                         Children (&gt;12) :
                                     </label>
@@ -135,62 +210,6 @@ if (isset($_GET['tripname'])) {
                                         </option>
                                     </select>
                                     <div class="error" id="childrenError">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Personal Details -->
-                        <div class="mb-4">
-                            <div class="bg-success text-white p-2 mb-2 book-title">
-                                Personal Details :
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Full Name :
-                                    </label>
-                                    <input class="form-control" id="fullName" required="" type="text" />
-                                    <div class="error" id="fullNameError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Email :
-                                    </label>
-                                    <input class="form-control" id="email" required="" type="email" />
-                                    <div class="error" id="emailError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Address :
-                                    </label>
-                                    <input class="form-control" id="address" required="" type="text" />
-                                    <div class="error" id="addressError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Tel / Mobile :
-                                    </label>
-                                    <input class="form-control" id="tel" required="" type="tel" />
-                                    <div class="error" id="telError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        City :
-                                    </label>
-                                    <input class="form-control" id="city" required="" type="text" />
-                                    <div class="error" id="cityError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Country :
-                                    </label>
-                                    <input class="form-control" id="city" required="" type="text" />
-                                    <div class="error" id="countryError">
                                     </div>
                                 </div>
                             </div>
@@ -215,22 +234,6 @@ if (isset($_GET['tripname'])) {
                                     </label>
                                     <input class="form-control" id="departureDate" required="" type="date" />
                                     <div class="error" id="departureDateError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Airlines :
-                                    </label>
-                                    <input class="form-control" id="airlines" required="" type="text" />
-                                    <div class="error" id="airlinesError">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>
-                                        Flight No :
-                                    </label>
-                                    <input class="form-control" id="flightNo" required="" type="text" />
-                                    <div class="error" id="flightNoError">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">

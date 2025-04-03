@@ -4,15 +4,15 @@ session_start();
 
 // Redirect to login page if not authenticated
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
+    header(header: "Location: login");
+
 }
 
 // Include database connection
 require 'connection.php';
 
 // Get current user's data
-$user_id = $_SESSION['userid'];
+$user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE userid = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);

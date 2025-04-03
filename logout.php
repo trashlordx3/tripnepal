@@ -21,7 +21,6 @@ if (ini_get("session.use_cookies")) {
 
 // Destroy the session
 session_destroy();
-
 // Clear remember me cookie if exists
 if (isset($_COOKIE['remember_email'])) {
     setcookie('remember_email', '', time() - 3600, '/');
