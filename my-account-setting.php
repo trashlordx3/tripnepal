@@ -1,3 +1,65 @@
+<?php
+require 'connection.php';
+
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('location:login.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT * FROM users WHERE userid = ?");
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+} else {
+    // Handle case where user doesn't exist
+    header('location:login.php');
+    exit;
+}
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the form data and sanitize input
+    $fname = trim($_POST['firstname']);
+    $lastname = trim($_POST['lastname']);
+    $email = trim($_POST['email']);
+    $phone_number = trim($_POST['phone_number']);
+    $address = trim($_POST['address']);
+    $zip_postal_code = trim($_POST['zip_postal_code']);
+    $country = trim($_POST['country']);
+
+    if (!$user_id) {
+        echo "<script>alert('User ID is missing!');</script>";
+        exit;
+    }
+
+    // Prepare and bind statement - removed extra comma before WHERE
+    $stmt = $conn->prepare("UPDATE users SET phone_number = ?, address = ?, zip_postal_code = ?, country = ?, first_name=?, last_name=?, email=? WHERE userid = ?");
+    if ($stmt === false) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $stmt->bind_param("ssssssss", $phone_number, $address, $zip_postal_code, $country, $fname, $lastname, $email, $user_id);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "<script>alert('Data saved successfully!');</script>";
+        // Refresh user data
+        $stmt = $conn->prepare("SELECT * FROM users WHERE userid = ?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+    } else {
+        echo "<script>alert('Data save failed: " . addslashes($stmt->error) . "');</script>";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -251,7 +313,7 @@
                         <p style="text-align: center; padding-top: 5px;" id="profilePic">Edit</p>
                     </div>
                     <h1 class="">
-                        Welcome suresh!
+                        Welcome <?php echo $user['user_name']; ?>
                     </h1>
                 </div>
                 <a class="logout-btn" href="login" onclick="return confirm('Are you sure want to logout?');">
@@ -262,11 +324,8 @@
             </div>
             <div class="navigation-menu">
                 <a href="my-account" class="nav-btn"><i class="fas fa-calendar-alt"></i>
-                    Booking</a>
-                <a href="my-account-address" class="nav-btn">
-                    <i class="fas fa-id-card"></i>
-                    Address
-                </a>
+                    Bookings</a>
+
                 <a href="my-account-setting" class="nav-btn"><i class="fas fa-cog"></i>
 
                     Account</a>
@@ -299,18 +358,38 @@
             </script>
             <div class="user-contents">
                 <h1 style="margin-bottom: 40px;"> Account Details</h1>
-                <form action="">
+                <form action="" method="post">
                     <div class="form-child">
                         <label for="">First Name: <span style="color:red">*</span></label><br>
-                        <input type="text" name="" id="">
+                        <input type="text" name="firstname" id="" value="<?php echo $user['first_name']; ?>">
                     </div>
                     <div class="form-child">
                         <label for="">Last Name <span style="color:red">*</span></label><br>
-                        <input type="number">
+                        <input type="text" name="lastname" id="" value="<?php echo $user['last_name']; ?>">
                     </div>
                     <div class="form-child">
                         <label for="">Email: <span style="color:red">*</span></label><br>
-                        <input type="text" name="" id="">
+                        <input type="email" name="email" id="" value="<?php echo $user['email']; ?>">
+                    </div>
+                    <div class="form-child">
+                        <label for="">Phone Number <span style="color:red">*</span></label><br>
+                        <input type="number" name="phone_number" placeholder="6763647234"
+                            value="<?php echo $user['phone_number']; ?>" required>
+                    </div>
+                    <div class="form-child">
+                        <label for="">Address: <span style="color:red">*</span></label><br>
+                        <input type="text" name="address" placeholder="Down town"
+                            value="<?php echo $user['address']; ?>" required>
+                    </div>
+                    <div class="form-child">
+                        <label for="">Zip/Postal Code: <span style="color:red">*</span></label><br>
+                        <input type="number" name="zip_postal_code" placeholder="44788"
+                            value="<?php echo $user['zip_postal_code']; ?>" required>
+                    </div>
+                    <div class="form-child">
+                        <label for="">Country: <span style="color:red">*</span></label><br>
+                        <input type="text" name="country" placeholder="United Kingdom"
+                            value="<?php echo $user['country']; ?>" required>
                     </div>
 
                     <div class="form-child">

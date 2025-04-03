@@ -1,9 +1,12 @@
 <?php
 require 'connection.php'; // Include database connection
-
+$SuccessMsg = "";
+$FailMsg = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
+
     $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
@@ -28,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
         // Insert user data into the database
-        $sql = "INSERT INTO users (userid, email, user_name, password) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO users (userid, phone_number, email, user_name, password) VALUES (?,?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $userid, $email, $username, $hashed_password);
+        $stmt->bind_param("sssss", $userid, $phone, $email, $username, $hashed_password);
 
         if ($stmt->execute()) {
             $SuccessMsg = "Signup successful!";
@@ -176,6 +179,8 @@ include("frontend/header.php");
         <span style="color: red; font-size: 20px;"><?php echo $FailMsg; ?></span>
         <label for="email">Email <span style="color:red;">*</span></label>
         <input type="text" id="email" name="email" placeholder="Email" required>
+        <label for="phone">Phone Number <span style="color:red;">*</span></label>
+        <input type="text" id="phone" name="phone" placeholder="phone number" required>
         <div id="emailError" class="error"></div>
         <label for="username">Username <span style="color:red;">*</span></label>
         <input type="text" id="username" name="username" placeholder="Username" required>

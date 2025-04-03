@@ -3,7 +3,7 @@
 session_start();
 
 // Redirect to login page if not authenticated
-if (!isset($_SESSION['userid'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
@@ -184,12 +184,7 @@ $conn->close();
             <div class="navigation-menu">
                 <a href="my-account" class="nav-btn"><i class="fas fa-calendar-alt"></i>
                     Booking</a>
-                <a href="my-account-address" class="nav-btn">
-                    <i class="fas fa-id-card"></i>
-                    Address
-                </a>
                 <a href="my-account-setting" class="nav-btn"><i class="fas fa-cog"></i>
-
                     Account</a>
             </div>
             <script>

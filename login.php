@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user = $result->fetch_assoc();
                 if (password_verify($password, $user['password'])) {
                     // Store session data
-                    $_SESSION['userid'] = $user['userid'];
+                    $_SESSION['user_id'] = $user['userid'];
                     $_SESSION['email'] = $user['email'];
 
                     // Set remember me cookie if checked
