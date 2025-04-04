@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2025 at 03:04 AM
+-- Generation Time: Apr 04, 2025 at 04:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -154,6 +154,35 @@ INSERT INTO `triptypes` (`triptype`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `trip_bookings`
+--
+
+CREATE TABLE `trip_bookings` (
+  `id` int(11) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `trip_name` varchar(255) NOT NULL,
+  `adults` int(11) DEFAULT NULL CHECK (`adults` >= 0),
+  `children` int(11) DEFAULT NULL CHECK (`children` >= 0),
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `address` text DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `country` varchar(50) DEFAULT NULL,
+  `arrival_date` date DEFAULT NULL,
+  `departure_date` date DEFAULT NULL,
+  `airlines` varchar(100) DEFAULT NULL,
+  `flight_no` varchar(50) DEFAULT NULL,
+  `arrival_time` time DEFAULT NULL,
+  `airport_pickup` enum('Yes','No') DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `payment_mode` varchar(50) DEFAULT NULL,
+  `booked_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `trip_overviews`
 --
 
@@ -187,16 +216,20 @@ CREATE TABLE `users` (
   `user_name` varchar(50) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `profilepic` varchar(255) DEFAULT NULL
+  `profilepic` varchar(255) DEFAULT NULL,
+  `status` enum('active','inactive','suspended') DEFAULT 'inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `phone_number`, `address`, `zip_postal_code`, `country`, `first_name`, `last_name`, `user_name`, `email`, `password`, `profilepic`) VALUES
-('user_67e7a0931e8e3', NULL, NULL, NULL, NULL, 'suresh', NULL, NULL, 'sureshjimba3333@gmail.com', '$2y$10$aWc7.vX4b2n1QLMJnyHjw.P/.sN3iL/Q7oogzK8Akq/T1xaqDVk2W', NULL),
-('user_67e8986281369', NULL, NULL, NULL, NULL, 'hilson', NULL, NULL, 'hilson@gmail.com', '$2y$10$sEHFSPJCugsLqyQD8Acso.J3iBdwBFfoBeMlnMvBinxK8uUkO7ln6', NULL);
+INSERT INTO `users` (`userid`, `phone_number`, `address`, `zip_postal_code`, `country`, `first_name`, `last_name`, `user_name`, `email`, `password`, `profilepic`, `status`) VALUES
+('user_67eac0a91ea95', '9741847684', 'dfasasdf', '12312', 'asdfasd', 'suresh', 'Tamang', NULL, 'sureshjimba3333@gmail.com', '$2y$10$DUClz0o7eBys2lH2E8V.RukjOfxRLn2K.e.c2Skwk419WIIIHGb0C', NULL, 'inactive'),
+('user_67eac20151014', NULL, NULL, NULL, NULL, 'Nepali', NULL, NULL, 'suresh@gmail.com', '$2y$10$y0biRZk1cCtAylcWXQVf5.AONhqalMpdnSipOfXgStAVR4NXi6Jzq', NULL, 'inactive'),
+('user_67ee7ea2acac7', NULL, NULL, NULL, NULL, NULL, NULL, 'suresh', 'asdfasdf@gmail.com', '$2y$10$BjMvKCC4SaRkcZX80nJ1Z.d3LBUpFiwviGtJ/uft9VjnPjYdL1HSy', NULL, 'inactive'),
+('user_67ee7f4465a50', NULL, NULL, NULL, NULL, NULL, NULL, 'voja', 'voja@gmail.com', '$2y$10$1BZSJ6wRooq4HJaERmirGuCwMBeJ7v96QeTi3DJ6qVwiZI04XTScq', NULL, 'inactive'),
+('user_67ee80c6e374b', '8989898989', 'Kathmandu', '45600', 'Nepal', 'Anjila', 'Tamang', 'anjila', 'anjila@gmail.com', '$2y$10$qmI0/BQfWub9oDv.C/4wO.ypHQm6EN3iLPlODEeV2hyYl3tlE044K', NULL, 'inactive');
 
 --
 -- Indexes for dumped tables
@@ -228,6 +261,13 @@ ALTER TABLE `itinerary`
 --
 ALTER TABLE `trips`
   ADD PRIMARY KEY (`tripid`);
+
+--
+-- Indexes for table `trip_bookings`
+--
+ALTER TABLE `trip_bookings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `trip_id` (`trip_id`);
 
 --
 -- Indexes for table `trip_overviews`
@@ -266,6 +306,12 @@ ALTER TABLE `trips`
   MODIFY `tripid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `trip_bookings`
+--
+ALTER TABLE `trip_bookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `trip_overviews`
 --
 ALTER TABLE `trip_overviews`
@@ -286,6 +332,12 @@ ALTER TABLE `images`
 --
 ALTER TABLE `itinerary`
   ADD CONSTRAINT `itinerary_ibfk_1` FOREIGN KEY (`tripid`) REFERENCES `trips` (`tripid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `trip_bookings`
+--
+ALTER TABLE `trip_bookings`
+  ADD CONSTRAINT `trip_bookings_ibfk_1` FOREIGN KEY (`trip_id`) REFERENCES `trips` (`tripid`);
 
 --
 -- Constraints for table `trip_overviews`

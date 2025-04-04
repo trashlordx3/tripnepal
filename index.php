@@ -1,3 +1,6 @@
+<?php
+include("frontend/session_start.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +15,7 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="index.css">
-   <link rel="stylesheet" href="testimonial.css">
+   <!-- <link rel="stylesheet" href="testimonial.css"> -->
    <style>
       .feature-icon {
          background-color: #e0f7fa;
@@ -345,7 +348,7 @@
    include("frontend/header.php");
    ?>
    <section class="hero-section">
-      <div class="bg">
+      <div class="bg" style="margin-top: 70px;">
          <div class="content">
             <h1>Escape Your Comfort Zone.</h1>
             <p>Grab your stuff and let’s get lost.</p>
@@ -439,6 +442,8 @@
          <div class="divider"></div>
       </div>
    </div>
+   <h1></h1>
+   </h1>
 
    <div class="features">
       <div class="container text-center py-5 card-container" id="card-container"

@@ -1,4 +1,7 @@
 <?php
+include("frontend/session_start.php");
+?>
+<?php
 require 'connection.php'; // Include database connection
 $SuccessMsg = "";
 $FailMsg = "";

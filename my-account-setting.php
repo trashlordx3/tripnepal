@@ -402,12 +402,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-child">
                         <label for="">New Password:</label><br>
-                        <input type="number" name="" id="" placeholder="--blank if no change--">
+                        <input type="password" name="password" id="" placeholder="--blank if no change--">
                     </div>
                     <div class="form-child">
                         <label for="countries">Confirm Password:</label>
                         <br>
-                        <input type="text" name="" id="" placeholder="--blank if no change--">
+                        <input type="password" name="cpassword" id="" placeholder="--blank if no change--">
                     </div>
                     <div class="form-child">
                         <button type="submit">SAVE</button>

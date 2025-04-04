@@ -88,8 +88,13 @@
                     <li class="nav-item"><a class="nav-link" href="contactus">Contact</a></li>
                 </ul>
                 <div class="d-flex">
-                    <a href="login" class="nav-link">Login</a>|
-                    <a href="signup" class="nav-link">Sign Up</a>
+                    <?php if (isset($_SESSION['user_id'])) { ?>
+                        <a href="my-account.php" class="nav-link">My Account</a>
+
+                    <?php } else { ?>
+                        <a href="login.php" class="nav-link">Login</a> |
+                        <a href="signup.php" class="nav-link">Sign Up</a>
+                    <?php } ?>
                 </div>
             </div>
         </div>

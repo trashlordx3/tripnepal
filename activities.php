@@ -1,4 +1,7 @@
 <?php
+include("frontend/session_start.php");
+?>
+<?php
 require 'connection.php'; // Include your database connection file
 
 // Assume we are fetching the 'description' column based on a 'destination' value
