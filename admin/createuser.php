@@ -1,3 +1,33 @@
+<?php
+require "../connection.php";
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    // Get form data
+    $firstname = trim($_POST['firstName']);
+    $lastname = trim($_POST['lastName']);
+    $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
+    $username = trim($_POST['userName']);
+    $password = trim($_POST['password']);
+    // Validate inputs
+    // Generate a unique user ID
+    $userid = uniqid('user_');
+    // Hash the password for security
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+    // Insert user data into the database
+    $sql = "INSERT INTO users (userid, phone_number, email, user_name,first_name, last_name, password) VALUES (?,?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssss", $userid, $phone, $email, $username, $firstname, $lastname, $hashed_password);
+    if ($stmt->execute()) {
+        echo "<script> alert('Registration Successful'); </script>";
+    } else {
+        echo "<script> alert('Registration Failed'); </script>";
+    }
+    $stmt->close();
+    $conn->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,44 +57,7 @@
             });
         });
     </script>
-    <script>
-        function validateForm(event) {
-            event.preventDefault();
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const userName = document.getElementById('userName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const repeatPassword = document.getElementById('repeatPassword').value;
-            const phone = document.getElementById('phone').value.trim();
-            const dob = document.getElementById('dob').value;
 
-            if (!firstName || !lastName || !userName || !email || !password || !repeatPassword || !phone || !dob) {
-                alert('All fields are required.');
-                return false;
-            }
-
-            if (password !== repeatPassword) {
-                alert('Passwords do not match.');
-                return false;
-            }
-
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert('Please enter a valid email address.');
-                return false;
-            }
-
-            const phonePattern = /^\d{10}$/;
-            if (!phonePattern.test(phone)) {
-                alert('Please enter a valid 10-digit phone number.');
-                return false;
-            }
-
-            alert('User created successfully!');
-            return true;
-        }
-    </script>
 </head>
 
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
@@ -79,40 +72,45 @@
                 <h1 class="text-2xl font-bold mb-4"><br></h1>
                 <div class="bg-gray-100 p-4 rounded-lg mb-6">
                     <h2 class="text-xl font-semibold mb-4">Create Users</h2>
-                    <form class="grid grid-cols-1 md:grid-cols-2 gap-4" onsubmit="return validateForm(event)">
+                    <form class="grid grid-cols-1 md:grid-cols-2 gap-4" method="post"
+                        onsubmit="return validateForm(event)">
                         <div>
                             <label class="block text-gray-700">First Name:</label>
-                            <input type="text" id="firstName" class="w-full p-2 border border-gray-300 rounded"
-                                required>
+                            <input type="text" name="firstName" id="firstName"
+                                class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
                         <div>
                             <label class="block text-gray-700">Last Name:</label>
-                            <input type="text" id="lastName" class="w-full p-2 border border-gray-300 rounded" required>
+                            <input type="text" name="lastName" id="lastName"
+                                class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
                         <div>
                             <label class="block text-gray-700">User Name:</label>
-                            <input type="text" id="userName" class="w-full p-2 border border-gray-300 rounded" required>
+                            <input type="text" name="userName" id="userName"
+                                class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
                         <div>
                             <label class="block text-gray-700">Email:</label>
-                            <input type="email" id="email" class="w-full p-2 border border-gray-300 rounded" required>
+                            <input type="email" name="email" id="email"
+                                class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
                         <div>
                             <label class="block text-gray-700">Password:</label>
-                            <input type="password" id="password" class="w-full p-2 border border-gray-300 rounded"
-                                required>
+                            <input type="password" name="password" id="password"
+                                class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
                         <div>
-                            <label class="block text-gray-700">Repeat Password:</label>
-                            <input type="password" id="repeatPassword" class="w-full p-2 border border-gray-300 rounded"
-                                required>
+                            <label class="block text-gray-700">Confirm Password:</label>
+                            <input type="password" name="repeatPassword" id="repeatPassword"
+                                class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
                         <div>
                             <label class="block text-gray-700">Phone #:</label>
-                            <input type="text" id="phone" class="w-full p-2 border border-gray-300 rounded" required>
+                            <input type="text" name="phone" id="phone" class="w-full p-2 border border-gray-300 rounded"
+                                required>
                         </div>
                         <div class="md:col-span-2 flex justify-end space-x-4">
-                            <button type="submit" class="bg-[#008080] text-white px-4 py-2 rounded">Create </button>
+                            <input type="submit" class="bg-[#008080] text-white px-4 py-2 rounded" value="Create">
                             <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
                         </div>
                     </form>
@@ -120,6 +118,47 @@
             </div>
         </div>
     </div>
+    <script>
+        function validateForm(event) {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const userName = document.getElementById('userName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const repeatPassword = document.getElementById('repeatPassword').value;
+            const phone = document.getElementById('phone').value.trim();
+
+            if (!firstName || !lastName || !userName || !email || !password || !repeatPassword || !phone) {
+                alert('All fields are required.');
+                event.preventDefault();
+                return false;
+            }
+
+            if (password !== repeatPassword) {
+                alert('Passwords do not match.');
+                event.preventDefault();
+                return false;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address.');
+                event.preventDefault();
+                return false;
+            }
+
+            const phonePattern = /^\d{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert('Please enter a valid 10-digit phone number.');
+                event.preventDefault();
+                return false;
+            }
+
+            // All good: let the form submit
+            return true;
+        }
+
+    </script>
 </body>
 
 </html>

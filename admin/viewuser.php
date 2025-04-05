@@ -1,3 +1,19 @@
+<?php
+require '../connection.php';
+
+// session_start();
+// if (!isset($_SESSION['admin_id'])) {
+//   header('location:adminlogin.php');
+//   exit;
+// }
+
+$stmt = $conn->prepare("SELECT * FROM users");
+$stmt->execute();
+$result = $stmt->get_result();
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,18 +100,39 @@
             <table class="min-w-full bg-white">
               <thead>
                 <tr class="bg-gray-300 text-gray-600 uppercase text-sm leading-normal">
-                  <th class="py-3 px-6 text-left">#</th>
+                  <th class="py-3 px-6 text-left">user ID</th>
                   <th class="py-3 px-6 text-left">First Name</th>
                   <th class="py-3 px-6 text-left">Last Name</th>
                   <th class="py-3 px-6 text-left hidden-on-mobile">User Name</th>
                   <th class="py-3 px-6 text-left hidden-on-mobile">Email</th>
-                  <th class="py-3 px-6 text-left hidden-on-mobile">Phone #</th>
-                  <th class="py-3 px-6 text-left hidden-on-mobile">Status</th>
-                  <th class="py-3 px-6 text-left hidden-on-mobile">Action</th>
+                  <th class="py-3 px-6 text-left hidden-on-mobile">Phone</th>
+                  <th class="py-3 px-6 text-left hidden-on-mobile">Address</th>
+                  <th class="py-3 px-6 text-left hidden-on-mobile">ProfileIMG</th>
                   <th class="py-3 px-6 text-left"></th>
                 </tr>
               </thead>
-              <tbody class="text-gray-600 text-sm font-light">
+              <tbody>
+                <?php
+                if ($result->num_rows > 0) {
+                  while ($user = $result->fetch_assoc()) {
+                    ?>
+                    <tr>
+                      <td class="py-3 px-6 text-left"><?php echo $user["userid"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["first_name"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["last_name"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["user_name"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["email"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["phone_number"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["address"]; ?></td>
+                      <td class="py-3 px-6 text-left"><?php echo $user["profilepic"]; ?></td>
+                    </tr>
+                  <?php }
+                }
+                $stmt->close();
+                $conn->close();
+                ?>
+              </tbody>
+              <tbody class=" text-gray-600 text-sm font-light">
                 <!-- Rows will be populated dynamically -->
               </tbody>
             </table>

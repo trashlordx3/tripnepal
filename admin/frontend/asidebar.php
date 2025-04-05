@@ -19,7 +19,7 @@
                         <a class="text-gray-700 hover:text-blue-500" href="createuser">Create User</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="listuser">User List</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="viewuser">User List</a>
                     </li>
                 </ul>
             </li>
@@ -46,7 +46,7 @@
                     </li>
                 </ul>
             </li>
-             <li class="mb-2">
+            <li class="mb-2">
                 <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
                     <span><i class="fa-solid fa-bookmark"></i> Activities</span>
                     <i class="fas fa-chevron-down"></i>
@@ -86,7 +86,7 @@
                     </li>
                 </ul>
             </li>
-             <li class="mb-2">
+            <li class="mb-2">
                 <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
                     <span><i class="fa-solid fa-bookmark"></i> Itineary</span>
                     <i class="fas fa-chevron-down"></i>
