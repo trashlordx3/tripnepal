@@ -111,10 +111,6 @@
                             <label class="block text-gray-700">Phone #:</label>
                             <input type="text" id="phone" class="w-full p-2 border border-gray-300 rounded" required>
                         </div>
-                        <div>
-                            <label class="block text-gray-700">Date Of Birth:</label>
-                            <input type="date" id="dob" class="w-full p-2 border border-gray-300 rounded" required>
-                        </div>
                         <div class="md:col-span-2 flex justify-end space-x-4">
                             <button type="submit" class="bg-[#008080] text-white px-4 py-2 rounded">Create </button>
                             <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
