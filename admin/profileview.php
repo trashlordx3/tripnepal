@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Profile - Travel Monster</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         .profile-card {
@@ -16,14 +15,12 @@
             padding: 2rem;
             text-align: center;
         }
-
         .profile-card img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
         }
-
         .stats-card {
             background-color: #ecf0f1;
             border-radius: 10px;
@@ -31,7 +28,6 @@
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .stats-card h3 {
             font-size: 1.25rem;
         }
@@ -48,16 +44,14 @@
         });
     </script>
 </head>
-
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
     <div class="flex h-screen">
-        <!-- Sidebar -->
-        <?php
+      <?php 
         include("frontend/asidebar.php");
         ?>
 
         <!-- Main Content -->
-        <div class="w-3/4 p-6 ml-64 mt-16"><br><br>
+        <div class="w-3/4 p-6 ml-64"><br><br>
             <!-- Profile Section -->
             <div class="profile-card mb-6">
                 <img src="https://via.placeholder.com/150" alt="Admin Avatar">
@@ -87,5 +81,4 @@
         </div>
     </div>
 </body>
-
 </html>

@@ -47,9 +47,8 @@
         <?php
         include("frontend/asidebar.php");
         ?>
-
         <!-- main section -->
-        <div class="ml-64 p-6 w-[84%] mx-auto mt-20">
+        <div class="ml-64 p-6 w-[84%] mx-auto mt-16">
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h1 class="text-2xl font-bold mb-4"><br></h1>
                 <div class="bg-gray-100 p-4 rounded-lg mb-6">
@@ -69,9 +68,9 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Activity</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Destination</th>
+                                            Description</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            LOcation</th>
+                                            Image</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Status</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -82,22 +81,9 @@
                                     <tr>
                                         <td class="px-6 py-4">Trekking</td>
                                         <td class="px-6 py-4">Everest Base Camp</td>
-                                        <td class="px-6 py-4">Solukhumbu</td>
+                                        <td class="px-6 py-4">Imagelink</td>
                                         <td class="px-6 py-4"><span
                                                 class="px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">Active</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                                            <button
-                                                class="text-red-500 hover:text-red-700 ml-2 delete-btn">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4">Trekking</td>
-                                        <td class="px-6 py-4">Annapurna Base Camp</td>
-                                        <td class="px-6 py-4">Pokhara</td>
-                                        <td class="px-6 py-4"><span
-                                                class="px-2 py-1 text-sm bg-red-100 text-green-800 rounded-full">Expire</span>
                                         </td>
                                         <td class="px-6 py-4">
                                             <button class="text-blue-500 hover:text-blue-700">Edit</button>

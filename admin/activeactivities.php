@@ -68,9 +68,9 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Activity</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Destination</th>
+                                            Description</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            LOcation</th>
+                                            Image</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Status</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -81,7 +81,7 @@
                                     <tr>
                                         <td class="px-6 py-4">Trekking</td>
                                         <td class="px-6 py-4">Everest Base Camp</td>
-                                        <td class="px-6 py-4">Solukhumbu</td>
+                                        <td class="px-6 py-4">Imagelink</td>
                                         <td class="px-6 py-4"><span
                                                 class="px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">Active</span>
                                         </td>

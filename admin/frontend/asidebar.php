@@ -46,9 +46,9 @@
                     </li>
                 </ul>
             </li>
-            <li class="mb-2">
+             <li class="mb-2">
                 <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
-                    <span><i class="fa-solid fa-globe"></i> Trips</span>
+                    <span><i class="fa-solid fa-bookmark"></i> Activities</span>
                     <i class="fas fa-chevron-down"></i>
                 </a>
                 <ul class="ml-6 mt-2 hidden">
@@ -62,10 +62,69 @@
                         <a class="text-gray-700 hover:text-blue-500" href="activeactivities">Active</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="draftactivities">Draft</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="expireactivities">Expire</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="mb-2">
+                <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
+                    <span><i class="fa-solid fa-bookmark"></i> Destination</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="ml-6 mt-2 hidden">
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="alldestination">All</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="expireactivities">Expire</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="createdestination">Create</a>
+                    </li>
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="activedestination">Active</a>
+                    </li>
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="expiredestination">Expire</a>
+                    </li>
+                </ul>
+            </li>
+             <li class="mb-2">
+                <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
+                    <span><i class="fa-solid fa-bookmark"></i> Itineary</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="ml-6 mt-2 hidden">
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="allItineary">All</a>
+                    </li>
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="Itineray">Create</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="mb-2">
+                <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
+                    <span><i class="fa-solid fa-globe"></i> Trips</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="ml-6 mt-2 hidden">
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="alltrip">All</a>
+                    </li>
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="createtrip">Create</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="mb-2">
+                <a class="flex items-center justify-between text-gray-700 hover:text-blue-500 dropdown-toggle" href="#">
+                    <span><i class="fa-solid fa-globe"></i> Trips Types</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="ml-6 mt-2 hidden">
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="alltriptype">All</a>
+                    </li>
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="createtriptype">Create</a>
                     </li>
                 </ul>
             </li>
@@ -79,10 +138,10 @@
                         <a class="text-gray-700 hover:text-blue-500" href="profileview">View Profile</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="profileedit">Edit profile</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="logout">Logout</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="password">Change Password</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="changepass">Change Password</a>
                     </li>
                 </ul>
             </li>
