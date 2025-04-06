@@ -112,6 +112,9 @@
                     <li class="mb-2">
                         <a class="text-gray-700 hover:text-blue-500" href="createtrip">Create</a>
                     </li>
+                    <li class="mb-2">
+                        <a class="text-gray-700 hover:text-blue-500" href="add-trip-images">Add-trip-images</a>
+                    </li>
                 </ul>
             </li>
             <li class="mb-2">
