@@ -128,17 +128,17 @@ $conn->close();
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700">Trip Image 1:</label>
+                        <label class="block text-gray-700">Main Image:</label>
                         <input type="file" name="image1" id="image1" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
                     <div>
-                        <label class="block text-gray-700">Trip Image 2:</label>
+                        <label class="block text-gray-700">Side Image 1:</label>
                         <input type="file" name="image2" id="image2" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
                     <div>
-                        <label class="block text-gray-700">Trip Image 3:</label>
+                        <label class="block text-gray-700">Side Image 2:</label>
                         <input type="file" name="image3" id="image3" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>

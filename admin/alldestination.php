@@ -1,3 +1,16 @@
+<?php
+require '../connection.php';
+
+// session_start();
+// if (!isset($_SESSION['admin_id'])) {
+//   header('location:adminlogin.php');
+//   exit;
+// }
+
+$stmt = $conn->prepare("SELECT * FROM destinations");
+$stmt->execute();
+$result = $stmt->get_result();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,25 +85,31 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Image</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
-                                    <tr>
-                                        <td class="px-6 py-4">Trekking</td>
-                                        <td class="px-6 py-4">Everest Base Camp</td>
-                                        <td class="px-6 py-4">Imagelink</td>
-                                        <td class="px-6 py-4"><span
-                                                class="px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">Active</span>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                                            <button
-                                                class="text-red-500 hover:text-red-700 ml-2 delete-btn">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($destination = $result->fetch_assoc()) {
+                                            ?>
+                                            <tr>
+                                                <td class="px-6 py-4"><?php echo $destination["distination"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $destination["description"]; ?></td>
+                                                <td class="px-6 py-4"><img
+                                                        src="<?php echo "../" . $destination["main_image"]; ?>" alt="activity"
+                                                        style="height: 50px; width: 90px;"></td>
+                                                <td class="px-6 py-4">
+                                                    <button class="text-blue-500 hover:text-blue-700">Edit</button>
+                                                    <button
+                                                        class="text-red-500 hover:text-red-700 ml-2 delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                    }
+                                    $stmt->close();
+                                    $conn->close();
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

@@ -1,3 +1,16 @@
+<?php
+require '../connection.php';
+
+// session_start();
+// if (!isset($_SESSION['admin_id'])) {
+//   header('location:adminlogin.php');
+//   exit;
+// }
+
+$stmt = $conn->prepare("SELECT * FROM trips");
+$stmt->execute();
+$result = $stmt->get_result();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,63 +72,84 @@
                             <input type="text" id="searchInput" placeholder="Search users..."
                                 class="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
-
                         <!-- User Table -->
                         <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
                             <table class="min-w-full" id="userTable">
                                 <thead>
                                     <tr class="bg-gray-50">
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            title</th>
+                                            Title</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Description</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Price</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Transportation</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Accomodation</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            maximum Altitude</th>
+                                            Maximum Altitude</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            departure from </th>
+                                            Departure from </th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Best session</th>
+                                            Best Season</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            trip type</th>
+
+                                            Trip type</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            meals</th>
+                                            Meals</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            language</th>
+                                            Language</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             fitnesslevel</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            groupsize</th>
+                                            GroupSize</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            minimumage</th>
+                                            Minimumage</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            maximumage</th>
+                                            Maximumage</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Location</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Duration</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
-                                    <tr>
-                                        <td class="px-6 py-4">Trekking</td>
-                                        <td class="px-6 py-4">Helicopter</td>
-                                        <td class="px-6 py-4">Resort</td>
-                                        <td class="px-6 py-4">8000</td>
-                                        <td class="px-6 py-4">Kathmandu</td>
-                                        <td class="px-6 py-4">Autum</td>
-                                        <td class="px-6 py-4">Nature Friendly</td>
-                                        <td class="px-6 py-4">3 time</td>
-                                        <td class="px-6 py-4">English, Nepali</td>
-                                        <td class="px-6 py-4">High</td>
-                                        <td class="px-6 py-4">>8</td>
-                                        <td class="px-6 py-4">18</td>
-                                        <td class="px-6 py-4">45</td>
-                                        <td class="px-6 py-4">
-                                            <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                                            <button
-                                                class="text-red-500 hover:text-red-700 ml-2 delete-btn">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($trips = $result->fetch_assoc()) {
+                                            ?>
+                                            <tr>
+                                                <td class="px-6 py-4"><?php echo $trips["title"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["description"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["price"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["transportation"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["accomodation"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["maximumaltitude"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["departurefrom"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["bestseason"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["triptype"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["meals"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["language"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["fitnesslevel"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["groupsize"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["minimumage"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["maximumage"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["location"]; ?></td>
+                                                <td class="px-6 py-4"><?php echo $trips["duration"]; ?></td>
+                                                <td class="px-6 py-4">
+                                                    <button class="text-blue-500 hover:text-blue-700">Edit</button>
+                                                    <button
+                                                        class="text-red-500 hover:text-red-700 ml-2 delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                    }
+                                    $stmt->close();
+                                    $conn->close();
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

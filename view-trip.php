@@ -1,5 +1,7 @@
 <?php
 include("frontend/session_start.php");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,13 +26,19 @@ include("frontend/session_start.php");
         <div class="container py-5">
             <div class="trip-image-container">
                 <!-- Product Images -->
-                <div class="gallery" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-                    <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)"
-                        style="height: 300px; width: 400px;">
-                    <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)"
-                        style="height: 300px; width: 400px;">
-                    <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)"
-                        style="height: 300px; width: 400px;">
+                <div class="gallery"
+                    style="display: flex; flex-wrap: wrap; align-items:center; justify-content: space-around;">
+                    <div class="mainimg">
+                        <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)"
+                            style="height: 400px; width: 600px;">
+                    </div>
+                    <div class="sideimg"
+                        style="display: flex; justify-content: space-between; flex-direction:column; flex-wrap: wrap;">
+                        <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)"
+                            style="height: 200px; width: 400px;">
+                        <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)"
+                            style="height: 200px; width: 400px;">
+                    </div>
                 </div>
                 <!-- Modal Structure -->
                 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">

@@ -2,6 +2,7 @@
 require 'frontend/connection.php'; // Reuse your DB connection file
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = trim($_POST['title']);
+    $description = trim($_POST['description']);
     $price = floatval($_POST['price']);
     $transportation = trim($_POST['Transportation']);
     $accomodation = trim($_POST['accomodation']);
@@ -15,14 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $groupsize = trim($_POST['groupsize']);
     $minimumage = intval($_POST['minimumage']);
     $maximumage = intval($_POST['maximumage']);
+    $location = trim($_POST['location']);
     $sql = "INSERT INTO trips (
         title, price, transportation, accomodation, maximumaltitude, 
         departurefrom, bestseason, triptype, meals, language, 
-        fitnesslevel, groupsize, minimumage, maximumage
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        fitnesslevel, groupsize, minimumage, maximumage,description,location
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "sdssssssssssii", // string, decimal, string... int, int
+        "sdssssssssssiiss", // string, decimal, string... int, int
         $title,
         $price,
         $transportation,
@@ -36,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fitnesslevel,
         $groupsize,
         $minimumage,
-        $maximumage
+        $maximumage,
+        $description,
+        $location
     );
     if ($stmt->execute()) {
         echo "<script>alert('Registration Successful');</script>";
@@ -68,7 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 });
             });
-
             document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
                 toggle.addEventListener('click', function (event) {
                     event.stopPropagation();
@@ -96,6 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label class="block text-gray-700">Title:</label>
                         <input type="text" name="title" id="title" class="w-full p-2 border border-gray-300 rounded"
                             required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Short Description:</label>
+                        <input type="text" name="description" id="description"
+                            class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div>
                         <label class="block text-gray-700">Price:</label>
@@ -194,6 +202,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div>
                         <label class="block text-gray-700">Maximum Age:</label>
                         <input type="text" id="maximumage" name="maximumage"
+                            class="w-full p-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Location: </label>
+                        <input type="text" id="location" name="location"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div>

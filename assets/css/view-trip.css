@@ -428,15 +428,14 @@ input[type="submit"]:hover {
 }
 
 @media (max-width: 768px) {
-  .gallery img:nth-child(1) {
+  .gallery .mainimg img {
     width: 330px !important;
     height: 200px !important;
   }
-
-  .gallery img:nth-child(2),
-  .gallery img:nth-child(3) {
+  .gallery .sideimg img {
     display: none;
   }
+
   .check-ins {
     height: max-content;
     width: 100%;
@@ -496,5 +495,8 @@ input[type="submit"]:hover {
 
   .side-trip-facts {
     display: none !important;
+  }
+  .sideimg img {
+    display: none;
   }
 }
