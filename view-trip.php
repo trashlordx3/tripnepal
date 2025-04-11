@@ -1,21 +1,35 @@
 <?php
 include("frontend/session_start.php");
-
+require 'connection.php'; // Include your database connection file
+$description = "";
+if (isset($_GET['tripid'])) {
+    $tripid = $_GET['tripid'];
+    $sql = "SELECT * FROM trip_details_view WHERE tripid = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+    $stmt->bind_param("i", $tripid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $trip = $result->fetch_assoc();
+    }
+}
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="assets/css/view-trip.css">
-
 </head>
 
 <body>
@@ -29,14 +43,14 @@ include("frontend/session_start.php");
                 <div class="gallery"
                     style="display: flex; flex-wrap: wrap; align-items:center; justify-content: space-around;">
                     <div class="mainimg">
-                        <img src="assets/img/budget.jpg" class="thumbnail" onclick="openModal(0)"
+                        <img src="<?php echo $trip['main_image']; ?>" class="thumbnail" onclick="openModal(0)"
                             style="height: 400px; width: 600px;">
                     </div>
                     <div class="sideimg"
                         style="display: flex; justify-content: space-between; flex-direction:column; flex-wrap: wrap;">
-                        <img src="assets/img/chitwan.jpg" class="thumbnail" onclick="openModal(1)"
+                        <img src="<?php echo $trip['side_image1']; ?>" class="thumbnail" onclick="openModal(1)"
                             style="height: 200px; width: 400px;">
-                        <img src="assets/img/culture.jpg" class="thumbnail" onclick="openModal(2)"
+                        <img src="" <?php echo $trip['main_image2']; ?>"" class="thumbnail" onclick="openModal(2)"
                             style="height: 200px; width: 400px;">
                     </div>
                 </div>
@@ -55,7 +69,7 @@ include("frontend/session_start.php");
                 </div>
 
                 <script>
-                    let images = ["assets/img/budget.jpg", "assets/img/chitwan.jpg", "assets/img/culture.jpg"];
+                    let images = ["<?php echo $trip['main_image']; ?>", "<?php echo $trip['side_image1']; ?>", "<?php echo $trip['side_image2']; ?>"];
                     let currentIndex = 0;
 
                     function openModal(index) {
@@ -82,11 +96,11 @@ include("frontend/session_start.php");
                     <div class="viewtrip-container" style="width: 100%; display: flex; justify-content: space-between;">
                         <div class="trip-info" style="width:68%">
                             <div class="trip-heading" style="display: flex;">
-                                <h1>7 Days touur to Explore the Beauuty of Himalaya</h1>
+                                <h1>"<?php echo $trip['title']; ?>"</h1>
                                 <div class="duration" style="text-align:center; display:flex; flex-direction:column;">
                                     <h1
                                         style="background-color:rgb(83, 192, 192); border-radius:5px 5px 0px 0px; color:white;">
-                                        7
+                                        <?php echo $trip['duration']; ?>
                                     </h1>
                                     <h1 style="margin-top:-5px;">Days</h1>
                                 </div>
@@ -96,74 +110,74 @@ include("frontend/session_start.php");
                                     <div><i class=" fas fa-bus text-teal-500 mr-2" id="fact-icon"></i>
                                     <span>Transportation</span>
                                 </div>
-                                <div class=""><span>Bus, Airlines</span></div>
+                                <div class=""><span><?php echo $trip['transportation']; ?></span></div>
                             </div>
 
                             <div class="flex items-center">
                                 <div><i class="fas fa-hotel text-teal-500 mr-2"
                                         id="fact-icon"></i><span>Accomodation</span>
                                 </div>
-                                <div class=""><span>3 Stars Hotels</span>
+                                <div class=""><span><?php echo $trip['accomodation']; ?> </span>
                                 </div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-mountain text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
                                         Altitude</span>
                                 </div>
-                                <div class=""><span>5,416 metres</span></div>
+                                <div class=""><span><?php echo $trip['maximumaltitude']; ?> metres</span></div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-plane-departure text-teal-500 mr-2"
                                         id="fact-icon"></i><span>Departure
                                         from</span></div>
-                                <div class=""><span>Kathmandu</span></div>
+                                <div class=""><span><?php echo $trip['departurefrom']; ?></span></div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-calendar-alt text-teal-500 mr-2" id="fact-icon"></i><span>Best
                                         season</span></div>
-                                <div><span>Feb, Mar, Apr & May</span></div>
+                                <div><span><?php echo $trip['bestseason']; ?></span></div>
                             </div>
                             <div class="flex items-center">
                                 <div> <i class="fas fa-hiking text-teal-500 mr-2" id="fact-icon"></i><span>Tour
                                         type</span></div>
 
-                                <div class=""><span>Eco-Tour, Hiking</span></div>
+                                <div class=""><span><?php echo $trip['triptype']; ?></span></div>
 
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-utensils text-teal-500 mr-2" id="fact-icon"></i><span>Meals</span>
                                 </div>
-                                <div class=""><span>All meals during the trek</span></div>
+                                <div class=""><span><?php echo $trip['meals']; ?></span></div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-language text-teal-500 mr-2"
                                         id="fact-icon"></i><span>Language</span></div>
-                                <div class=""><span>English, Spanish, French, Chinese</span></div>
+                                <div class=""><span><?php echo $trip['language']; ?></span></div>
 
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-dumbbell text-teal-500 mr-2" id="fact-icon"></i> <span>Fitness
                                         level</span>
                                 </div>
-                                <div class=""><span>Easy to Moderate</span></div>
+                                <div class=""><span><?php echo $trip['fitnesslevel']; ?></span></div>
 
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-users text-teal-500 mr-2" id="fact-icon"></i><span>Group
                                         Size</span></div>
-                                <div class=""><span>2-15</span></div>
+                                <div class=""><span><?php echo $trip['groupsize']; ?></span></div>
 
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-child text-teal-500 mr-2" id="fact-icon"></i><span>Minimum
                                         Age</span></div>
-                                <div class=""><span>12</span></div>
+                                <div class=""><span><?php echo $trip['minimumage']; ?></span></div>
                             </div>
                             <div class="flex items-center">
                                 <div><i class="fas fa-user-alt text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
                                         Age</span>
                                 </div>
-                                <div class=""><span>65</span></div>
+                                <div class=""><span><?php echo $trip['maximumage']; ?></span></div>
                             </div>
                         </div>
                         <div class="itinery-menu">
@@ -175,14 +189,19 @@ include("frontend/session_start.php");
                         </div>
                         <div class="overview" id="overview">
                             <h2>Overview</h2>
-                            <p>Travel is the movement of people between relatively distant geographical locations, and
-                                can involve travel by foot, bicycle, automobile, train, boat, bus, airplane, or other
+                            <p>Travel is the movement of people between relatively distant geographical locations,
+                                and
+                                can involve travel by foot, bicycle, automobile, train, boat, bus, airplane, or
+                                other
                                 means, with or without luggage, and can be one way or round trip. Travel can also
                                 include relatively short stays between successive movements.
 
-                                The origin of the word “travel” is most likely lost to history. The term “travel” may
-                                originate from the Old French word travail, which means ‘work’. According to the Merriam
-                                Webster dictionary, the first known use of the word travel was in the 14th century.</p>
+                                The origin of the word “travel” is most likely lost to history. The term “travel”
+                                may
+                                originate from the Old French word travail, which means ‘work’. According to the
+                                Merriam
+                                Webster dictionary, the first known use of the word travel was in the 14th century.
+                            </p>
                             <h2>
                                 Hightlights
                             </h2>
@@ -212,7 +231,8 @@ include("frontend/session_start.php");
                                         <span class="icon">⌄</span>
                                     </div>
                                     <div class="day-content">
-                                        <p>Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by the
+                                        <p>Arrive at Tribhuwan International Airport, Kathmandu. You are welcomed by
+                                            the
                                             team and then transferred
                                             to your hotel. This trail goes through Ghorepani Poon Hill.
                                         </p>
@@ -225,11 +245,13 @@ include("frontend/session_start.php");
                                         <span class="icon">⌄</span>
                                     </div>
                                     <div class="day-content">
-                                        <p> Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet consectetur
+                                        <p> Drive to Nayapul and begin your trek Lorem ipsum dolor, sit amet
+                                            consectetur
                                             adipisicing elit. Suscipit molestiae libero similique ratione laboriosam
                                             alias
                                             neque exercitationem officia, fuga voluptates facere a dignissimos rerum
-                                            accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing through
+                                            accusamus blanditiis molestias aliquid quos esse! to Ulleri, passing
+                                            through
                                             lush
                                             landscapes
                                             and small villages.
@@ -450,8 +472,8 @@ include("frontend/session_start.php");
                             <div class="pricing"
                                 style="text-align: center; display:flex; justify-content:space-evenly; padding:15px 0px 15px 0px;">
                                 <div class="price1">
-                                    <span style="color: black;">From </span> <span
-                                        style="font-size: 2rem;">$300</span><span style="color: black;">/Person</span>
+                                    <span style="color: black;">From </span> <span style="font-size: 2rem;">
+                                        $<?php echo $trip['price']; ?></span><span style="color: black;">/Person</span>
                                 </div>
                             </div>
                             <div class="highlite"
@@ -489,75 +511,76 @@ include("frontend/session_start.php");
                                     <div><i class=" fas fa-bus text-teal-500 mr-2"
                                             id="fact-icon"></i><span>Transportation</span>
                                     </div>
-                                    <div class=""><span>Bus, Airlines</span>
+                                    <div class=""><span><?php echo $trip['transportation']; ?></span>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-hotel text-teal-500 mr-2"
                                             id="fact-icon"></i><span>Accomodation</span>
                                     </div>
-                                    <div class=""><span>3 Stars Hotels</span>
+                                    <div class=""><span>3 <?php echo $trip['accomodation']; ?></span>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-mountain text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
                                             Altitude</span>
                                     </div>
-                                    <div class=""><span>5,416 metres</span></div>
+                                    <div class=""><span><?php echo $trip['maximumaltitude']; ?></span></div>
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-plane-departure text-teal-500 mr-2"
                                             id="fact-icon"></i><span>Departure
                                             from</span></div>
-                                    <div class=""><span>Kathmandu</span></div>
+                                    <div class=""><span><?php echo $trip['departurefrom']; ?></span></div>
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-calendar-alt text-teal-500 mr-2" id="fact-icon"></i><span>Best
                                             season</span></div>
-                                    <div><span>Feb, Mar, Apr & May</span></div>
+                                    <div><span><?php echo $trip['bestseason']; ?></span></div>
                                 </div>
                                 <div class="flex items-center">
                                     <div> <i class="fas fa-hiking text-teal-500 mr-2" id="fact-icon"></i><span>Tour
                                             type</span></div>
 
-                                    <div class=""><span>Eco-Tour, Hiking</span></div>
+                                    <div class=""><span><?php echo $trip['triptype']; ?></span></div>
 
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-utensils text-teal-500 mr-2"
                                             id="fact-icon"></i><span>Meals</span>
                                     </div>
-                                    <div class=""><span>All meals during the trek</span></div>
+                                    <div class=""><span><?php echo $trip['meals']; ?></span></div>
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-language text-teal-500 mr-2"
                                             id="fact-icon"></i><span>Language</span></div>
-                                    <div class=""><span>English, Spanish, French, Chinese</span></div>
+                                    <div class=""><span><?php echo $trip['language']; ?></span></div>
 
                                 </div>
                                 <div class="flex items-center">
-                                    <div><i class="fas fa-dumbbell text-teal-500 mr-2" id="fact-icon"></i> <span>Fitness
+                                    <div><i class="fas fa-dumbbell text-teal-500 mr-2" id="fact-icon"></i>
+                                        <span>Fitness
                                             level</span>
                                     </div>
-                                    <div class=""><span>Easy to Moderate</span></div>
+                                    <div class=""><span><?php echo $trip['fitnesslevel']; ?></span></div>
 
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-users text-teal-500 mr-2" id="fact-icon"></i><span>Group
                                             Size</span></div>
-                                    <div class=""><span>2-15</span></div>
+                                    <div class=""><span><?php echo $trip['groupsize']; ?></span></div>
 
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-child text-teal-500 mr-2" id="fact-icon"></i><span>Minimum
                                             Age</span></div>
-                                    <div class=""><span>12</span></div>
+                                    <div class=""><span><?php echo $trip['minimumage']; ?></span></div>
                                 </div>
                                 <div class="flex items-center">
                                     <div><i class="fas fa-user-alt text-teal-500 mr-2" id="fact-icon"></i><span>Maximum
                                             Age</span>
                                     </div>
-                                    <div class=""><span>65</span></div>
+                                    <div class=""><span><?php echo $trip['maximumage']; ?></span></div>
                                 </div>
                             </div>
                         </div>
@@ -659,7 +682,6 @@ include("frontend/session_start.php");
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <?php
