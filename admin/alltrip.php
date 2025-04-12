@@ -65,7 +65,7 @@ $result = $stmt->get_result();
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h1 class="text-2xl font-bold mb-4"><br></h1>
                 <div class="bg-gray-100 p-4 rounded-lg mb-6">
-                    <h2 class="text-xl font-semibold mb-4">All Activities</h2>
+                    <h2 class="text-xl font-semibold mb-4">All TRIPS</h2>
                     <form>
                         <!-- Search Bar -->
                         <div class="mt-4 mb-6">

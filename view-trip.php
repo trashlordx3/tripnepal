@@ -50,7 +50,7 @@ if (isset($_GET['tripid'])) {
                         style="display: flex; justify-content: space-between; flex-direction:column; flex-wrap: wrap;">
                         <img src="<?php echo $trip['side_image1']; ?>" class="thumbnail" onclick="openModal(1)"
                             style="height: 200px; width: 400px;">
-                        <img src="" <?php echo $trip['main_image2']; ?>"" class="thumbnail" onclick="openModal(2)"
+                        <img src="" <?php echo $trip['side_image2']; ?>"" class="thumbnail" onclick="openModal(2)"
                             style="height: 200px; width: 400px;">
                     </div>
                 </div>
@@ -189,18 +189,7 @@ if (isset($_GET['tripid'])) {
                         </div>
                         <div class="overview" id="overview">
                             <h2>Overview</h2>
-                            <p>Travel is the movement of people between relatively distant geographical locations,
-                                and
-                                can involve travel by foot, bicycle, automobile, train, boat, bus, airplane, or
-                                other
-                                means, with or without luggage, and can be one way or round trip. Travel can also
-                                include relatively short stays between successive movements.
-
-                                The origin of the word “travel” is most likely lost to history. The term “travel”
-                                may
-                                originate from the Old French word travail, which means ‘work’. According to the
-                                Merriam
-                                Webster dictionary, the first known use of the word travel was in the 14th century.
+                            <p><?php echo $trip['description']; ?>
                             </p>
                             <h2>
                                 Hightlights
@@ -351,7 +340,8 @@ if (isset($_GET['tripid'])) {
                             <h1>Enquiry Form</h1>
                             <div class="enquiry-container">
                                 <h1>You can send your enquiry via the form below.</h1>
-                                <form id="enquiryForm">
+                                <form id="enquiryForm" action="https://api.web3forms.com/submit" method="POST">
+                                    <input type="hidden" name="access_key" value="8789583e-fd9e-44e5-a6e8-e265ceec0848">
                                     <label for="trip-name">Trip name: <span style="color: red;">*</span></label>
                                     <input type="text" id="name" name="trip-name" placeholder="Enter Your Name *"
                                         required value="Ghorepani Poon Hill Trek">
@@ -411,57 +401,7 @@ if (isset($_GET['tripid'])) {
                                 </form>
                             </div>
 
-                            <script>
-                                // Function to adjust input size based on selected country
-                                function adjustInputSize() {
-                                    const countrySelect = document.getElementById('country');
-                                    const selectedCountry = countrySelect.options[countrySelect.selectedIndex].text;
-                                    const contactNumberInput = document.getElementById('contact-number');
 
-                                    // Calculate the width based on the length of the selected country name
-                                    const width = Math.min(Math.max(selectedCountry.length * 10, 100), 300); // Min 100px, Max 300px
-                                    contactNumberInput.style.width = `${width}px`;
-                                }
-
-                                // Form submission handling
-                                document.getElementById('enquiryForm').addEventListener('submit', function (event) {
-                                    event.preventDefault();
-
-                                    const name = document.getElementById('name').value;
-                                    const email = document.getElementById('email').value;
-                                    const country = document.getElementById('country').value;
-                                    const contactNumber = document.getElementById('contact-number').value;
-                                    const adults = document.getElementById('adults').value;
-                                    const children = document.getElementById('children').value;
-                                    const subject = document.getElementById('subject').value;
-                                    const message = document.getElementById('message').value;
-
-                                    if (!validateEmail(email)) {
-                                        alert('Please enter a valid email address.');
-                                        return;
-                                    }
-
-                                    const formData = {
-                                        name,
-                                        email,
-                                        country,
-                                        contactNumber,
-                                        adults,
-                                        children,
-                                        subject,
-                                        message
-                                    };
-
-                                    console.log('Form Data Submitted:', formData);
-                                    alert('Your enquiry has been sent successfully!');
-                                });
-
-                                // Email validation function
-                                function validateEmail(email) {
-                                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                                    return re.test(String(email).toLowerCase());
-                                }
-                            </script>
                         </div>
                     </div>
                     <div class="trip-pricing">
@@ -597,82 +537,95 @@ if (isset($_GET['tripid'])) {
         <div class="features">
             <div class="container text-center py-5 card-container" id="card-container"
                 style="row-gap:20px; background-color:transparent;">
-                <?php for ($i = 0; $i < 3; $i++) { ?>
-                    <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
-                        <div class="position-relative">
-                            <div class="carousel">
-                                <div class="carousel-container">
-                                    <a href="">
-                                        <img src="assets/img/mustang.jpg" class="slide active">
-                                    </a>
-                                </div>
-                            </div>
-                            <span class="badge-featured">
-                                Featured
-                            </span>
-                        </div>
-                        <div class="card-top">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center"
-                                    style="padding:10px 0px 10px 0px">
-                                    <a href="" style="text-decoration:none; color:black;"
-                                        onmouseover="this.style.color='#008080'" onmouseout="this.style.color='black'">
-                                        <h5 class=" card-title mb-0">
-                                            Paris Effiel Tower Tour 1 Day Tour
-                                        </h5>
-                                    </a>
+                <?php
+                $triptypename = $trip['triptype'];
+                $sql = "SELECT * FROM trip_details_view WHERE triptype=$triptypename";
 
+                $stmt->execute();
+                $trip_result = $stmt->get_result(); ?>
+                <?php if ($trip_result->num_rows > 0) {
+                    while ($trips = $trip_result->fetch_assoc()) { ?>
+                        <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
+                            <div class="position-relative">
+                                <div class="carousel">
+                                    <div class="carousel-container">
+                                        <a href="">
+                                            <img src="../uploads/tripimg/<?php echo $trips['main_image']; ?>"
+                                                class="slide active">
+                                        </a>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class=" d-flex mb-3">
-                                        <div class="me-3 card-contents" style="padding-left:15px;">
-                                            <p class="mb-1">
-                                                <i class="fas fa-map-marker-alt" style="color:green; margin-right:10px;">
-                                                </i>
-                                                France, India, Nepal, Srilanka
-                                            </p>
-                                            <p class="mb-1">
-                                                <i class="fas fa-clock" style="color:green; margin-right:5px;">
-                                                </i>
-                                                5 Hours
-                                            </p>
-                                            <p class="mb-1">
-                                                <i class="fas fa-users" style="color:green; margin-right:2px;">
-                                                </i>
-                                                1-10 People
-                                            </p>
-                                        </div>
-                                        <div class="me-3 card-contents">
-                                            <div class="price"
-                                                style="margin-top:50%; border-left: 1px solid gray; padding-left:20px;">
-                                                <h2><?php echo "$" . number_format(3000); ?></h2>
+                                <span class="badge-featured">
+                                    Featured
+                                </span>
+                            </div>
+                            <div class="card-top">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center"
+                                        style="padding:10px 0px 10px 0px">
+                                        <a href="" style="text-decoration:none; color:black;"
+                                            onmouseover="this.style.color='#008080'" onmouseout="this.style.color='black'">
+                                            <h5 class=" card-title mb-0">
+                                                <?php echo $trips['title']; ?>
+                                            </h5>
+                                        </a>
+
+                                    </div>
+                                    <div>
+                                        <div class=" d-flex mb-3">
+                                            <div class="me-3 card-contents" style="padding-left:15px;">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-map-marker-alt" style="color:green; margin-right:10px;">
+                                                    </i>
+                                                    <?php echo $trips['location']; ?>
+                                                </p>
+                                                <p class="mb-1">
+                                                    <i class="fas fa-clock" style="color:green; margin-right:5px;">
+                                                    </i>
+                                                    <?php echo $trips['duration']; ?>
+                                                </p>
+                                                <p class="mb-1">
+                                                    <i class="fas fa-users" style="color:green; margin-right:2px;">
+                                                    </i>
+                                                    <?php echo $trips['groupsize']; ?>
+                                                </p>
+                                            </div>
+                                            <div class="me-3 card-contents">
+                                                <div class="price"
+                                                    style="margin-top:50%; border-left: 1px solid gray; padding-left:20px;">
+                                                    <h2><?php echo "$" . number_format($trips["price"]); ?></h2>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
-                                    <p class="mb-1">
-                                        Travel is the movement of people between relatively distant geographical...
-                                    </p>
-                                </div>
-                                <div class="departure-detail"
-                                    style="display: flex; align-items:end; justify-content: space-between;">
-
                                     <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
-                                        <h5>Next Departure: </h5>
-                                        <p class="mb-1">Jan 2025</p>
-                                        <p class="mb-1">Jan 2025</p>
-                                        <p class="mb-1">Jan 2025</p>
+                                        <p class="mb-1">
+                                            <?php
+                                            $description = $trips['description'];
+                                            $words = explode(" ", $description);
+                                            $firstTenWords = implode(" ", array_slice($words, 0, 10));
+                                            echo $firstTenWords . '...'; // Adds "..." to indicate there's more
+                                            ?>
+                                        </p>
                                     </div>
-                                    <div class="me-3 card-contents" id="view-details-link"
-                                        style="padding:10px 0px 10px 0px;">
-                                        <a href="#">VIEW DETAILS</a>
+                                    <div class="departure-detail"
+                                        style="display: flex; align-items:end; justify-content: space-between;">
+                                        <div class="me-3 card-contents" style="padding:10px 0px 10px 0px;">
+                                            <h5>Next Departure: </h5>
+                                            <p class="mb-1">Jan 2025</p>
+                                            <p class="mb-1">Jan 2025</p>
+                                            <p class="mb-1">Jan 2025</p>
+                                        </div>
+                                        <div class="me-3 card-contents" id="view-details-link"
+                                            style="padding:10px 0px 10px 0px;">
+                                            <a href="view-trip?tripid=<?php echo $trips['tripid']; ?>">VIEW DETAILS</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    <?php }
+                } ?>
             </div>
         </div>
         <div class="features">
@@ -755,7 +708,6 @@ if (isset($_GET['tripid'])) {
                 day.classList.add("expanded");
             }
         }
-
         function toggleAll() {
             let toggleSwitch = document.querySelector('.toggle-switch');
             let days = document.querySelectorAll('.day');

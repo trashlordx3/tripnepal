@@ -460,12 +460,13 @@ $trip_result = $stmt->get_result();
 
          <?php if ($trip_result->num_rows > 0) {
             while ($trip = $trip_result->fetch_assoc()) { ?>
-               <div class="card" style=" flex: 0 0 calc(33.33% - 20px);">
+               <div class="card" style=" flex: 0 0 calc(33.33% - 20px);" style="height:600px;">
                   <div class="position-relative">
                      <div class="carousel">
                         <div class="carousel-container">
                            <a href="view-trip?tripid=<?php echo $trip['tripid']; ?>">
-                              <img src="<?php echo $trip['main_image']; ?>" class="slide active">
+                              <img src="<?php echo $trip['main_image']; ?>" style="height: 250px; width: 400px;"
+                                 class="slide active">
                            </a>
                         </div>
                      </div>
@@ -486,7 +487,14 @@ $trip_result = $stmt->get_result();
                         </div>
                         <div class="me-3 card-contents" style="padding:10px 0px 10px 0px; border-bottom:1px solid gray;">
                            <p class="mb-1">
-                              Travel is the movement of people between relatively distant geographical...
+                              <?php
+                              $description = $trip['description'];
+                              $words = explode(" ", $description);
+                              $firstTenWords = implode(" ", array_slice($words, 0, 10));
+
+                              echo $firstTenWords . '...'; // Adds "..." to indicate there's more
+                              ?>
+
                            </p>
                         </div>
                      </div>
@@ -502,7 +510,7 @@ $trip_result = $stmt->get_result();
                            <p class="mb-1">
                               <i class="fas fa-clock" style="color:green; margin-right:5px;">
                               </i>
-                              5 Hours
+                              <?php echo $trip["duration"]; ?>
                            </p>
                            <p class="mb-1">
                               <i class="fas fa-users" style="color:green; margin-right:2px;">
