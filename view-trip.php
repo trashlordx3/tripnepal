@@ -432,7 +432,7 @@ if (isset($_GET['tripid'])) {
                                 </ul>
                             </div>
                             <div class="action" style="display: flex; justify-content: space-between;">
-                                <a href="book-trip" class="pricing-btn"><i
+                                <a href="book-trip?tripid=<?php echo $trip['tripid']; ?>" class="pricing-btn"><i
                                         class="fas fa-ticket-alt text-teal-500 mr-2"></i>
                                     Book Now
                                 </a>

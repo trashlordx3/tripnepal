@@ -13,11 +13,115 @@ if ($result->num_rows > 0) {
     header('location:login.php');
     exit;
 }
-if (isset($_GET['tripname'])) {
-    $tripname = $_GET['tripname'];
+if (isset($_GET['tripid'])) {
+    $tripid = $_GET['tripid'];
 }
-?>
 
+
+
+$stmt1 = $conn->prepare("SELECT tripid, title FROM trips where tripid = ?");
+$stmt1->bind_param("i", $tripid);
+$stmt1->execute();
+$tripresult = $stmt1->get_result();
+if ($tripresult->num_rows > 0) {
+    $trip = $tripresult->fetch_assoc();
+}
+
+
+// Validate that the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    // Debug: Print all POST data
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+
+    // Validate required fields
+    $required = [
+        'tripid',
+        'trip_title',
+        'fullname',
+        'email',
+        'phonenumber',
+        'adults',
+        'childrens',
+        'arrivaldate',
+        'departuredate',
+        'arrivaltime',
+        'pickup',
+        'msg',
+        'paymentMode'
+    ];
+
+    foreach ($required as $field) {
+        if (empty($_POST[$field])) {
+            die("Missing required field: $field");
+        }
+    }
+
+    // Sanitize and get form data
+    $user_id = $_SESSION['user_id'] ?? null;
+    $trip_id = (int) $_POST['tripid'];
+    $trip_name = $conn->real_escape_string($_POST['trip_title']);
+    $full_name = $conn->real_escape_string($_POST['fullname']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $address = $conn->real_escape_string($_POST['address'] ?? '');
+    $phone_number = $conn->real_escape_string($_POST['phonenumber']);
+    $city = $conn->real_escape_string($_POST['city'] ?? '');
+    $country = $conn->real_escape_string($_POST['country'] ?? '');
+    $adults = (int) $_POST['adults'];
+    $children = (int) $_POST['childrens'];
+    $arrival_date = $conn->real_escape_string($_POST['arrivaldate']);
+    $departure_date = $conn->real_escape_string($_POST['departuredate']);
+    $arrival_time = $conn->real_escape_string($_POST['arrivaltime']);
+    $airport_pickup = $conn->real_escape_string($_POST['pickup']);
+    $message = $conn->real_escape_string($_POST['msg']);
+    $payment_mode = $conn->real_escape_string($_POST['paymentMode']);
+    $payment_status = 'not paid';
+
+    $stmt3 = $conn->prepare("INSERT INTO trip_bookings (
+        user_id, trip_id, trip_name, full_name, email, address, phone_number, city, country,
+        adults, children, arrival_date, departure_date, arrival_time,
+        airport_pickup, message, payment_mode, payment_status
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    if (!$stmt3) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $stmt3->bind_param(
+        "sisssssssiisssssss",
+        $user_id,
+        $trip_id,
+        $trip_name,
+        $full_name,
+        $email,
+        $address,
+        $phone_number,
+        $city,
+        $country,
+        $adults,
+        $children,
+        $arrival_date,
+        $departure_date,
+        $arrival_time,
+        $airport_pickup,
+        $message,
+        $payment_mode,
+        $payment_status
+    );
+
+    if ($stmt3->execute()) {
+        echo "<script>alert('Booking Successful'); window.location.href = 'success.php';</script>";
+    } else {
+        echo "<script>alert('Error: " . addslashes($stmt3->error) . "');</script>";
+    }
+    $stmt3->close();
+    $conn->close();
+}
+
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,7 +203,7 @@ if (isset($_GET['tripname'])) {
                     <h1 class="mb-4">
                         TRIP BOOKING FORM
                     </h1>
-                    <form id="inquiryForm" novalidate="">
+                    <form method="post" action="">
                         <!-- Trip Details -->
                         <div class="mb-4">
                             <div class="bg-success text-white p-2 mb-2 book-title">
@@ -107,11 +211,10 @@ if (isset($_GET['tripname'])) {
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
+                                    <input type="hidden" value="<?php echo $trip['tripid']; ?>" name="tripid">
+                                    <input type="hidden" value="<?php echo $trip['title']; ?>" name="trip_title">
                                     <label>
-                                        Trip Id : 2323
-                                    </label>
-                                    <label>
-                                        Trip Name : <h1>Helloasjdfjasdfjas alsdjflkasj dflalskjd flkajs fl jasl dfj</h1>
+                                        Trip Name : <h1><?php echo $trip['title']; ?></h1>
                                     </label>
                                 </div>
                             </div>
@@ -126,7 +229,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Full Name :
                                     </label>
-                                    <input class="form-control" id="fullName" required="" type="text"
+                                    <input class="form-control" id="fullName" required name="fullname" type="text"
                                         value="<?php echo $user['first_name'] . " " . $user['last_name']; ?>" />
                                     <div class="error" id="fullNameError">
                                     </div>
@@ -135,7 +238,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Email :
                                     </label>
-                                    <input class="form-control" id="email" required="" type="email"
+                                    <input class="form-control" id="email" required type="email" name="email"
                                         value="<?php echo $user['email']; ?>" />
                                     <div class="error" id="emailError">
                                     </div>
@@ -144,7 +247,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Address :
                                     </label>
-                                    <input class="form-control" id="address" required="" type="text"
+                                    <input class="form-control" id="address" required type="text" name="address"
                                         value="<?php echo $user['address']; ?>" />
                                     <div class="error" id="addressError">
                                     </div>
@@ -153,7 +256,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Tel / Mobile :
                                     </label>
-                                    <input class="form-control" id="tel" required="" type="tel"
+                                    <input class="form-control" id="tel" required="" type="tel" name="phonenumber"
                                         value="<?php echo $user['phone_number']; ?>" />
                                     <div class="error" id="telError">
                                     </div>
@@ -162,7 +265,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         City :
                                     </label>
-                                    <input class="form-control" id="city" required="" type="text"
+                                    <input class="form-control" id="city" required="" type="text" name="city"
                                         value="<?php echo $user['address']; ?>" />
                                     <div class="error" id="cityError">
                                     </div>
@@ -171,7 +274,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Country :
                                     </label>
-                                    <input class="form-control" id="city" required="" type="text"
+                                    <input class="form-control" id="city" required type="text" name="country"
                                         value="<?php echo $user['country']; ?>" />
                                     <div class="error" id="countryError">
                                     </div>
@@ -180,7 +283,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         No. of person :
                                     </label>
-                                    <select class="form-control" id="adults" required="">
+                                    <select class="form-control" id="adults" required name="adults">
                                         <option value="">
                                             Select Adults (12+)
                                         </option>
@@ -190,6 +293,51 @@ if (isset($_GET['tripname'])) {
                                         <option value="2">
                                             2
                                         </option>
+                                        <option value="3">
+                                            3
+                                        </option>
+                                        <option value="4">
+                                            4
+                                        </option>
+                                        <option value="5">
+                                            5
+                                        </option>
+                                        <option value="6">
+                                            6
+                                        </option>
+                                        <option value="7">
+                                            7
+                                        </option>
+                                        <option value="8">
+                                            8
+                                        </option>
+                                        <option value="8">
+                                            8
+                                        </option>
+                                        <option value="9">
+                                            9
+                                        </option>
+                                        <option value="10">
+                                            10
+                                        </option>
+                                        <option value="12">
+                                            12
+                                        </option>
+                                        <option value="13">
+                                            13
+                                        </option>
+                                        <option value="14">
+                                            14
+                                        </option>
+                                        <option value="15">
+                                            15
+                                        </option>
+                                        <option value="16">
+                                            16
+                                        </option>
+                                        <option value="17">
+                                            17
+                                        </option>
                                     </select>
                                     <div class="error" id="adultsError">
                                     </div>
@@ -198,7 +346,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Children (&gt;12) :
                                     </label>
-                                    <select class="form-control" id="children" required="">
+                                    <select class="form-control" id="children" required name="childrens">
                                         <option value="">
                                             Select Children (&gt;12)
                                         </option>
@@ -207,6 +355,21 @@ if (isset($_GET['tripname'])) {
                                         </option>
                                         <option value="1">
                                             1
+                                        </option>
+                                        <option value="2">
+                                            2
+                                        </option>
+                                        <option value="3">
+                                            3
+                                        </option>
+                                        <option value="4">
+                                            4
+                                        </option>
+                                        <option value="5">
+                                            5
+                                        </option>
+                                        <option value="6">
+                                            6
                                         </option>
                                     </select>
                                     <div class="error" id="childrenError">
@@ -224,7 +387,8 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Arrival Date :
                                     </label>
-                                    <input class="form-control" id="arrivalDate" required="" type="date" />
+                                    <input class="form-control" id="arrivalDate" required name="arrivaldate"
+                                        type="date" />
                                     <div class="error" id="arrivalDateError">
                                     </div>
                                 </div>
@@ -232,7 +396,8 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Departure Date :
                                     </label>
-                                    <input class="form-control" id="departureDate" required="" type="date" />
+                                    <input class="form-control" id="departureDate" required name="departuredate"
+                                        type="date" />
                                     <div class="error" id="departureDateError">
                                     </div>
                                 </div>
@@ -240,7 +405,8 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Arrival Time :
                                     </label>
-                                    <input class="form-control" id="arrivalTime" required="" type="time" />
+                                    <input class="form-control" id="arrivalTime" required name="arrivaltime"
+                                        type="time" />
                                     <div class="error" id="arrivalTimeError">
                                     </div>
                                 </div>
@@ -249,14 +415,14 @@ if (isset($_GET['tripname'])) {
                                         Airport Pickup :
                                     </label><br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-radio-input" id="pickupYes" name="pickup" required=""
+                                        <input class="form-radio-input" id="pickupYes" name="pickup" required
                                             type="radio" value="yes" />
                                         <label class="form-check-label" for="pickupYes">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-radio-input" id="pickupNo" name="pickup" required=""
+                                        <input class="form-radio-input" id="pickupNo" name="pickup" required
                                             type="radio" value="no" />
                                         <label class="form-check-label" for="pickupNo">
                                             No
@@ -269,7 +435,7 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Message :
                                     </label>
-                                    <textarea class="form-control" id="message"
+                                    <textarea class="form-control" id="message" name="msg"
                                         placeholder="Any message you want to leave?" required="" rows="4"></textarea>
                                     <div class="error" id="messageError">
                                     </div>
@@ -286,25 +452,31 @@ if (isset($_GET['tripname'])) {
                                     <label>
                                         Mode of Payment:
                                     </label>
-                                    <select class="form-control" id="paymentMode" required="">
+                                    <select class="form-control" id="paymentMode" name="paymentMode" required="">
                                         <option value="">
                                             Select Payment Mode
                                         </option>
                                         <option value="Paypal">
                                             Paypal
                                         </option>
+                                        <option value="Bank Transfer">
+                                            Bank Transfer
+                                        </option>
+                                        <option value="Stripe">
+                                            Stripe
+                                        </option>
                                     </select>
                                     <div class="error" id="paymentModeError">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6 d-flex align-items-center">
-                                    <input class="mr-2" id="notRobot" required="" type="checkbox" />
+                                    <input class="mr-2" id="notRobot" type="checkbox" required="" /><br>
                                     <label class="mr-2">
                                         I'm not a robot
                                     </label>
                                     <img alt="reCAPTCHA verification" class="img-fluid" height="50"
                                         src="https://storage.googleapis.com/a1aa/image/gXTOh7QaVJ0xctIwQI9PNHXYjL0ypahPF8sCScd6J-U.jpg"
-                                        width="100" />
+                                        width="100" height="60" />
                                     <div class="error" id="notRobotError">
                                     </div>
                                 </div>
@@ -312,9 +484,7 @@ if (isset($_GET['tripname'])) {
                         </div>
                         <!-- Submit Button -->
                         <div class="text-center">
-                            <button class="btn btn-warning text-white px-5" type="submit">
-                                Book Now
-                            </button>
+                            <input class="btn btn-warning text-white px-5" type="submit" value="Book Now">
                         </div>
                     </form>
                 </div>
@@ -398,188 +568,6 @@ if (isset($_GET['tripname'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
-    </script>
-    <script>
-        document.getElementById('inquiryForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            let isValid = true;
-
-            // Validate Adults
-            const adults = document.getElementById('adults');
-            const adultsError = document.getElementById('adultsError');
-            if (adults.value === '') {
-                adultsError.textContent = 'Please select the number of adults.';
-                isValid = false;
-            } else {
-                adultsError.textContent = '';
-            }
-
-            // Validate Children
-            const children = document.getElementById('children');
-            const childrenError = document.getElementById('childrenError');
-            if (children.value === '') {
-                childrenError.textContent = 'Please select the number of children.';
-                isValid = false;
-            } else {
-                childrenError.textContent = '';
-            }
-
-            // Validate Full Name
-            const fullName = document.getElementById('fullName');
-            const fullNameError = document.getElementById('fullNameError');
-            if (fullName.value.trim() === '') {
-                fullNameError.textContent = 'Please enter your full name.';
-                isValid = false;
-            } else {
-                fullNameError.textContent = '';
-            }
-
-            // Validate Email
-            const email = document.getElementById('email');
-            const emailError = document.getElementById('emailError');
-            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!emailPattern.test(email.value)) {
-                emailError.textContent = 'Please enter a valid email address.';
-                isValid = false;
-            } else {
-                emailError.textContent = '';
-            }
-
-            // Validate Address
-            const address = document.getElementById('address');
-            const addressError = document.getElementById('addressError');
-            if (address.value.trim() === '') {
-                addressError.textContent = 'Please enter your address.';
-                isValid = false;
-            } else {
-                addressError.textContent = '';
-            }
-
-            // Validate Tel / Mobile
-            const tel = document.getElementById('tel');
-            const telError = document.getElementById('telError');
-            const telPattern = /^[0-9]{10}$/;
-            if (!telPattern.test(tel.value)) {
-                telError.textContent = 'Please enter a valid 10-digit phone number.';
-                isValid = false;
-            } else {
-                telError.textContent = '';
-            }
-            // validate city
-            const cityName = document.getElementById('city`');
-            const cityError = document.getElementById('cityError');
-            if (fullName.value.trim() === '') {
-                cityError.textContent = 'Please enter your city name.';
-                isValid = false;
-            } else {
-                cityError.textContent = '';
-            }
-            // Validate Country
-            const country = document.getElementById('country');
-            const countryError = document.getElementById('countryError');
-            if (country.value === '') {
-                countryError.textContent = 'Please select your country.';
-                isValid = false;
-            } else {
-                countryError.textContent = '';
-            }
-
-            // Validate Arrival Date
-            const arrivalDate = document.getElementById('arrivalDate');
-            const arrivalDateError = document.getElementById('arrivalDateError');
-            if (arrivalDate.value === '') {
-                arrivalDateError.textContent = 'Please select your arrival date.';
-                isValid = false;
-            } else {
-                arrivalDateError.textContent = '';
-            }
-
-            // Validate Departure Date
-            const departureDate = document.getElementById('departureDate');
-            const departureDateError = document.getElementById('departureDateError');
-            if (departureDate.value === '') {
-                departureDateError.textContent = 'Please select your departure date.';
-                isValid = false;
-            } else {
-                departureDateError.textContent = '';
-            }
-
-            // Validate Airlines
-            const airlines = document.getElementById('airlines');
-            const airlinesError = document.getElementById('airlinesError');
-            if (airlines.value.trim() === '') {
-                airlinesError.textContent = 'Please enter your airlines.';
-                isValid = false;
-            } else {
-                airlinesError.textContent = '';
-            }
-
-            // Validate Flight No
-            const flightNo = document.getElementById('flightNo');
-            const flightNoError = document.getElementById('flightNoError');
-            if (flightNo.value.trim() === '') {
-                flightNoError.textContent = 'Please enter your flight number.';
-                isValid = false;
-            } else {
-                flightNoError.textContent = '';
-            }
-
-            // Validate Arrival Time
-            const arrivalTime = document.getElementById('arrivalTime');
-            const arrivalTimeError = document.getElementById('arrivalTimeError');
-            if (arrivalTime.value === '') {
-                arrivalTimeError.textContent = 'Please select your arrival time.';
-                isValid = false;
-            } else {
-                arrivalTimeError.textContent = '';
-            }
-
-            // Validate Airport Pickup
-            const pickupYes = document.getElementById('pickupYes');
-            const pickupNo = document.getElementById('pickupNo');
-            const pickupError = document.getElementById('pickupError');
-            if (!pickupYes.checked && !pickupNo.checked) {
-                pickupError.textContent = 'Please select if you need airport pickup.';
-                isValid = false;
-            } else {
-                pickupError.textContent = '';
-            }
-
-            // Validate Message
-            const message = document.getElementById('message');
-            const messageError = document.getElementById('messageError');
-            if (message.value.trim() === '') {
-                messageError.textContent = 'Please enter a message.';
-                isValid = false;
-            } else {
-                messageError.textContent = '';
-            }
-
-            // Validate Payment Mode
-            const paymentMode = document.getElementById('paymentMode');
-            const paymentModeError = document.getElementById('paymentModeError');
-            if (paymentMode.value === '') {
-                paymentModeError.textContent = 'Please select a payment mode.';
-                isValid = false;
-            } else {
-                paymentModeError.textContent = '';
-            }
-
-            // Validate Not a Robot
-            const notRobot = document.getElementById('notRobot');
-            const notRobotError = document.getElementById('notRobotError');
-            if (!notRobot.checked) {
-                notRobotError.textContent = 'Please confirm you are not a robot.';
-                isValid = false;
-            } else {
-                notRobotError.textContent = '';
-            }
-
-            if (isValid) {
-                alert('Form submitted successfully!');
-                // You can add form submission logic here
-            }
-        });
     </script>
     </div>
     </div>

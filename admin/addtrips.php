@@ -75,8 +75,6 @@
         include("frontend/navbar.php");
         ?>
         <!-- Navbar -->
-
-
         <!-- Main Content -->
         <div class="ml-64 p-6 w-full mt-16">
             <div class="bg-white shadow-md rounded-lg p-6">
@@ -132,5 +130,3 @@
 </body>
 
 </html>
-
-
