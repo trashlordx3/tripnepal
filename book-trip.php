@@ -30,34 +30,6 @@ if ($tripresult->num_rows > 0) {
 
 // Validate that the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // Debug: Print all POST data
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
-
-    // Validate required fields
-    $required = [
-        'tripid',
-        'trip_title',
-        'fullname',
-        'email',
-        'phonenumber',
-        'adults',
-        'childrens',
-        'arrivaldate',
-        'departuredate',
-        'arrivaltime',
-        'pickup',
-        'msg',
-        'paymentMode'
-    ];
-
-    foreach ($required as $field) {
-        if (empty($_POST[$field])) {
-            die("Missing required field: $field");
-        }
-    }
-
     // Sanitize and get form data
     $user_id = $_SESSION['user_id'] ?? null;
     $trip_id = (int) $_POST['tripid'];
@@ -77,19 +49,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $message = $conn->real_escape_string($_POST['msg']);
     $payment_mode = $conn->real_escape_string($_POST['paymentMode']);
     $payment_status = 'not paid';
+    $start_date = $conn->real_escape_string($_POST['startdate']);
 
     $stmt3 = $conn->prepare("INSERT INTO trip_bookings (
         user_id, trip_id, trip_name, full_name, email, address, phone_number, city, country,
         adults, children, arrival_date, departure_date, arrival_time,
-        airport_pickup, message, payment_mode, payment_status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        airport_pickup, message, payment_mode, payment_status, start_date
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!$stmt3) {
         die("Prepare failed: " . $conn->error);
     }
 
     $stmt3->bind_param(
-        "sisssssssiisssssss",
+        "sisssssssiissssssss",
         $user_id,
         $trip_id,
         $trip_name,
@@ -107,7 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $airport_pickup,
         $message,
         $payment_mode,
-        $payment_status
+        $payment_status,
+        $start_date
     );
 
     if ($stmt3->execute()) {
@@ -194,7 +168,7 @@ $conn->close();
     ?>
     <header class="hero">
         <h1>Booking Form</h1>
-        <p>Your trusted partner for unforgettable journeys around the globe.</p>
+        <p>Your trusted partner for unforgettable journeys around the Nepal.</p>
     </header>
     <div class="features">
         <div class="container py-5 ">
@@ -215,7 +189,19 @@ $conn->close();
                                     <input type="hidden" value="<?php echo $trip['title']; ?>" name="trip_title">
                                     <label>
                                         Trip Name : <h1><?php echo $trip['title']; ?></h1>
+                                    </label><br>
+
+                                    <label>
+                                        Start Date :
                                     </label>
+                                    <select class="form-control" id="startdate" required name="startdate">
+                                        <option value="not selected">
+                                            Select Date
+                                        </option>
+                                        <option value="May 2025">
+                                            May 2025
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

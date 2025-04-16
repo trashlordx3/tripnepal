@@ -1,5 +1,36 @@
 <?php
-include("/frontend/session_start.php");
+require 'connection.php';
+session_start();
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE userid = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
+if (isset($_GET['booking-id'])) {
+    $bookid = $_GET['booking-id'];
+}
+// Fetching data from trip_bookings table
+$sql1 = "SELECT * FROM trip_bookings  inner join trips on trip_bookings.trip_id = trips.tripid inner join
+ trip_images on trips.tripid = trip_images.tripid where trip_bookings.user_id=? AND trip_bookings.id=?";
+$stmt2 = $conn->prepare($sql1);
+$stmt2->bind_param("si", $user_id, $bookid);
+$stmt2->execute();
+$booking = $stmt2->get_result();
+$booking_result = $booking->fetch_assoc();
+$stmt2->close();
+
+// Fetching data from trip_images table
+$sql2 = "SELECT main_image FROM trip_images where tripid=?";
+$stmt3 = $conn->prepare($sql2);
+$stmt3->bind_param("i", $booking_result['trip_id']);
+$stmt3->execute();
+$tripimg = $stmt3->get_result();
+$main_img = $tripimg->fetch_assoc();
+$stmt3->close();
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -162,7 +193,7 @@ include("/frontend/session_start.php");
 
 
                     <h1 class="">
-                        Welcome suresh!
+                        Welcome <?php echo $user['user_name']; ?>
                     </h1>
                 </div>
                 <a class="logout-btn" href="login" onclick="return confirm('Are you sure want to logout?');">
@@ -181,32 +212,32 @@ include("/frontend/session_start.php");
             </div>
             <div class="user-contents">
                 <div class="booking-image">
-                    <img src="assets/img/lumbini.jpg" alt="" height="200" width="200">
-                    <a href="view-trip" class="paynow-btn">View Trip</a>
+                    <img src="<?php echo $main_img['main_image']; ?>" alt="" height="200" width="200">
+                    <a href="view-trip?tripid=<?php echo $booking_result['trip_id']; ?>" class="paynow-btn">View
+                        Trip</a>
                 </div>
                 <div class="billing-details">
-
                     <div class=" trip-information">
                         <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
-                            7 Days Mustang trek
+                            <?php echo $booking_result['trip_name']; ?>
                         </div>
                         <table>
                             <tr>
                                 <td><span>Trip Code : </span></td>
-                                <td> <span class="bold-span">WTF-234</span></td>
+                                <td> <span class="bold-span"><?php echo $booking_result['trip_id']; ?></span></td>
                             </tr>
                             <tr>
                                 <td><span>Trip Start Date: </span></td>
-                                <td><span class="bold-span">Feb 1, 2026</span><br></td>
+                                <td><span class="bold-span"><?php echo $booking_result['start_date']; ?></span><br></td>
                             </tr>
 
-                            <tr>
+                            <!-- <tr>
                                 <td> <span>Trip End Date: </span></td>
                                 <td> <span class="bold-span">Feb 1, 2026</span><br></td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td><span>Duration: </span></td>
-                                <td><span class="bold-span">7 Days</span></td>
+                                <td><span class="bold-span"><?php echo $booking_result['duration']; ?></span></td>
                             </tr>
                         </table>
                     </div>
@@ -218,32 +249,34 @@ include("/frontend/session_start.php");
                     <table>
                         <tr>
                             <td>Name : </td>
-                            <td class="bold-span"> Suresh</td>
+                            <td class="bold-span"> <?php echo $booking_result['full_name']; ?></td>
                         </tr>
                         <tr>
                             <td>Email: </td>
-                            <td class="bold-span">sureshjimba@gmail.com</td>
+                            <td class="bold-span"><?php echo $booking_result['email']; ?></td>
                         </tr>
                         <tr>
                             <td>Address: </td>
-                            <td class="bold-span">New York</td>
+                            <td class="bold-span"><?php echo $booking_result['address']; ?></td>
                         </tr>
                         <tr>
                             <td>Country: </td>
-                            <td class="bold-span">US</td>
+                            <td class="bold-span"><?php echo $booking_result['country']; ?></td>
                         </tr>
                         <tr>
                             <td>Contact : </td>
-                            <td class="bold-span">+977 234234234</td>
+                            <td class="bold-span"><?php echo $booking_result['phone_number']; ?></td>
                         </tr>
                     </table>
 
                     <div>
-                        <span>No. of person: </span><span class="bold-span">3</span>
+                        <span>No. of person: </span><span
+                            class="bold-span"><?php echo $booking_result['adults']; ?></span>
                     </div>
                     <h4 style="margin-top: 20px;">Extra Services</h4>
                     <div>
-                        <span>Pickup from Kathmandu Airport: </span> <span class="bold-span">Yes</span>
+                        <span>Pickup from Kathmandu Airport: </span> <span
+                            class="bold-span"><?php echo $booking_result['airport_pickup']; ?></span>
                     </div>
 
                 </div>
@@ -252,7 +285,8 @@ include("/frontend/session_start.php");
                         Payment Details
                     </div>
                     <div><span>Total: </span> <span class="bold-span">$ 400</span> </div>
-                    <div><span>Status: </span> <span class="bold-span">Pending</span></div>
+                    <div><span>Status: </span> <span
+                            class="bold-span"><?php echo $booking_result['payment_status']; ?></span></div>
                     <div>
                         <div class="mb-4">
                             <div class="bg-success text-white p-2 mb-2 book-title" style="margin-top: 20px;">
@@ -275,7 +309,7 @@ include("/frontend/session_start.php");
                             </select>
                             <div
                                 style="display: flex; justify-content:space-between; align-items:center; padding: 20px 0px 20px 0px;">
-                                <input class="mr-2" id="notRobot" required="" type="checkbox" />
+                                <input class="mr-2" id="notRobot" required type="checkbox" />
                                 <label class="mr-2">
                                     I'm not a robot
                                 </label>

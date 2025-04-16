@@ -182,7 +182,7 @@ $conn->close();
                         width="80" style="border-radius: 20%; cursor: pointer;" />
 
                     <h1 class="">
-                        Welcome suresh!
+                        Welcome <?php echo $user['user_name']; ?>
                     </h1>
                 </div>
                 <a class="logout-btn" href="logout" onclick="return confirm('Are you sure want to logout?');">
@@ -224,34 +224,34 @@ $conn->close();
             </div>
             <?php if ($booking_result->num_rows > 0) {
                 while ($booking = $booking_result->fetch_assoc()) { ?>
-                    <div class="user-contents">
+                    <div class="user-contents" style="margin-bottom:2rem;">
                         <div class="booking-image">
                             <img src="<?php echo $booking['main_image']; ?>" height="200" width="200">
                         </div>
                         <div class=" trip-information">
                             <div class="bg-success text-white p-2 mb-2 book-title">
-                                7 Days Mustang trek
+                                <?php echo $booking['trip_name']; ?>
                             </div>
                             <table>
                                 <tr>
                                     <td><span>Trip Code : </span></td>
-                                    <td> <span class="bold-span">WTF-234</span></td>
+                                    <td> <span class="bold-span"><?php echo $booking['trip_id']; ?></span></td>
                                 </tr>
                                 <tr>
                                     <td><span>Trip Start Date: </span></td>
-                                    <td><span class="bold-span">Feb 1, 2026</span><br></td>
+                                    <td><span class="bold-span"><?php echo $booking['start_date']; ?></span><br></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td> <span>Trip End Date: </span></td>
-                                    <td> <span class="bold-span">Feb 1, 2026</span><br></td>
-                                </tr>
+                                    <td> <span class="bold-span"></span><br></td>
+                                </tr> -->
                                 <tr>
                                     <td><span>Duration: </span></td>
-                                    <td><span class="bold-span">7 Days</span></td>
+                                    <td><span class="bold-span"><?php echo $booking['duration']; ?></span></td>
                                 </tr>
                                 <tr>
                                     <td><span>Payment: </span></td>
-                                    <td><span class="bold-span">Pending</span></td>
+                                    <td><span class="bold-span"><?php echo $booking['payment_status']; ?></span></td>
                                 </tr>
                             </table>
                         </div>
@@ -259,7 +259,8 @@ $conn->close();
                         <div class=" view-detail">
                             <div class="paynow">
                                 <a href="" class="paynow-btn">Pay Now</a>
-                                <a href="booked-trip-view" class="paynow-btn">View Details</a>
+                                <a href="booked-trip-view?booking-id=<?php echo $booking['id']; ?>" class="paynow-btn">View
+                                    Details</a>
                             </div>
                         </div>
                     </div>
