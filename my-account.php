@@ -19,9 +19,19 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
-
 // Close connections
 $stmt->close();
+
+// Fetching data from trip_bookings table
+$sql1 = "SELECT * FROM trip_bookings  inner join trips on trip_bookings.trip_id = trips.tripid inner join trip_images on trips.tripid = trip_images.tripid where user_id=?";
+$stmt2 = $conn->prepare($sql1);
+$stmt2->bind_param("s", $user_id);
+$stmt2->execute();
+$booking_result = $stmt2->get_result();
+
+
+
+
 $conn->close();
 ?>
 <!DOCTYPE html>
@@ -212,71 +222,77 @@ $conn->close();
             <div class="user-contents" style="margin-bottom: 50px;">
                 <h1>Booking Details</h1>
             </div>
-            <div class="user-contents">
-                <div class="booking-image">
-                    <img src="assets/img/lumbini.jpg" alt="" height="200" width="200">
-                </div>
-                <div class=" trip-information">
-                    <div class="bg-success text-white p-2 mb-2 book-title">
-                        7 Days Mustang trek
-                    </div>
-                    <table>
-                        <tr>
-                            <td><span>Trip Code : </span></td>
-                            <td> <span class="bold-span">WTF-234</span></td>
-                        </tr>
-                        <tr>
-                            <td><span>Trip Start Date: </span></td>
-                            <td><span class="bold-span">Feb 1, 2026</span><br></td>
-                        </tr>
-                        <tr>
-                            <td> <span>Trip End Date: </span></td>
-                            <td> <span class="bold-span">Feb 1, 2026</span><br></td>
-                        </tr>
-                        <tr>
-                            <td><span>Duration: </span></td>
-                            <td><span class="bold-span">7 Days</span></td>
-                        </tr>
-                        <tr>
-                            <td><span>Payment: </span></td>
-                            <td><span class="bold-span">Pending</span></td>
-                        </tr>
-                    </table>
-                </div>
+            <?php if ($booking_result->num_rows > 0) {
+                while ($booking = $booking_result->fetch_assoc()) { ?>
+                    <div class="user-contents">
+                        <div class="booking-image">
+                            <img src="<?php echo $booking['main_image']; ?>" height="200" width="200">
+                        </div>
+                        <div class=" trip-information">
+                            <div class="bg-success text-white p-2 mb-2 book-title">
+                                7 Days Mustang trek
+                            </div>
+                            <table>
+                                <tr>
+                                    <td><span>Trip Code : </span></td>
+                                    <td> <span class="bold-span">WTF-234</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>Trip Start Date: </span></td>
+                                    <td><span class="bold-span">Feb 1, 2026</span><br></td>
+                                </tr>
+                                <tr>
+                                    <td> <span>Trip End Date: </span></td>
+                                    <td> <span class="bold-span">Feb 1, 2026</span><br></td>
+                                </tr>
+                                <tr>
+                                    <td><span>Duration: </span></td>
+                                    <td><span class="bold-span">7 Days</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>Payment: </span></td>
+                                    <td><span class="bold-span">Pending</span></td>
+                                </tr>
+                            </table>
+                        </div>
 
-                <div class=" view-detail">
-                    <div class="paynow">
-                        <a href="" class="paynow-btn">Pay Now</a>
-                        <a href="booked-trip-view" class="paynow-btn">View Details</a>
+                        <div class=" view-detail">
+                            <div class="paynow">
+                                <a href="" class="paynow-btn">Pay Now</a>
+                                <a href="booked-trip-view" class="paynow-btn">View Details</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                <?php }
+            } ?>
         </div>
-        <?php
-        include("frontend/footer.php");
-        ?>
-        <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
-            <i class="fas fa-chevron-up"></i>
-        </div>
-        <script>
-            window.onscroll = function () {
-                var scrollUpButton = document.getElementById("scrollUpButton");
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    scrollUpButton.style.display = "flex";
-                } else {
-                    scrollUpButton.style.display = "none";
-                }
-            };
+    </div>
+    <?php
+    include("frontend/footer.php");
+    ?>
+    <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </div>
 
-            function scrollToTop() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+    <script>
+        window.onscroll = function () {
+            var scrollUpButton = document.getElementById("scrollUpButton");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                scrollUpButton.style.display = "flex";
+            } else {
+                scrollUpButton.style.display = "none";
             }
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
