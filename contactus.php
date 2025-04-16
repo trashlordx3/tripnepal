@@ -69,23 +69,27 @@ include("frontend/header.php");
             <div class="col-lg-7 mb-4">
                 <div class="card p-4 shadow-sm">
                     <h3 class="mb-3">Get in touch</h3>
-                    <form id="contactForm">
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="8789583e-fd9e-44e5-a6e8-e265ceec0848">
                         <div class="mb-3">
                             <label for="name" class="form-label">Full Name*</label>
-                            <input type="text" class="form-control" id="name" placeholder="Full name" required>
+                            <input type="text" class="form-control" id="name" name="full-name" placeholder="Full name"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email*</label>
-                            <input type="email" class="form-control" id="email" placeholder="Email" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="subject" class="form-label">Subject*</label>
-                            <input type="text" class="form-control" id="subject" placeholder="Write subject" required>
+                            <input type="text" class="form-control" id="subject" name="subject"
+                                placeholder="Write subject" required>
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message*</label>
-                            <textarea class="form-control" id="message" rows="5" placeholder="Write your message"
-                                required></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5"
+                                placeholder="Write your message" required></textarea>
                         </div>
                         <div class="form-check mb-3">
                             <input type="checkbox" class="form-check-input" id="policy" required>
@@ -94,11 +98,8 @@ include("frontend/header.php");
                                     Policy</a>.
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-warning w-100">SEND MESSAGE</button>
+                        <input type="submit" class="btn btn-warning w-100" value="SEND MESSAGE">
                     </form>
-                    <div id="successMessage" class="alert alert-success mt-3 d-none" role="alert">
-                        Your message has been sent successfully!
-                    </div>
                 </div>
             </div>
             <!-- Contact Information Section -->
@@ -128,23 +129,7 @@ include("frontend/footer.php");
 <?php
 include("frontend/scrollup.html");
 ?>
-<script>
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent default form submission
 
-        // Show success message
-        const successMessage = document.getElementById("successMessage");
-        successMessage.classList.remove("d-none");
-
-        // Reset form fields
-        document.getElementById("contactForm").reset();
-
-        // Hide success message after 3 seconds
-        setTimeout(() => {
-            successMessage.classList.add("d-none");
-        }, 3000);
-    });
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
