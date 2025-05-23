@@ -1,5 +1,9 @@
 <?php
 require 'frontend/connection.php'; // Reuse your DB connection file
+
+$tripTypesQuery = "SELECT triptype_id, triptype, description FROM triptypes";
+$tripTypesResult = $conn->query($tripTypesQuery);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = trim($_POST['title']);
     $description = trim($_POST['description']);
@@ -9,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $maxaltitude = intval($_POST['maxaltitude']);
     $depature = trim($_POST['depature']);
     $seasion = trim($_POST['seasion']);
-    $triptype = trim($_POST['triptype']);
+    $triptype_id = intval($_POST['triptype_id']);
     $meals = trim($_POST['meals']);
     $language = trim($_POST['language']);
     $fitnesslevel = trim($_POST['fitnesslevel']);
@@ -17,14 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $minimumage = intval($_POST['minimumage']);
     $maximumage = intval($_POST['maximumage']);
     $location = trim($_POST['location']);
+
+    $tripTypeQuery = "SELECT triptype FROM triptypes WHERE triptype_id = ?";
+    $stmt = $conn->prepare($tripTypeQuery);
+    $stmt->bind_param("i", $triptype_id);
+    $stmt->execute();
+    $tripTypeResult = $stmt->get_result();
+    $triptype_name = $tripTypeResult->fetch_assoc()['name'];
+
     $sql = "INSERT INTO trips (
         title, price, transportation, accomodation, maximumaltitude, 
-        departurefrom, bestseason, triptype, meals, language, 
-        fitnesslevel, groupsize, minimumage, maximumage,description,location
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
-    $stmt = $conn->prepare($sql);
+        departurefrom, bestseason, triptype, triptype_id, meals, language, 
+        fitnesslevel, groupsize, minimumage, maximumage, description, location
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "sdssssssssssiiss", // string, decimal, string... int, int
+        "sdssssssissssiiss", // Added one more 'i' for triptype_id
         $title,
         $price,
         $transportation,
@@ -32,7 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $maxaltitude,
         $depature,
         $seasion,
-        $triptype,
+        $triptype_name, // Keep for backward compatibility
+        $triptype_id,   // New foreign key
         $meals,
         $language,
         $fitnesslevel,
@@ -42,8 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $description,
         $location
     );
+    
     if ($stmt->execute()) {
-        echo "<script>alert('Registration Successful');</script>";
+        echo "<script>alert('Trip created successfully!');</script>";
     } else {
         echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
@@ -93,24 +107,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Main Content -->
         <div class="ml-64 p-6 w-full mt-16">
             <div class="bg-white shadow-md rounded-lg p-6">
-                <h1 class="text-2xl font-bold text-gray-800 mt-12">Add New Trips</h1>
+                <h1 class="text-3xl font-bold text-gray-800 mt-6 tracking-tighter ">Add New Trips</h1>
                 <form method="post">
-                    <div>
-                        <label class="block text-gray-700">Title:</label>
+                    <div class="mt-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Title:</label>
                         <input type="text" name="title" id="title" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Short Description:</label>
+                    <div class="mt-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Short Description:</label>
                         <input type="text" name="description" id="description"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Price:</label>
+                    <div class="mt-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Price:</label>
                         <input type="number" name="price" id="Price" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
-                    <div class="mb-6">
+                    <div class="mt-8">
                         <label for="Transportation"
                             class="block text-sm font-medium text-gray-700 mb-1">Transportation</label>
                         <select id="Transportation" name="Transportation" required
@@ -121,17 +135,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Helicopter">Helicopter</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Accomodation:</label>
+                    <div class="mt-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Accomodation:</label>
                         <input type="text" id="Accomodation" name="accomodation"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Maxmimum altitude:</label>
+                    <div class="mt-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Maxmimum altitude:</label>
                         <input type="text" id="Maxmimum" name="maxaltitude"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div class="mb-6">
+                    <div class="mt-8">
                         <label for="Depature" class="block text-sm font-medium text-gray-700 mb-1">Depature from</label>
                         <select id="Depature" name="depature" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -141,38 +155,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Chitwan">Chitwan</option>
                         </select>
                     </div>
-                    <div class="mb-6">
-                        <label for="Session" class="block text-sm font-medium text-gray-700 mb-1">Best session</label>
+                    <div class="mt-8">
+                        <label for="Session" class="block text-sm font-medium text-gray-700 mb-1">Best season</label>
                         <select id="Session" name="seasion" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected>Best Session </option>
+                            <option value="" disabled selected>Best Season </option>
                             <option value="Winter">Winter</option>
                             <option value="Summer">Summer</option>
                             <option value="Spring">Spring</option>
                             <option value="Autumn">Autumn</option>
                         </select>
                     </div>
-                    <div class="mb-6">
-                        <label for="triptype" class="block text-sm font-medium text-gray-700 mb-1">Trip Type</label>
-                        <select id="triptype" name="triptype" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected>Select Triptype</option>
-                            <option value="Nature Friendly">Nature Friendly</option>
-                            <option value="Cultural">Cultural</option>
-                            <option value="Budget Friendly">Budget Friendly</option>
+                    <div class="mt-8">
+                        <label for="triptype" class="block text-sm font-medium text-gray-700 mb-2">Trip Type</label>
+                        <select id="triptype" name="triptype_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="" disabled selected>Select Trip Type</option>
+                            <?php if ($tripTypesResult && $tripTypesResult->num_rows > 0): ?>
+                                <?php while ($tripType = $tripTypesResult->fetch_assoc()): ?>
+                                    <option value="<?php echo $tripType['triptype_id']; ?>" title="<?php echo htmlspecialchars($tripType['description']); ?>">
+                                        <?php echo htmlspecialchars($tripType['triptype']); ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <option value="" disabled>No trip types available</option>
+                            <?php endif; ?>
                         </select>
+                        <p class="text-xs text-gray-500 mt-1">Hover over options to see descriptions</p>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Meals:</label>
+                    <div class="mt-7">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Meals:</label>
                         <input type="text" id="Meals" name="meals" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Language:</label>
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Language:</label>
                         <input type="text" id="language" name="language"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div class="mb-6">
+                    <div class="mt-6">
                         <label for="fitnesslevel" class="block text-sm font-medium text-gray-700 mb-1">Fitness
                             Level</label>
                         <select id="fitnesslevel" name="fitnesslevel" required
@@ -183,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="High">High</option>
                         </select>
                     </div>
-                    <div class="mb-6">
+                    <div class="mt-6">
                         <label for="groupsize" class="block text-sm font-medium text-gray-700 mb-1">Group Size</label>
                         <select id="groupsize" name="groupsize" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -194,22 +214,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="14-More">14-More</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Minimum Age:</label>
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Age:</label>
                         <input type="text" id="minimumage" name="minimumage"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Maximum Age:</label>
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Maximum Age:</label>
                         <input type="text" id="maximumage" name="maximumage"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700">Location: </label>
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Location: </label>
                         <input type="text" id="location" name="location"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
-                    <div>
+                    <div class="mt-6">
                         <!-- Submit Button -->
                         <div class="md:col-span-2 mt-4 flex justify-end space-x-4">
                             <button type="submit" class="bg-[#008080] text-white px-4 py-2 rounded">Create </button>

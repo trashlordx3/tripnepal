@@ -53,10 +53,10 @@
                 </a>
                 <ul class="ml-6 mt-2 hidden">
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="allactivities">All</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="listactivities">All</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="createactivities">Create</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="newactivities">Create</a>
                     </li>
                     <li class="mb-2">
                         <a class="text-gray-700 hover:text-blue-500" href="activeactivities">Active</a>
@@ -73,10 +73,10 @@
                 </a>
                 <ul class="ml-6 mt-2 hidden">
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="alldestination">All</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="listdestination">All</a>
                     </li>
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="createdestination">Create</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="newdestination">Create</a>
                     </li>
                     <li class="mb-2">
                         <a class="text-gray-700 hover:text-blue-500" href="activedestination">Active</a>
@@ -93,7 +93,7 @@
                 </a>
                 <ul class="ml-6 mt-2 hidden">
                     <li class="mb-2">
-                        <a class="text-gray-700 hover:text-blue-500" href="allItineary">All</a>
+                        <a class="text-gray-700 hover:text-blue-500" href="allitinerary">All</a>
                     </li>
                     <li class="mb-2">
                         <a class="text-gray-700 hover:text-blue-500" href="Itineray">Create</a>

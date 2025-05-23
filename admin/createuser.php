@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssssss", $userid, $phone, $email, $username, $firstname, $lastname, $hashed_password);
     if ($stmt->execute()) {
         echo "<script> alert('Registration Successful'); </script>";
+        echo "<script> window.location.href = 'viewuser.php'; </script>";
     } else {
         echo "<script> alert('Registration Failed'); </script>";
     }
@@ -71,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h1 class="text-2xl font-bold mb-4"><br></h1>
                 <div class="bg-gray-100 p-4 rounded-lg mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Create Users</h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-6 tracking-tighter">Create Users</h2>
                     <form class="grid grid-cols-1 md:grid-cols-2 gap-4" method="post"
                         onsubmit="return validateForm(event)">
                         <div>

@@ -155,7 +155,9 @@ CREATE TABLE `trips` (
   `maximumage` int(11) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `duration` varchar(255) DEFAULT NULL
+  `duration` varchar(255) DEFAULT NULL,
+  `status` enum("active","expired","draft") DEFAULT active,
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

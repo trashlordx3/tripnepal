@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             echo "<script>alert('TripType uploaded successfully!');</script>";
+            echo "<script> window.location.href = 'alltriptype.php'; </script>";
         } else {
             echo "<script>alert('Failed to save image paths in the database.');</script>";
         }
@@ -96,7 +97,7 @@ $conn->close();
         <!-- Main Content -->
         <div class="ml-64 p-6 w-full">
             <div class="bg-white shadow-md rounded-lg p-6">
-                <h1 class="text-2xl font-bold text-gray-800 mt-12">Add New Trip Type</h1>
+                <h1 class="text-3xl font-bold text-gray-800 mt-6 tracking-tighter">Add New Trip Type</h1>
                 <form method="post" enctype="multipart/form-data">
                     <!-- Activity Name -->
                     <div class="mt-8">
@@ -106,7 +107,7 @@ $conn->close();
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <!-- Activity Description -->
-                    <div class="mb-4">
+                    <div class="mb-4 pt-4">
                         <label for="act_desc" class="block text-sm font-medium text-gray-700 mb-1">Trip Type
                             Description</label>
                         <textarea id="act_description" name="act_description" rows="4" required
@@ -114,8 +115,8 @@ $conn->close();
                     </div>
 
                     <!-- Activity Image -->
-                    <div class="mb-4">
-                        <label for="act_image" class="block text-sm font-medium text-gray-700 mb-1">Activity
+                    <div class="mb-4 pt-4">
+                        <label for="act_image" class="block text-sm font-medium text-gray-700 mb-1">Trip Type
                             Image</label>
                         <div class="flex items-center justify-center w-full">
                             <label for="act_image"
@@ -141,7 +142,7 @@ $conn->close();
                     <!-- Submit Button -->
                     <div class="md:col-span-2 flex justify-end space-x-4">
                         <button type="submit" class="bg-[#008080] text-white px-4 py-2 rounded">Create </button>
-                        <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                        <a href='alltriptype'><button type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button></a>
                     </div>
                 </form>
                 <!-- Display error/success messages -->

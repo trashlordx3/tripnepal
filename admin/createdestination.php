@@ -95,7 +95,7 @@ $conn->close();
         <!-- Main Content -->
         <div class="ml-64 p-6 w-full">
             <div class="bg-white shadow-md rounded-lg p-6">
-                <h1 class="text-2xl font-bold text-gray-800 mt-12">Add New Destination</h1>
+                <h1 class="text-3xl font-bold text-gray-800 mt-6 tracking-tighter">Add New Destination</h1>
                 <form method="post" enctype="multipart/form-data">
                     <!-- Activity Name -->
                     <div class="mt-8">
