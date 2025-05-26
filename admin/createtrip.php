@@ -9,10 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = trim($_POST['description']);
     $price = floatval($_POST['price']);
     $transportation = trim($_POST['Transportation']);
-    $accomodation = trim($_POST['accomodation']);
-    $maxaltitude = intval($_POST['maxaltitude']);
-    $depature = trim($_POST['depature']);
-    $seasion = trim($_POST['seasion']);
+    $Accomodation = trim($_POST['Accomodation']);
+    $Maximum = intval($_POST['Maximum']);
+    $departure = trim($_POST['Departure']); // Fixed variable name
+    $season = trim($_POST['season']);
     $triptype_id = intval($_POST['triptype_id']);
     $meals = trim($_POST['meals']);
     $language = trim($_POST['language']);
@@ -21,39 +21,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $minimumage = intval($_POST['minimumage']);
     $maximumage = intval($_POST['maximumage']);
     $location = trim($_POST['location']);
+    $duration = trim($_POST['duration']); // Added duration field
 
+    // Get trip type name
     $tripTypeQuery = "SELECT triptype FROM triptypes WHERE triptype_id = ?";
     $stmt = $conn->prepare($tripTypeQuery);
     $stmt->bind_param("i", $triptype_id);
     $stmt->execute();
     $tripTypeResult = $stmt->get_result();
-    $triptype_name = $tripTypeResult->fetch_assoc()['name'];
+    $triptype_name = '';
+    if ($tripTypeResult && $tripTypeResult->num_rows > 0) {
+        $triptype_name = $tripTypeResult->fetch_assoc()['triptype']; // Fixed column name
+    }
 
     $sql = "INSERT INTO trips (
-        title, price, transportation, accomodation, maximumaltitude, 
-        departurefrom, bestseason, triptype, triptype_id, meals, language, 
-        fitnesslevel, groupsize, minimumage, maximumage, description, location
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
+        title, price, description, transportation, accomodation, maximumaltitude, 
+        departurefrom, bestseason, triptype_id, triptype, meals, language, 
+        fitnesslevel, groupsize, minimumage, maximumage, location, duration
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "sdssssssissssiiss", // Added one more 'i' for triptype_id
-        $title,
-        $price,
-        $transportation,
-        $accomodation,
-        $maxaltitude,
-        $depature,
-        $seasion,
-        $triptype_name, // Keep for backward compatibility
-        $triptype_id,   // New foreign key
-        $meals,
-        $language,
-        $fitnesslevel,
-        $groupsize,
-        $minimumage,
-        $maximumage,
-        $description,
-        $location
+        "sdsssississsssiiss", // Corrected parameter types: 17 characters for 17 variables
+        $title,          // s - string
+        $price,          // d - double/float
+        $description,   // s - string
+        $transportation, // s - string
+        $Accomodation,   // s - string
+        $Maximum,        // i - integer
+        $departure,      // s - string
+        $season,         // s - string
+        $triptype_id,    // i - integer
+        $triptype_name,  // s - string
+        $meals,          // s - string
+        $language,       // s - string
+        $fitnesslevel,   // s - string
+        $groupsize,      // s - string
+        $minimumage,     // i - integer
+        $maximumage,     // i - integer
+        $location ,      // s - string
+        $duration
     );
     
     if ($stmt->execute()) {
@@ -63,9 +70,7 @@ $stmt = $conn->prepare($sql);
     }
     $stmt->close();
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +99,6 @@ $stmt = $conn->prepare($sql);
                 });
             });
         });
-
     </script>
 </head>
 
@@ -121,7 +125,7 @@ $stmt = $conn->prepare($sql);
                     </div>
                     <div class="mt-8">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Price:</label>
-                        <input type="number" name="price" id="Price" class="w-full p-2 border border-gray-300 rounded"
+                        <input type="number" name="price" id="price" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
                     <div class="mt-8">
@@ -131,35 +135,35 @@ $stmt = $conn->prepare($sql);
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <option value="" disabled selected>Select Transportation</option>
                             <option value="Bus">Bus</option>
-                            <option value="Car">car</option>
+                            <option value="Car">Car</option>
                             <option value="Helicopter">Helicopter</option>
                         </select>
                     </div>
                     <div class="mt-8">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Accomodation:</label>
-                        <input type="text" id="Accomodation" name="accomodation"
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Accommodation:</label>
+                        <input type="text" id="Accomodation" name="Accomodation"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mt-8">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Maxmimum altitude:</label>
-                        <input type="text" id="Maxmimum" name="maxaltitude"
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Maximum altitude:</label>
+                        <input type="number" id="Maximum" name="Maximum"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mt-8">
-                        <label for="Depature" class="block text-sm font-medium text-gray-700 mb-1">Depature from</label>
-                        <select id="Depature" name="depature" required
+                        <label for="Departure" class="block text-sm font-medium text-gray-700 mb-1">Departure from</label>
+                        <select id="Departure" name="Departure" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected> Depature From</option>
+                            <option value="" disabled selected>Departure From</option>
                             <option value="Kathmandu">Kathmandu</option>
                             <option value="Lalitpur">Lalitpur</option>
                             <option value="Chitwan">Chitwan</option>
                         </select>
                     </div>
                     <div class="mt-8">
-                        <label for="Session" class="block text-sm font-medium text-gray-700 mb-1">Best season</label>
-                        <select id="Session" name="seasion" required
+                        <label for="season" class="block text-sm font-medium text-gray-700 mb-1">Best season</label>
+                        <select id="season" name="season" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected>Best Season </option>
+                            <option value="" disabled selected>Best Season</option>
                             <option value="Winter">Winter</option>
                             <option value="Summer">Summer</option>
                             <option value="Spring">Spring</option>
@@ -184,7 +188,7 @@ $stmt = $conn->prepare($sql);
                     </div>
                     <div class="mt-7">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Meals:</label>
-                        <input type="text" id="Meals" name="meals" class="w-full p-2 border border-gray-300 rounded"
+                        <input type="text" id="meals" name="meals" class="w-full p-2 border border-gray-300 rounded"
                             required>
                     </div>
                     <div class="mt-6">
@@ -197,8 +201,8 @@ $stmt = $conn->prepare($sql);
                             Level</label>
                         <select id="fitnesslevel" name="fitnesslevel" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected>Select groupsize</option>
-                            <option value="Begineer">Begineer</option>
+                            <option value="" disabled selected>Select Fitness Level</option>
+                            <option value="Beginner">Beginner</option>
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
                         </select>
@@ -207,7 +211,7 @@ $stmt = $conn->prepare($sql);
                         <label for="groupsize" class="block text-sm font-medium text-gray-700 mb-1">Group Size</label>
                         <select id="groupsize" name="groupsize" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected>Select groupsize</option>
+                            <option value="" disabled selected>Select Group Size</option>
                             <option value="2">2</option>
                             <option value="2-6">2-6</option>
                             <option value="6-14">6-14</option>
@@ -216,12 +220,12 @@ $stmt = $conn->prepare($sql);
                     </div>
                     <div class="mt-6">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Age:</label>
-                        <input type="text" id="minimumage" name="minimumage"
+                        <input type="number" id="minimumage" name="minimumage"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mt-6">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Maximum Age:</label>
-                        <input type="text" id="maximumage" name="maximumage"
+                        <input type="number" id="maximumage" name="maximumage"
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mt-6">
@@ -230,15 +234,22 @@ $stmt = $conn->prepare($sql);
                             class="w-full p-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Duration:</label>
+                        <input type="text" id="duration" name="duration"
+                            class="w-full p-2 border border-gray-300 rounded" placeholder="e.g., 5 days, 2 weeks" required>
+                    </div>
+                    <div class="mt-6">
                         <!-- Submit Button -->
                         <div class="md:col-span-2 mt-4 flex justify-end space-x-4">
-                            <button type="submit" class="bg-[#008080] text-white px-4 py-2 rounded">Create </button>
+                            <button type="submit" class="bg-[#008080] text-white px-4 py-2 rounded">Create</button>
                             <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const form = document.querySelector("form");
@@ -252,18 +263,21 @@ $stmt = $conn->prepare($sql);
 
                 // Text and number input validations
                 const title = document.getElementById("title").value.trim();
-                const price = document.getElementById("Price").value;
-                const accomodation = document.getElementById("Accomodation").value.trim();
-                const maxAltitude = document.getElementById("Maxmimum").value;
-                const meals = document.getElementById("Meals").value.trim();
+                const description = document.getElementById("description").value.trim();
+                const price = document.getElementById("price").value;
+                const accommodation = document.getElementById("Accomodation").value.trim();
+                const maximum = document.getElementById("Maximum").value;
+                const meals = document.getElementById("meals").value.trim();
                 const language = document.getElementById("language").value.trim();
                 const minAge = document.getElementById("minimumage").value;
                 const maxAge = document.getElementById("maximumage").value;
+                const location = document.getElementById("location").value.trim();
+                cosnt duration = document.getElementById("duration").value.trim();
 
                 // Select field validations
                 const transportation = document.getElementById("Transportation").value;
-                const depature = document.getElementById("Depature").value;
-                const session = document.getElementById("Session").value;
+                const departure = document.getElementById("Departure").value;
+                const season = document.getElementById("season").value;
                 const tripType = document.getElementById("triptype").value;
                 const fitnessLevel = document.getElementById("fitnesslevel").value;
                 const groupSize = document.getElementById("groupsize").value;
@@ -271,6 +285,11 @@ $stmt = $conn->prepare($sql);
                 if (title === "") {
                     isValid = false;
                     errorMsg += "Title is required.\n";
+                }
+
+                if (description === "") {
+                    isValid = false;
+                    errorMsg += "Description is required.\n";
                 }
 
                 if (!price || price <= 0) {
@@ -283,24 +302,24 @@ $stmt = $conn->prepare($sql);
                     errorMsg += "Please select a transportation option.\n";
                 }
 
-                if (accomodation === "") {
+                if (accommodation === "") {
                     isValid = false;
-                    errorMsg += "Accomodation is required.\n";
+                    errorMsg += "Accommodation is required.\n";
                 }
 
-                if (!maxAltitude || maxAltitude <= 0) {
+                if (!maximum || maximum <= 0) {
                     isValid = false;
                     errorMsg += "Maximum altitude must be a positive number.\n";
                 }
 
-                if (depature === "") {
+                if (departure === "") {
                     isValid = false;
-                    errorMsg += "Please select a depature location.\n";
+                    errorMsg += "Please select a departure location.\n";
                 }
 
-                if (session === "") {
+                if (season === "") {
                     isValid = false;
-                    errorMsg += "Please select the best session.\n";
+                    errorMsg += "Please select the best season.\n";
                 }
 
                 if (tripType === "") {
@@ -341,6 +360,16 @@ $stmt = $conn->prepare($sql);
                 if (parseInt(minAge) > parseInt(maxAge)) {
                     isValid = false;
                     errorMsg += "Minimum age cannot be greater than maximum age.\n";
+                }
+
+                if (location === "") {
+                    isValid = false;
+                    errorMsg += "Location is required.\n";
+                }
+
+                if (duration === "") {
+                    isValid = false;
+                    errorMsg += "Duration is required.\n";
                 }
 
                 if (!isValid) {

@@ -309,12 +309,19 @@ $result = $stmt->get_result();
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <?php
-                                                $statusClass = 'status-' . strtolower($trip['status']);
+                                                $status = strtolower($trip['status']);
+                                                $statusClasses = [
+                                                    'draft' => 'bg-yellow-100 text-yellow-800',
+                                                    'active' => 'bg-green-100 text-green-800',
+                                                    'expired' => 'bg-red-100 text-red-800',
+                                                ];
+                                                $badgeClass = $statusClasses[$status] ?? 'bg-gray-100 text-gray-800';
                                                 ?>
-                                                <span class="status-badge <?php echo $statusClass; ?>">
+                                                <span class="px-3 py-1 rounded-full text-sm font-medium <?php echo $badgeClass; ?>">
                                                     <?php echo ucfirst($trip['status']); ?>
                                                 </span>
                                             </td>
+
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                                 <a href="edittrip.php?id=<?php echo $trip['tripid']; ?>" 
                                                    class="btn-action btn-edit inline-flex items-center">
