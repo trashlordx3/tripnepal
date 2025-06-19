@@ -9,6 +9,11 @@ INNER JOIN trip_images ON trips.tripid = trip_images.tripid");
 $stmt->execute();
 $trip_result = $stmt->get_result();
 
+// Fetch active destinations from DB
+// Ensure the destination table has a 'status' column to filter active destinations
+$sql = "SELECT * FROM destination WHERE status = 'active'";
+$result = $conn->query($sql);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -533,7 +538,7 @@ $trip_result = $stmt->get_result();
    <div class="features" style="margin-top:-50px;">
       <div class="container text-center py-5 card-container">
          <div class="container-custom" style="margin:0 auto;">
-            <a href="#" class="btn btn-custom">VIEW ALL TRIPS</a>
+            <a href="all-trips" class="btn btn-custom">VIEW ALL TRIPS</a>
          </div>
       </div>
    </div>
@@ -550,41 +555,34 @@ $trip_result = $stmt->get_result();
       <div class="container text-center py-5 card-container">
          <div class="row g-4">
             <!-- Card 1 -->
-            <div class="col-md-4">
-               <div class="trip-card">
-                  <img src="assets/img/budget.jpg" alt="Nature Friendly Trip">
-                  <div class="trip-card-body">
-                     <h3 class="trip-card-title">Kathmandu</h3>
-                     <p class="trip-card-text">Explore ancient temples, bustling markets, and affordable stays in
-                        Nepal’s vibrant capital.</p>
-                     <a href="#">Learn More</a>
-                  </div>
-               </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="col-md-4">
-               <div class="trip-card">
-                  <img src="assets/img/pokhara.jpg" alt="Cultural Trip">
-                  <div class="trip-card-body">
-                     <h3 class="trip-card-title">Pokhara</h3>
-                     <p class="trip-card-text">Enjoy serene lakes, mountain views,and budget-friendly homestays in
-                        this peaceful lakeside city.</p>
-                     <a href="#">Learn More</a>
-                  </div>
-               </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="col-md-4">
-               <div class="trip-card">
-                  <img src="assets/img/lumbini.jpg" alt="Budget Travel">
-                  <div class="trip-card-body">
-                     <h3 class="trip-card-title">Lumbini</h3>
-                     <p class="trip-card-text">Discover Buddha’s birthplace, serene monasteries, and budget stays in
-                        Lumbini, Nepal. </p>
-                     <a href="#">Learn More</a>
-                  </div>
-               </div>
-            </div>
+                <?php
+                  $count = 0;
+                  if ($result->num_rows > 0):
+                     while ($row = $result->fetch_assoc()):
+                        if ($count >= 3) break;
+                        $count++;
+
+                        // Normalize image path
+                        $imgPath = str_replace('../', '', $row['dest_image']);
+               ?>
+                    <div class="col-md-4">
+                        <div class="trip-card">
+                                <img src="<?php echo $imgPath; ?>" alt="<?php echo htmlspecialchars($row['dest_name']); ?>" class="img-fluid">
+                            <div class="trip-card-body">
+                                <h3 class="trip-card-title"><?php echo htmlspecialchars($row['dest_name']); ?></h3>
+                                <p class="trip-card-text">
+                                <?php echo htmlspecialchars(substr($row['dest_desc'], 0, 60)) . '...'; ?></p>
+                               <a href="destinations?destination-is=<?php echo urlencode($row['dest_name']); ?>" class="view-trip-btn">
+                                    View Trip
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No destinations available at the moment.</p>
+            <?php endif; ?>
 
          </div>
       </div>

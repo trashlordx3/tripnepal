@@ -1,5 +1,10 @@
 <?php
-include("/frontend/session_start.php");
+include("frontend/session_start.php");
+include("connection.php");
+
+// Fetch active destinations from DB
+$sql = "SELECT * FROM destination WHERE status = 'active'";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +12,11 @@ include("/frontend/session_start.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Destinations</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    
     <link rel="stylesheet" href="index.css">
     <style>
         .trip-types {
@@ -45,9 +51,11 @@ include("/frontend/session_start.php");
 
         .trip-card img {
             width: 100%;
-            height: 200px;
+            height: 250px; /* increased from 200px */
             object-fit: cover;
+            display: block;
         }
+
 
         .trip-card-body {
             padding: 20px;
@@ -73,6 +81,7 @@ include("/frontend/session_start.php");
 
         .trip-card a:hover {
             text-decoration: underline;
+            color: white;
         }
 
         .hero {
@@ -90,6 +99,23 @@ include("/frontend/session_start.php");
         .hero p {
             font-size: 1.5rem;
         }
+
+        .view-trip-btn {
+            display: inline-block;
+            background-color: white;
+            border: 1px solid #2c7a7b;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .view-trip-btn:hover {
+            background-color: #285e61; /* Tailwind's teal-700 */
+        }
+
     </style>
 </head>
 
@@ -105,79 +131,37 @@ include("frontend/header.php");
     <p>Discover the best travel destination in nepal.</p>
     <div class="container">
         <div class="row g-4">
-            <!-- Card 1 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/budget.jpg" alt="Nature Friendly Trip">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Kathmandu</h3>
-                        <p class="trip-card-text">Explore ancient temples, bustling markets, and affordable stays in
-                            Nepal’s vibrant capital.</p>
-                        <a href="destinations?destination-is=Kathmandu">view trips</a>
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <div class="col-md-4">
+                        <div class="trip-card">
+                            <?php
+                                $imgPath = $row['dest_image'];
+                                $imgPath = str_replace('../', '', $imgPath); // normalize path
+                            ?>
+                                <img src="<?php echo $imgPath; ?>" alt="<?php echo htmlspecialchars($row['dest_name']); ?>" class="img-fluid">
+                            <div class="trip-card-body">
+                                <h3 class="trip-card-title"><?php echo htmlspecialchars($row['dest_name']); ?></h3>
+                                <p class="trip-card-text">
+                                <?php echo htmlspecialchars(substr($row['dest_desc'], 0, 120)) . '...'; ?></p>
+                               <a href="destinations?destination-is=<?php echo urlencode($row['dest_name']); ?>" class="view-trip-btn">
+                                    View Trip
+                                </a>
+
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/pokhara.jpg" alt="Cultural Trip">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Pokhara</h3>
-                        <p class="trip-card-text">Enjoy serene lakes, mountain views,and budget-friendly homestays in
-                            this peaceful lakeside city.</p>
-                        <a href="destinations?destination-is=Pokhara">view trips</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/lumbini.jpg" alt="Budget Travel">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Lumbini</h3>
-                        <p class="trip-card-text">Discover Buddha’s birthplace, serene monasteries, and budget stays in
-                            Lumbini, Nepal. </p>
-                        <a href="destinations?destination-is=Lumbini">view trips</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/chitwan.jpg" alt="Budget Travel">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Chitwan</h3>
-                        <p class="trip-card-text">Spot wildlife, enjoy jungle safaris, and experience Tharu culture on a
-                            budget in this national park.</p>
-                        <a href="destinations?destination-is=Chitwan">view trips</a>
-                    </div>
-                </div>
-            </div>
-            <!-- card 5 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/mustang.jpg" alt="Budget Travel">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Mustang</h3>
-                        <p class="trip-card-text">Trek through rugged landscapes and ancient caves with affordable
-                            teahouses in this hidden gem.</p>
-                        <a href="destinations?destination-is=Mustang">view trips</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/solukhumbu.jpg" alt="Budget Travel">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Solukhumbu</h3>
-                        <p class="trip-card-text">Trek to Everest trails, stay in budget teahouses, and soak in epic
-                            mountain views.</p>
-                        <a href="destinations?destination-is=Solukhumbu">view trips</a>
-                    </div>
-                </div>
-            </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No destinations available at the moment.</p>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>
+
+
 
 <?php
 include("frontend/footer.php");
