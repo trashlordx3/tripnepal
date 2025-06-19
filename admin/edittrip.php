@@ -464,6 +464,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="flex justify-end">
                         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg">
+                            <i class="fas fa-save mr-2"></i>
                             Update Trip
                         </button>
                     </div>

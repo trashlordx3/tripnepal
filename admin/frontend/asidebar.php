@@ -1,12 +1,15 @@
 <aside class="bg-white w-64 shadow-lg fixed h-full overflow-y-auto">
-    <div class="p-4 border-b">
-        <h1 class="text-xl font-bold">THANKYOUNEPALTRIP</h1>
-    </div>
-    <nav class="p-4">
+       <div class="p-6 border-b border-gray-100">
+            <h1 class="text-lg font-semibold text-gray-800 tracking-tight">
+                THANKYOUNEPALTRIP
+            </h1>
+        </div>
+    <nav class="p-4 space-y-1">
         <ul>
             <li class="mb-2">
                 <a class="flex items-center text-gray-700 hover:text-blue-500" href="dashboard">
-                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                    <i class="fas fa-tachometer-alt w-5 text-center mr-3 text-gray-500"></i>
+                    <span class="font-medium">Dashboard</span>
                 </a>
             </li>
             <li class="mb-2">

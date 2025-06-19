@@ -92,8 +92,8 @@
                         <a href="my-account.php" class="nav-link">My Account</a>
 
                     <?php } else { ?>
-                        <a href="login.php" class="nav-link">Login</a> |
-                        <a href="signup.php" class="nav-link">Sign Up</a>
+                        <a href="login.php" class="nav-link p-1">Login</a> |
+                        <a href="signup.php" class="nav-link p-1">Sign Up</a>
                     <?php } ?>
                 </div>
             </div>

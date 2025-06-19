@@ -67,20 +67,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="index.css">
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg,rgb(253, 253, 255) 0%,rgb(224, 239, 224) 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
         .login-container {
             margin: 50px auto;
-            background-color: #fff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
         }
 
         .login-container h2 {
+            color: #2d3748;
             margin-bottom: 20px;
-            font-weight: 500;
-            font-size: 24px;
+            font-weight: 700;
+            font-size: 28px;
             text-align: center;
         }
 
@@ -88,6 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
+            padding: 3px 0;
         }
 
         .login-container input[type="email"],
@@ -96,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
             box-sizing: border-box;
         }
 
@@ -112,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .login-container .forgot-password {
             text-align: right;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .login-container .forgot-password a {
@@ -122,14 +133,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .login-container .login-button {
             width: 100%;
-            padding: 10px;
-            background-color: #00bfa5;
-            color: #fff;
+            padding: 12px;
+            background: linear-gradient(135deg,rgb(48, 151, 137) 0%,rgb(153, 182, 183) 100%);
+            color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            margin-top: 8px;
         }
 
         .login-container .login-button:hover {
@@ -138,12 +151,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .login-container .signup {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
         }
 
         .login-container .signup a {
-            color: #00bfa5;
+            color: #667eea;
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .login-container .signup a:hover {
+            color: #4c51bf;
         }
 
         .error-message {
@@ -198,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
 
         <div class="signup">
-            Don't have an account? <a href="signup.php">Sign up</a>
+            Don't have an account? <a href="signup.php"><i class="fas fa-sign-in-alt"></i> Sign Up</a>
         </div>
     </div>
 

@@ -308,7 +308,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="profile-top" style="display: flex; gap: 20px; align-items: center;">
                     <div class="image">
                         <img id="profilePic" alt="User profile picture" height="80"
-                            src="https://storage.googleapis.com/a1aa/image/lYqBODwnaMU-b05_oodpY-_9bnJPEcMy7zRIn0c6F8k.jpg"
+                            src="https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0="
                             width="80" style="border-radius: 20%; cursor: pointer;" />
                         <p style="text-align: center; padding-top: 5px;" id="profilePic">Edit</p>
                     </div>
