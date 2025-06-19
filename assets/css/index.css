@@ -9,9 +9,12 @@
   font-weight: 400;
   font-style: normal;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   padding-top: 160px;
-  /* Adjust this value if needed */
+  overflow-x: hidden;
 }
 
 /* header css */

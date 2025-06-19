@@ -73,7 +73,7 @@
                             <li><a class="dropdown-item" href="triptypes?triptype-is=Budget%20Friendly">Budget
                                     Friendly</a>
                             </li>
-                            <li><a class="dropdown-item" href="trip-types">More</a></li>
+                            <li><a class="dropdown-item" href="triptypes">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
