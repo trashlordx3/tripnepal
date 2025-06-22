@@ -1,3 +1,15 @@
+<?php
+include("frontend/session_start.php");
+include("connection.php");
+
+
+$stmt = $conn->prepare("SELECT trips.*, trip_images.main_image
+FROM trips 
+INNER JOIN trip_images ON trips.tripid = trip_images.tripid");
+$stmt->execute();
+$trip_result = $stmt->get_result();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

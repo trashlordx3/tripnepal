@@ -7,79 +7,92 @@ $destResult = $conn->query($destSql);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Activities</title>
-
-  <!-- Fonts & Bootstrap -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-  <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <style>
+        .trip-types {
+            padding: 60px 15px;
+            text-align: center;
+        }
 
-  <!-- Custom Styles for Trip Types -->
-  <style>
-    .hero {
-      background: url('assets/img/Manaslu.jpg') no-repeat center center/cover;
-      color: white;
-      text-align: center;
-      padding: 80px 20px;
-    }
+        .trip-types h1 {
+            font-size: 2.5rem;
+            color: #17252a;
+            margin-bottom: 20px;
+        }
+
+        .trip-types p {
+            color: #3aafa9;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .trip-card {
+            background-color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .trip-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .trip-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .trip-card-body {
+            padding: 20px;
+        }
+
+        .trip-card-title {
+            font-size: 1.5rem;
+            color: #17252a;
+            margin-bottom: 10px;
+        }
+
+        .trip-card-text {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .trip-card a {
+            color: #3aafa9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .trip-card a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            background: url('assets/img/Manaslu.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
 
     .hero h1 {
       font-size: 3.5rem;
       font-weight: bold;
     }
 
-    .hero p {
-      font-size: 1.5rem;
-    }
-
-    .destination-card {
-      background-color: #fff;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s ease;
-    }
-
-    .destination-card:hover {
-      transform: translateY(-10px);
-    }
-
-    .destination-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .destination-card-body {
-      padding: 20px;
-    }
-
-    .destination-card-title {
-      font-size: 1.5rem;
-      color: #17252a;
-      margin-bottom: 10px;
-    }
-
-    .destination-card-text {
-      color: #555;
-      font-size: 1rem;
-      margin-bottom: 15px;
-    }
-
-    .destination-card a {
-      color: #3aafa9;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .destination-card a:hover {
-      text-decoration: underline;
-    }
-  </style>
+        .hero p {
+            font-size: 1.5rem;
+        }
+    </style>
 </head>
 
 <body style="background-color: #f8f9fa;">
@@ -129,7 +142,7 @@ $destResult = $conn->query($destSql);
             <div class="col-12 text-center text-muted py-4">No destinations found.</div>
         <?php endif; ?>
     </div>
-  </div>
+</div>
 
   <?php include("frontend/footer.php"); 
   include("frontend/scrollup.html");?>
