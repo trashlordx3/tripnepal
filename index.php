@@ -112,23 +112,21 @@
                         <?php
                         $description = $trip['description'];
                         $words = explode(" ", $description);
-                        $firstTenWords = implode(" ", array_slice($words, 0, 10));
+                        $firstTenWords = implode(" ", array_slice($words, 0, 20));
                         echo htmlspecialchars($firstTenWords) . '...';
                         ?>
                      </p>
-                     <!-- You can add more trip details here if needed -->
                   </div>
                </div>
             <?php }
          } ?>
       </div>
-      <div class="features">
-         <div class="container mx-auto text-center py-5">
-         <a href="triptypes" class="btn btn-custom border border-orange-500 text-orange-500 bg-transparent px-4 py-2 rounded hover:bg-orange-500 hover:text-white">VIEW ALL TRIPS</a>
-         </a>
-      </div>
+         <div class="container text-center py-5">
+            <a href="destination.php" class="btn btn-outline-warning px-4 py-2 rounded-pill fw-semibold">
+               VIEW ALL DESTINATIONS
+            </a>
+         </div>
    </div>
-
 
 
    <!-- Destiantion -->
@@ -136,95 +134,114 @@
       <div class="container text-center py-5">
          <h1 class="text-3xl font-bold">Explore popular destinations</h1>
          <p class="text-gray-600">A new journey begins here within, find a destination that suits you and start travelling. We offer best travel packages.</p>
-
       </div>
+      <?php
+      require 'connection.php';
+      $result = $conn->query("SELECT * FROM destination WHERE status = 'active' LIMIT 3");
+      ?>
       <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-         <div class="trip-card bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="assets/img/budget.jpg" alt="Nature Friendly Trip" class="w-full h-48 object-cover">
-            <div class="p-4">
-               <h3 class="text-xl font-semibold">Kathmandu</h3>
-               <p class="text-gray-600">Explore ancient temples, bustling markets, and affordable stays in Nepal’s vibrant capital.</p>
-               <a href="#" class="text-teal-600 font-bold">Learn More</a>
-            </div>
-         </div>
-         <div class="trip-card bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="assets/img/pokhara.jpg" alt="Cultural Trip" class="w-full h-48 object-cover">
-            <div class="p-4">
-               <h3 class="text-xl font-semibold">Pokhara</h3>
-               <p class="text-gray-600">Enjoy serene lakes, mountain views, and budget-friendly homestays in this peaceful lakeside city.</p>
-               <a href="#" class="text-teal-600 font-bold">Learn More</a>
-            </div>
-         </div>
-         <div class="trip-card bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="assets/img/lumbini.jpg" alt="Budget Travel" class="w-full h-48 object-cover">
-            <div class="p-4">
-               <h3 class="text-xl font-semibold">Lumbini</h3>
-               <p class="text-gray-600">Discover Buddha’s birthplace, serene monasteries, and budget stays in Lumbini, Nepal.</p>
-               <a href="#" class="text-teal-600 font-bold">Learn More</a>
-            </div>
-         </div>
+         <?php if ($result && $result->num_rows > 0): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
+               <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div class="relative">
+                     <a href="view-destination.php?destination_id=<?php echo $row['destination_id']; ?>">
+                        <?php if (!empty($row['dest_image'])): ?>
+                           <img src="<?php echo htmlspecialchars($row['dest_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($row['destination']); ?>">
+                        <?php else: ?>
+                           <div class="h-64 w-full flex items-center justify-center bg-gray-200 rounded-t-lg text-gray-500">No Image</div>
+                        <?php endif; ?>
+                     </a>
+                     <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
+                  </div>
+                  <div class="p-4">
+                     <h5 class="text-lg font-semibold mb-2">
+                        <a href="view-destination.php?destination_id=<?php echo $row['destination_id']; ?>" class="text-black hover:text-teal-600">
+                           <?php echo htmlspecialchars($row['destination']); ?>
+                        </a>
+                     </h5>
+                     <p class="text-gray-600 mb-2">
+                        <?php
+                        $desc = $row['description'];
+                        $descWords = explode(" ", $desc);
+                        $shortDesc = implode(" ", array_slice($descWords, 0, 20));
+                        echo htmlspecialchars($shortDesc) . '...';
+                        ?>
+                     </p>
+                  </div>
+               </div>
+            <?php endwhile; ?>
+         <?php else: ?>
+            <div class="col-12 text-center text-muted">No destinations found.</div>
+         <?php endif; ?>
       </div>
-      <div class="features">
-         <div class="container text-center py-5">
-            <a href="destination" class="btn btn-custom border border-orange-500 text-orange-500 bg-transparent px-4 py-2 rounded hover:bg-orange-500 hover:text-white">VIEW ALL DESTINATIONS</a>
-         </div>
+
+      <div class="container text-center py-5">
+         <a href="destination.php" class="btn btn-outline-warning px-4 py-2 rounded-pill fw-semibold">
+            VIEW ALL DESTINATIONS
+         </a>
       </div>
    </div>
+
+
+
 
    <!-- Activities -->
    <div class="features">
-   <div class="container text-center py-5">
-      <h1 class="text-3xl font-bold">Explore Popular Activities</h1>
-      <p class="text-gray-600">
-         Discover your perfect destination and dive into unforgettable experiences.
-         <br> Whether you're seeking adventure, relaxation, or cultural exploration, we offer the best travel packages tailored just for you.
-         <br> Start your journey today!
-      </p>
-   </div>
-
-   <?php
-   include_once("admin/frontend/connection.php");
-   $activity_result = $conn->query("SELECT * FROM activity WHERE status = 1 LIMIT 3");
-   ?>
-
-   <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-      <?php if ($activity_result && $activity_result->num_rows > 0) {
-         while ($activity = $activity_result->fetch_assoc()) { ?>
-            <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-               <div class="relative">
-                  <a href="view-activity.php?aid=<?php echo $activity['aid']; ?>">
-                     <img src="<?php echo htmlspecialchars($activity['act_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($activity['act_name']); ?>">
-                  </a>
-                  <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
-               </div>
-               <div class="p-4">
-                  <h5 class="text-lg font-semibold mb-2">
-                     <a href="view-activity.php?aid=<?php echo $activity['aid']; ?>" class="text-black hover:text-teal-600">
-                        <?php echo htmlspecialchars($activity["act_name"]); ?>
-                     </a>
-                  </h5>
-                  <p class="text-gray-600 mb-2">
-                     <?php
-                     $desc = $activity['act_desc'];
-                     $short_desc = implode(" ", array_slice(explode(" ", $desc), 0, 10));
-                     echo htmlspecialchars($short_desc) . '...';
-                     ?>
-                  </p>
-               </div>
-            </div>
-         <?php }
-      } ?>
-   </div>
-
-   <div class="features">
       <div class="container text-center py-5">
-         <a href="activities.php" class="btn btn-custom border border-orange-500 text-orange-500 bg-transparent px-4 py-2 rounded hover:bg-orange-500 hover:text-white">
+         <h1 class="text-3xl font-bold">Explore popular Activities</h1>
+         <p class="text-gray-600">Discover your perfect destination and dive into unforgettable experiences.</p>
+      </div>
+
+      <?php
+      require 'connection.php';
+      $result = $conn->query("SELECT activity_id, activity, description, act_image FROM activity WHERE activity_status = 'active' LIMIT 3");
+      ?>
+
+      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+         <?php if ($result && $result->num_rows > 0): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
+               <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div class="relative">
+                     <a href="view-activity.php?activity_id=<?php echo $row['activity_id']; ?>">
+                        <?php if (!empty($row['act_image'])): ?>
+                           <img src="<?php echo htmlspecialchars($row['act_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($row['activity']); ?>">
+                        <?php else: ?>
+                           <div class="h-64 w-full flex items-center justify-center bg-gray-200 rounded-t-lg text-gray-500">No Image</div>
+                        <?php endif; ?>
+                     </a>
+                     <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
+                  </div>
+                  <div class="p-4">
+                     <h5 class="text-lg font-semibold mb-2">
+                        <a href="view-activity.php?activity_id=<?php echo $row['activity_id']; ?>" class="text-black hover:text-teal-600">
+                           <?php echo htmlspecialchars($row['activity']); ?>
+                        </a>
+                     </h5>
+                     <p class="text-gray-600 mb-2">
+                        <?php
+                        $desc = $row['description'];
+                        $descWords = explode(" ", $desc);
+                        $shortDesc = implode(" ", array_slice($descWords, 0, 20));
+                        echo htmlspecialchars($shortDesc) . '...';
+                        ?>
+                     </p>
+                  </div>
+               </div>
+            <?php endwhile; ?>
+         <?php else: ?>
+            <div class="col-12 text-center text-muted">No activities found.</div>
+         <?php endif; ?>
+      </div>
+
+      <div class="container text-center py-5">
+         <a href="activities.php" class="btn btn-outline-warning px-4 py-2 rounded-pill fw-semibold">
             VIEW ALL ACTIVITIES
          </a>
       </div>
    </div>
-</div>
 
+
+   
 
    <!-- Client Reviews -->
 

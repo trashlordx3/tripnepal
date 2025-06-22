@@ -1,158 +1,144 @@
 <?php
-include("frontend/session_start.php");
+require 'connection.php';
+
+// Fetch all activities from the database
+$sql = "SELECT activity_id, activity, description, act_image, activity_status FROM activity";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/css/index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Activities</title>
+
+  <!-- Fonts & Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="assets/css/index.css">
 
-    <style>
-        .activities {
-            padding: 60px 15px;
-            text-align: center;
-        }
+  <!-- Custom Styles for Trip Types -->
+  <style>
+    .hero {
+      background: url('assets/img/Manaslu.jpg') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
 
-        .activities h1 {
-            font-size: 2.5rem;
-            color: #17252a;
-            margin-bottom: 20px;
-        }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+    }
 
-        .activities p {
-            color: #3aafa9;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-        }
+    .hero p {
+      font-size: 1.5rem;
+    }
 
-        .trip-card {
-            background-color: #fff;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
+    .activities-card {
+      background-color: #fff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
 
-        .trip-card:hover {
-            transform: translateY(-10px);
-        }
+    .activities-card:hover {
+      transform: translateY(-10px);
+    }
 
-        .trip-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+    .activities-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
 
-        .trip-card-body {
-            padding: 20px;
-        }
+    .activities-card-body {
+      padding: 20px;
+    }
 
-        .trip-card-title {
-            font-size: 1.5rem;
-            color: #17252a;
-            margin-bottom: 10px;
-        }
+    .activities-card-title {
+      font-size: 1.5rem;
+      color: #17252a;
+      margin-bottom: 10px;
+    }
 
-        .trip-card-text {
-            color: #555;
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
+    .activities-card-text {
+      color: #555;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
 
-        .trip-card a {
-            color: #3aafa9;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .activities-card a {
+      color: #3aafa9;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-        .trip-card a:hover {
-            text-decoration: underline;
-        }
-
-        .hero {
-            background: url('assets/img/Manaslu.jpg') no-repeat center center/cover;
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: bold;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-        }
-    </style>
+    .activities-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
-<?php
-include("frontend/header.php");
-?>
-<header class="hero">
-    <h1>Activities</h1>
-</header>
+<body style="background-color: #f8f9fa;">
+  <?php include("frontend/header.php"); ?>
 
-<div class="activities">
-    <h1>Explore by Activities</h1>
-    <p>Discover the best travel experiences tailored to your interests.</p>
-    <div class="container">
-        <div class="row g-4">
-            <!-- Card 1 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/trekking.jpg" alt="Nature Friendly Trip">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Trekking </h3>
-                        <p class="trip-card-text">Experience the beauty of untouched trails, majestic mountains, and
-                            serene.</p>
-                        <a href="activities?activity-is=Trekking">View Trips</a>
-                    </div>
-                </div>
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Explore Popular Activities</h1>
+    <p>  Discover your perfect destination and dive into unforgettable experiences.</p>
+  </div>
+
+  <!-- Activity Cards Section -->
+  <div class="container py-5">
+    <div class="row g-4">
+      <?php if ($result && $result->num_rows > 0): ?>
+        <?php while ($activities = $result->fetch_assoc()): ?>
+          <div class="col-md-4">
+            <div class="activities-card h-100">
+              <a href="view-activities?activity_id=<?php echo $activities['activity_id']; ?>">
+                <?php if (!empty($activities['act_image'])): ?>
+                  <img src="<?php echo htmlspecialchars($activities['act_image']); ?>" alt="<?php echo htmlspecialchars($activities['activity']); ?>">
+                <?php else: ?>
+                  <div class="d-flex justify-content-center align-items-center bg-light text-muted" style="height: 200px;">
+                    No image
+                  </div>
+                <?php endif; ?>
+              </a>
+              <div class="activities-card-body">
+                <h5 class="activities-card-title">
+                  <a href="view-activities?activity_id=<?php echo $activities['activity_id']; ?>">
+                    <?php echo htmlspecialchars($activities["activity"]); ?>
+                  </a>
+                </h5>
+                <p class="activities-card-text">
+                  <?php
+                    $description = $activities['description'];
+                    $words = explode(" ", $description);
+                    $firstTenWords = implode(" ", array_slice($words, 0, 20));
+                    echo htmlspecialchars($firstTenWords) . '...';
+                  ?>
+                </p>
+              </div>
             </div>
-            <!-- Card 2 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/culture.jpg" alt="Cultural Trip">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title">Tour</h3>
-                        <p class="trip-card-text">Immerse yourself in the rich history and traditions of diverse
-                            cultures of Nepal.</p>
-                        <a href="activities?activity-is=Tour">View Trips</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="col-md-4">
-                <div class="trip-card">
-                    <img src="assets/img/rafting.jpg" alt="Budget Travel">
-                    <div class="trip-card-body">
-                        <h3 class="trip-card-title"> Rafting</h3>
-                        <p class="trip-card-text">Feel the thrill of conquering roaring rivers surrounded by stunning
-                            natural scenery.</p>
-                        <a href="activities?activity-is=Rafting">View Trips</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+          </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="col-12 text-center text-muted py-4">No activities types found.</div>
+      <?php endif; ?>
     </div>
-</div>
+  </div>
 
-<?php
-include("frontend/footer.php");
-include("frontend/scrollup.html");
-?>
+  <?php include("frontend/footer.php"); 
+  include("frontend/scrollup.html");?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
+
+<?php $conn->close(); ?>
