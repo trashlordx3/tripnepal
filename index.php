@@ -124,7 +124,7 @@
       </div>
       <div class="features">
          <div class="container mx-auto text-center py-5">
-         <a href="triptypes.php" class="btn btn-custom border border-orange-500 text-orange-500 bg-transparent px-4 py-2 rounded hover:bg-orange-500 hover:text-white">VIEW ALL TRIPS</a>
+         <a href="triptypes" class="btn btn-custom border border-orange-500 text-orange-500 bg-transparent px-4 py-2 rounded hover:bg-orange-500 hover:text-white">VIEW ALL TRIPS</a>
          </a>
       </div>
    </div>
@@ -170,6 +170,61 @@
          </div>
       </div>
    </div>
+
+   <!-- Activities -->
+   <div class="features">
+   <div class="container text-center py-5">
+      <h1 class="text-3xl font-bold">Explore Popular Activities</h1>
+      <p class="text-gray-600">
+         Discover your perfect destination and dive into unforgettable experiences.
+         <br> Whether you're seeking adventure, relaxation, or cultural exploration, we offer the best travel packages tailored just for you.
+         <br> Start your journey today!
+      </p>
+   </div>
+
+   <?php
+   include_once("admin/frontend/connection.php");
+   $activity_result = $conn->query("SELECT * FROM activity WHERE status = 1 LIMIT 3");
+   ?>
+
+   <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+      <?php if ($activity_result && $activity_result->num_rows > 0) {
+         while ($activity = $activity_result->fetch_assoc()) { ?>
+            <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+               <div class="relative">
+                  <a href="view-activity.php?aid=<?php echo $activity['aid']; ?>">
+                     <img src="<?php echo htmlspecialchars($activity['act_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($activity['act_name']); ?>">
+                  </a>
+                  <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
+               </div>
+               <div class="p-4">
+                  <h5 class="text-lg font-semibold mb-2">
+                     <a href="view-activity.php?aid=<?php echo $activity['aid']; ?>" class="text-black hover:text-teal-600">
+                        <?php echo htmlspecialchars($activity["act_name"]); ?>
+                     </a>
+                  </h5>
+                  <p class="text-gray-600 mb-2">
+                     <?php
+                     $desc = $activity['act_desc'];
+                     $short_desc = implode(" ", array_slice(explode(" ", $desc), 0, 10));
+                     echo htmlspecialchars($short_desc) . '...';
+                     ?>
+                  </p>
+               </div>
+            </div>
+         <?php }
+      } ?>
+   </div>
+
+   <div class="features">
+      <div class="container text-center py-5">
+         <a href="activities.php" class="btn btn-custom border border-orange-500 text-orange-500 bg-transparent px-4 py-2 rounded hover:bg-orange-500 hover:text-white">
+            VIEW ALL ACTIVITIES
+         </a>
+      </div>
+   </div>
+</div>
+
 
    <!-- Client Reviews -->
 

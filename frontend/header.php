@@ -67,13 +67,13 @@
                         <a class="nav-link dropdown-toggle" href="#" id="tripTypesDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Trip Types</a>
                         <ul class="dropdown-menu" aria-labelledby="tripTypesDropdown">
-                            <li><a class="dropdown-item" href="triptypes?triptype-is=Nature%20Friendly">Nature
+                            <li><a class="dropdown-item" href="typetrip?triptype-is=Nature%20Friendly">Nature
                                     Friendly</a></li>
-                            <li><a class="dropdown-item" href="triptypes?triptype-is=Cultural">Cultural</a></li>
-                            <li><a class="dropdown-item" href="triptypes?triptype-is=Budget%20Friendly">Budget
+                            <li><a class="dropdown-item" href="typetrip?triptype-is=Cultural">Cultural</a></li>
+                            <li><a class="dropdown-item" href="typetrip?triptype-is=Budget%20Friendly">Budget
                                     Friendly</a>
                             </li>
-                            <li><a class="dropdown-item" href="triptypes">More</a></li>
+                            <li><a class="dropdown-item" href="typetrip">More</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -89,11 +89,11 @@
                 </ul>
                 <div class="d-flex">
                     <?php if (isset($_SESSION['user_id'])) { ?>
-                        <a href="my-account.php" class="nav-link">My Account</a>
+                        <a href="my-account" class="nav-link">My Account</a>
 
                     <?php } else { ?>
-                        <a href="login.php" class="nav-link p-1">Login</a> |
-                        <a href="signup.php" class="nav-link p-1">Sign Up</a>
+                        <a href="login" class="nav-link p-1">Login</a> |
+                        <a href="signup" class="nav-link p-1">Sign Up</a>
                     <?php } ?>
                 </div>
             </div>
