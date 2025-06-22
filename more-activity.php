@@ -1,5 +1,9 @@
 <?php
 include("frontend/session_start.php");
+include("connection.php");
+
+$sql = "SELECT * FROM activity WHERE status = 'active'";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
