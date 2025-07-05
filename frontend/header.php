@@ -16,12 +16,26 @@
                 </a>
             </div>
             <div class="d-flex align-items-center">
-                <span class="me-3"> <a href="tel:+977 9742847684"><i class="fas fa-phone" id="social-icon"></i></a> <a
-                        href="tel:+977 9742847684" class="phone-link"
-                        style="color:white; text-decoration:none;">9741847684</a></span>
-                <span><a href="mailto:contact@gmail.com"><i class="fas fa-envelope" id="social-icon"></i></a>
-                    <a href="mailto:contact@gmail.com" class="email-link"
-                        style="color:white; text-decoration:none;">contact@gmail.com</a></span>
+                <!-- Phone -->
+                <span class="me-3">
+                    <a href="tel:+977 9742847684">
+                        <i class="fas fa-phone" id="social-icon"></i>
+                    </a>
+                    <a href="tel:+977 9742847684" class="phone-link text-white text-decoration-none d-none d-sm-inline">
+                        9741847684
+                    </a>
+                </span>
+
+                <!-- Email -->
+                <span>
+                    <a href="mailto:info@thankyounepaltrip.com?subject=Inquiry&body=Hello%20Thank%20You%20Nepal%20Trip"
+                    class="text-white text-decoration-none">
+                        <i class="fas fa-envelope" id="social-icon"></i>
+                    </a>
+                    <span class="d-none d-sm-inline text-white">
+                        info@thankyounepaltrip.com
+                    </span>
+                </span>
             </div>
         </div>
     </div>

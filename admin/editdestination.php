@@ -1,260 +1,306 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require '../connection.php';
 
-$dest = [];
+$id = $_GET['id'] ?? null;
+$error = '';
+$destinationData = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $dest_id = filter_input(INPUT_POST, 'dest_id', FILTER_VALIDATE_INT);
-        $dest_name = trim($_POST['dest_name']);
-        $dest_desc = trim($_POST['dest_desc']);
-        $status = trim($_POST['status']);
-        $current_image = trim($_POST['current_image']);
+// Validate ID parameter
+if (!$id || !is_numeric($id)) {
+    header("Location: alldestination.php?error=invalid_id");
+    exit();
+}
 
-        // Validation
-        if (empty($dest_name)) throw new Exception("Error: Destination name is required");
-        if (empty($dest_desc)) throw new Exception("Error: Description is required");
-        if (empty($status)) throw new Exception("Error: Status is required");
+// Fetch existing data
+$stmt = $conn->prepare("SELECT * FROM destination WHERE destination_id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$destinationData = $result->fetch_assoc();
 
-        // Handle file upload
-        $targetFile = $current_image;
-        if (!empty($_FILES['dest_image']['name'])) {
-            $targetDir = "uploads/";
-            $fileName = basename($_FILES["dest_image"]["name"]);
-            $targetFile = $targetDir . uniqid() . '_' . $fileName;
-            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+if (!$destinationData) {
+    header("Location: alldestination.php?error=not_found");
+    exit();
+}
 
-            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-            if (!in_array($imageFileType, $allowedTypes)) {
-                throw new Exception("Error: Only JPG, JPEG, PNG & GIF files are allowed.");
-            }
-
-            if ($_FILES["dest_image"]["size"] > 5000000) {
-                throw new Exception("Error: File is too large. Max 5MB allowed.");
-            }
-
-            if (!move_uploaded_file($_FILES["dest_image"]["tmp_name"], $targetFile)) {
-                throw new Exception("Error: Error uploading file.");
-            }
-        }
-
-        // Update query
-        $stmt = $conn->prepare("UPDATE destination SET 
-            dest_name = ?,
-            dest_desc = ?,
-            dest_image = ?,
-            status = ?
-            WHERE did = ?");
-
-        $stmt->bind_param("ssssi", 
-            $dest_name,
-            $dest_desc,
-            $targetFile,
-            $status,
-            $dest_id
-        );
-
-        if (!$stmt->execute()) {
-            throw new Exception("Error: " . $stmt->error);
-        }
-
-        $_SESSION['message'] = "Success: Destination updated successfully!";
-        header("Location: listdestination.php");
-        exit();
-
-    } catch (Exception $e) {
-        $_SESSION['message'] = $e->getMessage();
-        header("Location: editdestination.php?id=" . $dest_id);
-        exit();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get and validate form data
+    $destination = trim($_POST['destination']);
+    $description = trim($_POST['description']);
+    $status = strtolower(trim($_POST['status'] ?? 'active'));
+    
+    // Validate status
+    if (!in_array($status, ['active', 'inactive'])) {
+        $status = 'active';
     }
-} else {
-    if (isset($_GET['id'])) {
-        $dest_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    
+    // Handle image upload if new image is provided
+    $imagePath = $destinationData['dest_image'];
+    if (isset($_FILES['dest_image']) && $_FILES['dest_image']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../assets/destinations/';
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
         
-        if ($dest_id) {
-            $stmt = $conn->prepare("SELECT * FROM destination WHERE did = ?");
-            $stmt->bind_param("i", $dest_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $dest = $result->fetch_assoc();
-            
-            if (!$dest) {
-                $_SESSION['message'] = "Error: Destination not found";
-                header("Location: listdestination.php");
-                exit();
-            }
+        // Validate image
+        $check = getimagesize($_FILES['dest_image']['tmp_name']);
+        if ($check === false) {
+            $error = "File is not an image.";
         } else {
-            $_SESSION['message'] = "Error: Invalid Destination ID";
-            header("Location: listdestination.php");
-            exit();
+            $imageFileType = strtolower(pathinfo($_FILES['dest_image']['name'], PATHINFO_EXTENSION));
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+            
+            if (!in_array($imageFileType, $allowedTypes)) {
+                $error = "Only JPG, JPEG, PNG & GIF files are allowed.";
+            } elseif ($_FILES['dest_image']['size'] > 5 * 1024 * 1024) {
+                $error = "File is too large. Maximum size is 5MB.";
+            } else {
+                $fileName = uniqid() . '.' . $imageFileType;
+                $targetPath = $uploadDir . $fileName;
+                
+                if (move_uploaded_file($_FILES['dest_image']['tmp_name'], $targetPath)) {
+                    // Delete old image if exists
+                    if ($imagePath && file_exists('../' . $imagePath)) {
+                        unlink('../' . $imagePath);
+                    }
+                    $imagePath = 'assets/destinations/' . $fileName;
+                } else {
+                    $error = "Error uploading image.";
+                }
+            }
         }
-    } else {
-        $_SESSION['message'] = "Error: Destination ID not specified";
-        header("Location: listdestination.php");
-        exit();
     }
+    
+    // Only proceed if no errors
+    if (empty($error)) {
+        error_log("Attempting to update destination: $destination, $description, $imagePath, $status, $id");
+        
+        $stmt = $conn->prepare("UPDATE destination SET destination = ?, description = ?, dest_image = ?, status = ? WHERE destination_id = ?");
+        if ($stmt) {
+            $stmt->bind_param("ssssi", $destination, $description, $imagePath, $status, $id);
+            
+            if ($stmt->execute()) {
+                error_log("Update successful");
+                header("Location: alldestination.php?success=1");
+                exit();
+            } else {
+                error_log("Update failed: " . $stmt->error);
+                $error = "Error updating destination: " . $stmt->error;
+            }
+            
+            $stmt->close();
+        } else {
+            error_log("Prepare failed: " . $conn->error);
+            $error = "Database error: " . $conn->error;
+        }
+    }
+    
+    $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    
-                    // Close all dropdowns
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        if (menu !== this.nextElementSibling) {
-                            menu.classList.add('hidden');
-                        }
-                    });
-
-                    // Toggle current dropdown
-                    const dropdownMenu = this.nextElementSibling;
-                    dropdownMenu.classList.toggle('hidden');
-                });
-            });
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function (event) {
-                if (!event.target.closest('.dropdown-toggle')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.classList.add('hidden');
-                    });
-                }
-            });
-
-            document.getElementById('dest_image').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('image-preview');
-            const currentImage = document.getElementById('current-image');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" class="max-h-48 w-auto object-cover rounded-lg">`;
-                    currentImage.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        });
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edit Destination - ThankYouNepalTrip</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="frontend/sidebar.css">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-   <div class="flex h-screen">
-        <!-- Sidebar -->
-            <?php
-            include("frontend/asidebar.php");
-            ?>
 
-        <!-- main section -->
-        <div class="ml-64 p-6 w-[84%] mx-auto">
-            <div class="bg-white shadow-md rounded-lg p-6">
-                <h1 class="text-2xl font-bold mb-4"><br></h1>
-                <div class="bg-gray-100 p-4 rounded-lg mb-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h1 class="text-2xl font-bold text-gray-800">Edit Itinerary</h1>
-                        <a href="listdestination.php" 
-                           class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center">
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            Back to List
-                        </a>
-                    </div>
-                    <!-- <form id="editForm" class="grid grid-cols-1 md:grid-cols-2 gap-4"> -->
-                        <?php include('messages.php') ?> <!-- Create separate messages file or use previous message code -->
+<body class="bg-gray-50 font-sans leading-normal tracking-normal" x-data="{ sidebarOpen: false }">
+  <!-- Overlay for mobile sidebar -->
+  <div class="overlay" :class="{ 'open': sidebarOpen }" @click="sidebarOpen = false"></div>
 
-                        <form action="editdestination.php" method="POST" enctype="multipart/form-data" class="space-y-6">
-                            <input type="hidden" name="dest_id" value="<?= htmlspecialchars($dest['did']) ?>">
-                            <input type="hidden" name="current_image" value="<?= htmlspecialchars($dest['dest_image']) ?>">
+  <!-- Top Navigation Bar -->
+  <?php include 'frontend/header.php'; ?>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <!-- Activity Name -->
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Destination Name</label>
-                                    <input type="text" name="dest_name" 
-                                        value="<?= htmlspecialchars($dest['dest_name']) ?>" 
-                                        class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                        required>
-                                </div>
+  <!-- Sidebar -->
+  <?php include 'frontend/sidebar.php'; ?>
 
-                                <!-- Status -->
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Status</label>
-                                    <select name="status" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                                        <option value="Active" <?= $dest['status'] === 'Active' ? 'selected' : '' ?>>Active</option>
-                                        <option value="Expired" <?= $dest['status'] === 'Expired' ? 'selected' : '' ?>>Expired</option>
-                                        <option value="Draft" <?= $dest['status'] === 'Draft' ? 'selected' : '' ?>>Draft</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Description</label>
-                                <textarea name="dest_desc" rows="4"
-                                    class="w-full px-3 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                    required><?= htmlspecialchars($dest['dest_desc']) ?></textarea>
-                            </div>
-
-                            <!-- Image Upload -->
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Destination Image</label>
-                                <div class="flex items-center gap-4">
-                                    <div id="current-image" class="w-48">
-                                        <img src="<?= htmlspecialchars($dest['dest_image']) ?>" 
-                                            class="max-h-48 w-auto object-cover rounded-lg border">
-                                        <span class="text-xs text-gray-500">Current Image</span>
-                                    </div>
-                                    
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-center w-full">
-                                            <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                                    </svg>
-                                                    <p class="mb-2 text-sm text-gray-500">
-                                                        <span class="font-semibold">Click to upload</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 5MB)</p>
-                                                </div>
-                                                <input id="dest_image" name="dest_image" type="file" class="hidden" accept="image/*">
-                                            </label>
-                                        </div>
-                                        <div id="image-preview" class="mt-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-end space-x-4">
-                                <a href="listdestination.php" 
-                                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                    Cancel
-                                </a>
-                                <button type="submit" 
-                                     class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                    <i class="fas fa-save mr-2"></i>
-                                    Update Destination
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <!-- Main Content Area -->
+  <main class="main-content pt-16 min-h-screen transition-all duration-300">
+    <div class="p-6">
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <div class="mb-8">
+          <div class="gradient-bg rounded-2xl p-6 text-white">
+            <h1 class="text-3xl font-bold">
+              <i class="fas fa-map-marker-alt mr-3"></i>Edit Destination
+            </h1>
+          </div>
         </div>
+
+        <?php if (isset($error)): ?>
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <?php echo $error; ?>
+          </div>
+        <?php endif; ?>
+
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $id; ?>" method="post" enctype="multipart/form-data" class="glass-effect rounded-2xl shadow-xl p-6" onsubmit="return validateForm()">
+          <input type="hidden" name="id" value="<?php echo $id; ?>">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="form-group">
+              <label class="block text-gray-700 mb-2 font-medium">Destination Name *</label>
+              <input type="text" name="destination" id="destination" required 
+                     value="<?php echo htmlspecialchars($destinationData['destination']); ?>"
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            
+            <div class="form-group">
+              <label class="block text-gray-700 mb-2 font-medium">Status *</label>
+              <select name="status" id="status" required
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="active" <?php echo $destinationData['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
+                <option value="inactive" <?php echo $destinationData['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+              </select>
+            </div>
+            
+            <div class="md:col-span-2 form-group">
+              <label class="block text-gray-700 mb-2 font-medium">Description *</label>
+              <textarea name="description" id="description" rows="4" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"><?php echo htmlspecialchars($destinationData['description']); ?></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label class="block text-gray-700 mb-2 font-medium">Destination Image</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                <input type="file" name="dest_image" id="dest_image" accept="image/*" 
+                       class="block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-lg file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-blue-50 file:text-blue-700
+                              hover:file:bg-blue-100"
+                       onchange="previewImage(event)">
+                <p class="mt-2 text-sm text-gray-500">JPEG, PNG, or JPG (Max 5MB)</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center">
+              <div class="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                <?php if (!empty($destinationData['dest_image'])): ?>
+                  <img id="currentImage" src="../<?php echo htmlspecialchars($destinationData['dest_image']); ?>" 
+                       alt="Current Image" class="w-full h-full object-cover">
+                <?php else: ?>
+                  <i class="fas fa-image text-gray-400 text-3xl" id="placeholderIcon"></i>
+                <?php endif; ?>
+                <img id="imagePreview" src="#" alt="Preview" class="hidden w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 flex justify-end space-x-4">
+            <a href="alldestination.php" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+              Cancel
+            </a>
+            <button type="submit" class="gradient-bg text-white px-6 py-2 rounded-lg hover:opacity-90 transition-colors">
+              <i class="fas fa-save mr-2"></i>Update Destination
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </main>
+
+  <!-- Alpine JS for dropdown functionality -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  
+  <script>
+    // Initialize sidebar state
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('main', () => ({
+        sidebarOpen: window.innerWidth >= 1024,
+        
+        init() {
+          if (window.innerWidth < 1024) {
+            this.sidebarOpen = false;
+          }
+          
+          window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+              this.sidebarOpen = true;
+            }
+          });
+        }
+      }));
+    });
+
+    function previewImage(event) {
+      const input = event.target;
+      const preview = document.getElementById('imagePreview');
+      const currentImage = document.getElementById('currentImage');
+      const placeholder = document.getElementById('placeholderIcon');
+      const file = input.files[0];
+      
+      if (file) {
+        // Validate file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File is too large. Maximum size is 5MB.');
+          input.value = '';
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+          if (currentImage) currentImage.classList.add('hidden');
+          if (placeholder) placeholder.classList.add('hidden');
+        }
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = '#';
+        preview.classList.add('hidden');
+        if (currentImage) currentImage.classList.remove('hidden');
+        if (placeholder && !currentImage) placeholder.classList.remove('hidden');
+      }
+    }
+
+    function validateForm() {
+      const destination = document.getElementById('destination').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const fileInput = document.getElementById('dest_image');
+      
+      console.log("Validating form...");
+      
+      // Basic validation
+      if (!destination || !description) {
+        console.log("Validation failed: Required fields empty");
+        alert('Please fill in all required fields.');
+        return false;
+      }
+      
+      // File validation if a file was selected
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        
+        if (!validTypes.includes(file.type)) {
+          console.log("Validation failed: Invalid file type");
+          alert('Only JPG, PNG, and GIF images are allowed.');
+          return false;
+        }
+        
+        if (file.size > 5 * 1024 * 1024) {
+          console.log("Validation failed: File too large");
+          alert('Image size must be less than 5MB.');
+          return false;
+        }
+      }
+
+      console.log("Validation passed");
+      return true;
+    }
+  </script>
 </body>
 </html>
-        

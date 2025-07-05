@@ -2,317 +2,408 @@
 include("frontend/session_start.php");
 include("connection.php");
 
-
 $stmt = $conn->prepare("SELECT trips.*, trip_images.main_image
 FROM trips 
 INNER JOIN trip_images ON trips.tripid = trip_images.tripid");
 $stmt->execute();
 $trip_result = $stmt->get_result();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
    <title>NepalTrip</title>
-   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-   <link rel="stylesheet" href="assets/css/index.css">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+   <link rel="stylesheet" href="assets/css/index.css" />
+   <style>
+      /* Hero Section with overlay */
+      .hero-section {
+         position: relative;
+         background-image: url('assets/img/nepal.png');
+         background-size: cover;
+         background-position: center;
+         background-repeat: no-repeat;
+         min-height: 450px;
+         color: white;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 0 3rem;
+      }
+
+      .hero-section::before {
+         content: "";
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.4);
+         z-index: 0;
+      }
+
+      .hero-content {
+         position: relative;
+         z-index: 1;
+         max-width: 50%;
+      }
+
+      .search-box {
+         position: relative;
+         z-index: 1;
+         max-width: 400px;
+         background-color: rgba(255, 255, 255, 0.9);
+         border-radius: 0.5rem;
+         padding: 1.5rem;
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      .card-img-top {
+         width: 100%;         /* full width of the card */
+         height: 250px;       /* fixed height for uniformity */
+         object-fit: cover;   /* scale image to cover area, cropping if needed */
+         object-position: center; /* center the image */
+      }
+
+
+      /* Responsive adjustments */
+      @media (max-width: 991.98px) {
+         .hero-section {
+            flex-direction: column;
+            padding: 2rem;
+            min-height: auto;
+         }
+         .hero-content, .search-box {
+            max-width: 100%;
+            width: 100%;
+            margin-bottom: 2rem;
+         }
+         .search-box {
+            margin-bottom: 0;
+         }
+      }
+   </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-light">
    <?php include("frontend/header.php"); ?>
-   <section class="hero-section mt-1" style="background-image: url('assets/img/nepal.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-      <div class="bg bg-opacity-70" style="background: rgba(0,0,0,0.4); min-height: 450px;">
-         <div class="content text-center text-white py-12">
-            <h1 class="text-4xl font-bold">Escape Your Comfort Zone.</h1>
-            <p class="text-lg"> Grab your stuff and let’s get lost.</p>
+
+   <!-- Hero Section -->
+   <section class="hero-section">
+      <div class="hero-content">
+         <h1 class="display-4 fw-bold">Escape Your Comfort Zone.</h1>
+         <p class="lead">Grab your stuff and let’s get lost.</p>
+      </div>
+
+      <div class="search-box">
+         <form>
+            <div class="mb-3">
+               <label class="form-label visually-hidden" for="activitySelect">Activity</label>
+               <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-walking"></i></span>
+                  <select class="form-select" id="activitySelect" aria-label="Activity">
+                     <option selected>Activity</option>
+                     <option value="1">Activity 1</option>
+                     <option value="2">Activity 2</option>
+                     <option value="3">Activity 3</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="mb-3">
+               <label class="form-label visually-hidden" for="priceSelect">Price</label>
+               <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                  <select class="form-select" id="priceSelect" aria-label="Price">
+                     <option selected>$0 - $0</option>
+                     <option value="1">$0 - $50</option>
+                     <option value="2">$50 - $100</option>
+                     <option value="3">$100 - $200</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="mb-3">
+               <label class="form-label visually-hidden" for="destinationSelect">Destination</label>
+               <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  <select class="form-select" id="destinationSelect" aria-label="Destination">
+                     <option selected>Destination</option>
+                     <option value="1">Destination 1</option>
+                     <option value="2">Destination 2</option>
+                     <option value="3">Destination 3</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="mb-3">
+               <label class="form-label visually-hidden" for="durationSelect">Duration</label>
+               <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                  <select class="form-select" id="durationSelect" aria-label="Duration">
+                     <option selected>0 Days - 11 Days</option>
+                     <option value="1">1 Day - 3 Days</option>
+                     <option value="2">4 Days - 7 Days</option>
+                     <option value="3">8 Days - 11 Days</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="mb-3">
+               <label class="form-label visually-hidden" for="dateSelect">Date</label>
+               <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                  <select class="form-select" id="dateSelect" aria-label="Date">
+                     <option selected>Date</option>
+                     <option value="1">Date 1</option>
+                     <option value="2">Date 2</option>
+                     <option value="3">Date 3</option>
+                  </select>
+               </div>
+            </div>
+
+            <button type="submit" class="btn btn-warning w-100">Search</button>
+         </form>
+      </div>
+   </section>
+
+   <!-- Destination -->
+   <section class="features py-5 bg-white">
+      <div class="container text-center mb-4">
+         <h2 class="fw-bold">Explore popular destinations</h2>
+         <p class="text-secondary">A new journey begins here within, find a destination that suits you and start travelling. We offer best travel packages.</p>
+      </div>
+
+      <?php
+      $result = $conn->query("SELECT * FROM destination WHERE status = 'active' LIMIT 3");
+      ?>
+
+      <div class="container">
+         <div class="row g-4">
+            <?php if ($result && $result->num_rows > 0): ?>
+               <?php while ($row = $result->fetch_assoc()): ?>
+                  <div class="col-md-4">
+                     <div class="card shadow-sm h-100">
+                        <div class="position-relative">
+                           <a href="view-destination.php?destination_id=<?php echo $row['destination_id']; ?>">
+                              <?php if (!empty($row['dest_image'])): ?>
+                                 <img src="<?php echo htmlspecialchars($row['dest_image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($row['destination']); ?>">
+                              <?php else: ?>
+                                 <div class="d-flex justify-content-center align-items-center bg-secondary text-white" style="height: 250px;">
+                                    No Image
+                                 </div>
+                              <?php endif; ?>
+                           </a>
+                           <span class="position-absolute top-0 start-0 bg-warning text-white small fw-bold px-2 py-1 rounded-end">Featured</span>
+                        </div>
+                        <div class="card-body">
+                           <h5 class="card-title">
+                           <a href="view-destination.php?destination_id=<?php echo $row['destination_id']; ?>" style="color: #008080; text-decoration: none; font-weight: bold;">
+
+                                 <?php echo htmlspecialchars($row['destination']); ?>
+                              </a>
+                           </h5>
+                           <p class="card-text text-secondary">
+                              <?php
+                              $desc = $row['description'];
+                              $descWords = explode(" ", $desc);
+                              $shortDesc = implode(" ", array_slice($descWords, 0, 20));
+                              echo htmlspecialchars($shortDesc) . '...';
+                              ?>
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               <?php endwhile; ?>
+            <?php else: ?>
+               <div class="col-12 text-center text-muted">No destinations found.</div>
+            <?php endif; ?>
          </div>
-         <div class="search-box max-w-lg mx-auto bg-white bg-opacity-90 rounded-lg p-6 shadow-lg">
-            <form>
-               <div class="mb-3">
-                  <div class="input-group">
-                     <span class="input-group-text"><i class="fas fa-walking" id="search-icon"></i></span>
-                     <select class="form-select" aria-label="Activity">
-                        <option selected>Activity</option>
-                        <option value="1">Activity 1</option>
-                        <option value="2">Activity 2</option>
-                        <option value="3">Activity 3</option>
-                     </select>
+
+         <div class="text-center mt-4">
+            <a href="destination" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-semibold">
+               VIEW ALL DESTINATIONS
+            </a>
+         </div>
+      </div>
+   </section>
+
+   <!-- Activities -->
+   <section class="features py-5">
+      <div class="container text-center mb-4">
+         <h2 class="fw-bold">Explore popular Activities</h2>
+         <p class="text-secondary">Discover your perfect destination and dive into unforgettable experiences.</p>
+      </div>
+
+      <?php
+      $result = $conn->query("SELECT activity_id, activity, description, act_image FROM activity WHERE activity_status = 'active' LIMIT 3");
+      ?>
+
+      <div class="container">
+         <div class="row g-4">
+            <?php if ($result && $result->num_rows > 0): ?>
+               <?php while ($row = $result->fetch_assoc()): ?>
+                  <div class="col-md-4">
+                     <div class="card shadow-sm h-100">
+                        <div class="position-relative">
+                           <a href="view-activity.php?activity_id=<?php echo $row['activity_id']; ?>">
+                              <?php if (!empty($row['act_image'])): ?>
+                                 <img src="<?php echo htmlspecialchars($row['act_image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($row['activity']); ?>">
+                              <?php else: ?>
+                                 <div class="d-flex justify-content-center align-items-center bg-secondary text-white" style="height: 250px;">
+                                    No Image
+                                 </div>
+                              <?php endif; ?>
+                           </a>
+                           <span class="position-absolute top-0 start-0 bg-warning text-white small fw-bold px-2 py-1 rounded-end">Featured</span>
+                        </div>
+                        <div class="card-body">
+                           <h5 class="card-title">
+                              <a href="view-activity.php?activity_id=<?php echo $row['activity_id']; ?>" style="color: #008080; text-decoration: none; font-weight: bold;">
+                                 <?php echo htmlspecialchars($row['activity']); ?>
+                              </a>
+                           </h5>
+                           <p class="card-text text-secondary">
+                              <?php
+                              $desc = $row['description'];
+                              $descWords = explode(" ", $desc);
+                              $shortDesc = implode(" ", array_slice($descWords, 0, 20));
+                              echo htmlspecialchars($shortDesc) . '...';
+                              ?>
+                           </p>
+                        </div>
+                     </div>
                   </div>
-               </div>
-               <div class="mb-3">
-                  <div class="input-group">
-                     <span class="input-group-text"><i class="fas fa-dollar-sign" id="search-icon"></i></span>
-                     <select class="form-select" aria-label="Price">
-                        <option selected>$0 - $0</option>
-                        <option value="1">$0 - $50</option>
-                        <option value="2">$50 - $100</option>
-                        <option value="3">$100 - $200</option>
-                     </select>
+               <?php endwhile; ?>
+            <?php else: ?>
+               <div class="col-12 text-center text-muted">No activities found.</div>
+            <?php endif; ?>
+         </div>
+
+         <div class="text-center mt-4">
+            <a href="more-activity" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-semibold">
+               VIEW ALL ACTIVITIES
+            </a>
+         </div>
+      </div>
+   </section>
+
+   <!-- Trip Types -->
+   <section class="features py-5">
+      <div class="container text-center mb-4">
+         <h2 class="fw-bold">Explore popular trips</h2>
+         <p class="text-secondary">Get started with handpicked top rated trips.</p>
+      </div>
+
+      <?php
+      include_once("admin/frontend/connection.php");
+      $trip_result = $conn->query("SELECT * FROM triptypes LIMIT 3");
+      ?>
+
+      <div class="container">
+         <div class="row g-4">
+            <?php if ($trip_result && $trip_result->num_rows > 0) {
+               while ($trip = $trip_result->fetch_assoc()) { ?>
+                  <div class="col-md-4">
+                     <div class="card shadow-sm h-100">
+                        <div class="position-relative">
+                           <a href="view-trip?tripid=<?php echo $trip['triptype_id']; ?>">
+                              <img src="<?php echo htmlspecialchars($trip['main_image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($trip['triptype']); ?>">
+                           </a>
+                           <span class="position-absolute top-0 start-0 bg-warning text-white small fw-bold px-2 py-1 rounded-end">Featured</span>
+                        </div>
+                        <div class="card-body">
+                           <h5 class="card-title">
+                              <a href="view-trip?tripid=<?php echo $trip['triptype_id']; ?>" style="color: #008080; text-decoration: none; font-weight: bold;">
+                                 <?php echo htmlspecialchars($trip["triptype"]); ?>
+                              </a>
+                           </h5>
+                           <p class="card-text text-secondary">
+                              <?php
+                              $description = $trip['description'];
+                              $words = explode(" ", $description);
+                              $firstWords = implode(" ", array_slice($words, 0, 20));
+                              echo htmlspecialchars($firstWords) . '...';
+                              ?>
+                           </p>
+                        </div>
+                     </div>
                   </div>
-               </div>
-               <div class="mb-3">
-                  <div class="input-group">
-                     <span class="input-group-text"><i class="fas fa-map-marker-alt" id="search-icon"></i></span>
-                     <select class="form-select" aria-label="Destination">
-                        <option selected>Destination</option>
-                        <option value="1">Destination 1</option>
-                        <option value="2">Destination 2</option>
-                        <option value="3">Destination 3</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="mb-3">
-                  <div class="input-group">
-                     <span class="input-group-text"><i class="fas fa-clock" id="search-icon"></i></span>
-                     <select class="form-select" aria-label="Duration">
-                        <option selected>0 Days - 11 Days</option>
-                        <option value="1">1 Day - 3 Days</option>
-                        <option value="2">4 Days - 7 Days</option>
-                        <option value="3">8 Days - 11 Days</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="mb-3">
-                  <div class="input-group">
-                     <span class="input-group-text"><i class="fas fa-calendar-alt" id="search-icon"></i></span>
-                     <select class="form-select" aria-label="Date">
-                        <option selected>Date</option>
-                        <option value="1">Date 1</option>
-                        <option value="2">Date 2</option>
-                        <option value="3">Date 3</option>
-                     </select>
-                  </div>
-               </div>
-               <button type="submit" class="btn btn-warning w-full bg-yellow-500 text-white">Search</button>
-            </form>
+            <?php }
+            } ?>
+         </div>
+
+         <div class="text-center mt-4">
+            <a href="typetrip" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-semibold">
+               VIEW ALL Trips
+            </a>
          </div>
       </div>
    </section>
 
 
-   <!-- TripTypes -->
-   <div class="features">
-      <div class="container text-center py-5">
-         <h1 class="text-3xl font-bold">Explore popular trips</h1>
-         <p class="text-gray-600">Get started with handpicked top rated trips.</p>
-      </div>
-      <?php
-      include_once("admin/frontend/connection.php");
-      $trip_result = $conn->query("SELECT * FROM triptypes LIMIT 3");
-      ?>
-      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-         <?php if ($trip_result && $trip_result->num_rows > 0) {
-            while ($trip = $trip_result->fetch_assoc()) { ?>
-               <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                  <div class="relative">
-                     <a href="view-trip?tripid=<?php echo $trip['triptype_id']; ?>">
-                        <img src="<?php echo htmlspecialchars($trip['main_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($trip['triptype']); ?>">
-                     </a>
-                     <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
-                  </div>
-                  <div class="p-4">
-                     <h5 class="text-lg font-semibold mb-2">
-                        <a href="view-trip?tripid=<?php echo $trip['triptype_id']; ?>" class="text-black hover:text-teal-600"><?php echo htmlspecialchars($trip["triptype"]); ?></a>
-                     </h5>
-                     <p class="text-gray-600 mb-2">
-                        <?php
-                        $description = $trip['description'];
-                        $words = explode(" ", $description);
-                        $firstTenWords = implode(" ", array_slice($words, 0, 20));
-                        echo htmlspecialchars($firstTenWords) . '...';
-                        ?>
-                     </p>
-                  </div>
-               </div>
-            <?php }
-         } ?>
-      </div>
-         <div class="container text-center py-5">
-            <a href="destination.php" class="btn btn-outline-warning px-4 py-2 rounded-pill fw-semibold">
-               VIEW ALL DESTINATIONS
-            </a>
-         </div>
-   </div>
 
-
-   <!-- Destiantion -->
-   <div class="features">
-      <div class="container text-center py-5">
-         <h1 class="text-3xl font-bold">Explore popular destinations</h1>
-         <p class="text-gray-600">A new journey begins here within, find a destination that suits you and start travelling. We offer best travel packages.</p>
-      </div>
-      <?php
-      require 'connection.php';
-      $result = $conn->query("SELECT * FROM destination WHERE status = 'active' LIMIT 3");
-      ?>
-      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-         <?php if ($result && $result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
-               <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                  <div class="relative">
-                     <a href="view-destination.php?destination_id=<?php echo $row['destination_id']; ?>">
-                        <?php if (!empty($row['dest_image'])): ?>
-                           <img src="<?php echo htmlspecialchars($row['dest_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($row['destination']); ?>">
-                        <?php else: ?>
-                           <div class="h-64 w-full flex items-center justify-center bg-gray-200 rounded-t-lg text-gray-500">No Image</div>
-                        <?php endif; ?>
-                     </a>
-                     <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
-                  </div>
-                  <div class="p-4">
-                     <h5 class="text-lg font-semibold mb-2">
-                        <a href="view-destination.php?destination_id=<?php echo $row['destination_id']; ?>" class="text-black hover:text-teal-600">
-                           <?php echo htmlspecialchars($row['destination']); ?>
-                        </a>
-                     </h5>
-                     <p class="text-gray-600 mb-2">
-                        <?php
-                        $desc = $row['description'];
-                        $descWords = explode(" ", $desc);
-                        $shortDesc = implode(" ", array_slice($descWords, 0, 20));
-                        echo htmlspecialchars($shortDesc) . '...';
-                        ?>
-                     </p>
-                  </div>
-               </div>
-            <?php endwhile; ?>
-         <?php else: ?>
-            <div class="col-12 text-center text-muted">No destinations found.</div>
-         <?php endif; ?>
+   <!-- Client Reviews (Static Example) -->
+   <section class="features py-5 bg-white">
+      <div class="container text-center mb-4">
+         <h2 class="fw-bold">Explore The Best Travel Deals</h2>
+         <p class="text-secondary">A new journey begins here within, find a destination that suits you and start travelling. We offer best travel packages.</p>
+         <hr class="mx-auto" style="width: 3rem; border-top: 3px solid #f59e0b; margin-bottom: 2rem;" />
       </div>
 
-      <div class="container text-center py-5">
-         <a href="destination.php" class="btn btn-outline-warning px-4 py-2 rounded-pill fw-semibold">
-            VIEW ALL DESTINATIONS
-         </a>
-      </div>
-   </div>
-
-
-
-
-   <!-- Activities -->
-   <div class="features">
-      <div class="container text-center py-5">
-         <h1 class="text-3xl font-bold">Explore popular Activities</h1>
-         <p class="text-gray-600">Discover your perfect destination and dive into unforgettable experiences.</p>
+      <div class="container text-center mb-4">
+         <h2 class="fw-bold">Client Reviews</h2>
+         <p class="text-secondary">Get started with Reviews</p>
+         <hr class="mx-auto" style="width: 3rem; border-top: 3px solid #f59e0b; margin-bottom: 2rem;" />
       </div>
 
-      <?php
-      require 'connection.php';
-      $result = $conn->query("SELECT activity_id, activity, description, act_image FROM activity WHERE activity_status = 'active' LIMIT 3");
-      ?>
-
-      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-         <?php if ($result && $result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
-               <div class="card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                  <div class="relative">
-                     <a href="view-activity.php?activity_id=<?php echo $row['activity_id']; ?>">
-                        <?php if (!empty($row['act_image'])): ?>
-                           <img src="<?php echo htmlspecialchars($row['act_image']); ?>" class="h-64 w-full object-cover rounded-t-lg" alt="<?php echo htmlspecialchars($row['activity']); ?>">
-                        <?php else: ?>
-                           <div class="h-64 w-full flex items-center justify-center bg-gray-200 rounded-t-lg text-gray-500">No Image</div>
-                        <?php endif; ?>
-                     </a>
-                     <span class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded">Featured</span>
-                  </div>
-                  <div class="p-4">
-                     <h5 class="text-lg font-semibold mb-2">
-                        <a href="view-activity.php?activity_id=<?php echo $row['activity_id']; ?>" class="text-black hover:text-teal-600">
-                           <?php echo htmlspecialchars($row['activity']); ?>
-                        </a>
-                     </h5>
-                     <p class="text-gray-600 mb-2">
-                        <?php
-                        $desc = $row['description'];
-                        $descWords = explode(" ", $desc);
-                        $shortDesc = implode(" ", array_slice($descWords, 0, 20));
-                        echo htmlspecialchars($shortDesc) . '...';
-                        ?>
-                     </p>
-                  </div>
-               </div>
-            <?php endwhile; ?>
-         <?php else: ?>
-            <div class="col-12 text-center text-muted">No activities found.</div>
-         <?php endif; ?>
-      </div>
-
-      <div class="container text-center py-5">
-         <a href="activities.php" class="btn btn-outline-warning px-4 py-2 rounded-pill fw-semibold">
-            VIEW ALL ACTIVITIES
-         </a>
-      </div>
-   </div>
-
-
-   
-
-   <!-- Client Reviews -->
-
-   <div class="features">
-      <div class="container text-center py-5">
-         <h1 class="text-3xl font-bold">Explore The Best Travel Deals</h1>
-         <p class="text-gray-600">A new journey begins here within, find a destination that suits you and start travelling. We offer best travel packages.</p>
-         <div class="divider my-4 mx-auto w-12 h-1 bg-orange-500"></div>
-      </div>
-   </div>
-
-   <div class="features">
-      <div class="container text-center py-5">
-         <h1 class="text-3xl font-bold">Client Reviews</h1>
-         <p class="text-gray-600">Get started with Reviews</p>
-         <div class="divider my-4 mx-auto w-12 h-1 bg-orange-500"></div>
-      </div>
-   </div>
-
-   <div class="features">
-      <div class="container mx-auto">
-         <div class="carousel-testi">
-            <div class="reviews flex overflow-hidden" id="reviews">
-               <div class="review flex-none w-full">
-                  <div class="container-testi flex items-center gap-4 p-4 bg-white rounded-lg shadow-md">
-                     <div class="image-container">
-                        <img src="assets/img/client.jpeg" alt="A young woman with a backpack and headphones, ready for travel" class="rounded-full w-32 h-32 object-cover">
-                     </div>
-                     <div class="text-container">
-                        <div class="quote-icon text-teal-600 text-3xl">“</div>
-                        <h2 class="title text-xl font-bold">Get Ahead in Travel with Booking</h2>
-                        <p class="description text-gray-600">Inquietude simplicity terminated she compliment remarkably few her nay. The weeks are ham asked jokes. Neglected perceived shy nay concluded.</p>
-                        <p class="author text-gray-800 font-medium">Selvetica Forez</p>
+      <div class="container">
+         <div id="carouselReviews" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+               <div class="carousel-item active">
+                  <div class="d-flex flex-column flex-md-row align-items-center bg-white rounded shadow p-4">
+                     <img src="assets/img/client.jpeg" class="rounded-circle me-md-4 mb-3 mb-md-0" alt="Client" style="width: 120px; height: 120px; object-fit: cover;">
+                     <div>
+                        <blockquote class="blockquote">
+                           <p class="mb-3">“Inquietude simplicity terminated she compliment remarkably few her nay. The weeks are ham asked jokes. Neglected perceived shy nay concluded.”</p>
+                        </blockquote>
+                        <footer class="blockquote-footer">Selvetica Forez</footer>
+                        <h5 class="mt-2">Get Ahead in Travel with Booking</h5>
                      </div>
                   </div>
                </div>
-               <!-- Repeat review structure for additional reviews -->
+               <!-- Add more carousel-items here for other reviews -->
             </div>
-            <div class="buttons mt-4">
-               <button onclick="prevReview()" class="bg-green-600 text-white px-4 py-2 rounded">Prev</button>
-               <button onclick="nextReview()" class="bg-green-600 text-white px-4 py-2 rounded">Next</button>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselReviews" data-bs-slide="prev">
+               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselReviews" data-bs-slide="next">
+               <span class="carousel-control-next-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Next</span>
+            </button>
          </div>
       </div>
-   </div>
+   </section>
 
    <?php include("frontend/footer.php"); ?>
 
-   <div class="scroll-up" id="scrollUpButton" onclick="scrollToTop()">
-      <i class="fas fa-chevron-up"></i>
+   <div class="scroll-up position-fixed bottom-0 end-0 m-4 d-none" id="scrollUpButton" style="z-index: 1050; cursor:pointer;">
+      <i class="fas fa-chevron-up fa-2x"></i>
    </div>
 
    <script>
       window.onscroll = function () {
          var scrollUpButton = document.getElementById("scrollUpButton");
          if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            scrollUpButton.style.display = "flex";
+            scrollUpButton.classList.remove("d-none");
+            scrollUpButton.classList.add("d-flex");
          } else {
-            scrollUpButton.style.display = "none";
+            scrollUpButton.classList.add("d-none");
+            scrollUpButton.classList.remove("d-flex");
          }
       };
 
@@ -322,7 +413,10 @@ $trip_result = $stmt->get_result();
             behavior: 'smooth'
          });
       }
+
+      document.getElementById("scrollUpButton").addEventListener("click", scrollToTop);
    </script>
+
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

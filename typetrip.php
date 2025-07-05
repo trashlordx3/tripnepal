@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'connection.php';
 
 // Fetch all triptypes with main_image from the database
@@ -21,20 +22,34 @@ $result = $conn->query($sql);
   <!-- Custom Styles for Trip Types -->
   <style>
     .hero {
-      background: url('assets/img/Manaslu.jpg') no-repeat center center/cover;
-      color: white;
-      text-align: center;
-      padding: 80px 20px;
-    }
+    position: relative;
+    background: url('assets/img/budget.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+    z-index: 1;
+    overflow: hidden;
+  }
 
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: bold;
-    }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 50% black mask */
+    z-index: -1;
+  }
 
-    .hero p {
-      font-size: 1.5rem;
-    }
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+  }
+
+  .hero p {
+    font-size: 1.5rem;
+  }
 
     .trip-card {
       background-color: #fff;

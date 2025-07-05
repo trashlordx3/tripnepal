@@ -1,283 +1,164 @@
 <?php
 session_start();
-require 'connection.php'; // Ensure this file correctly connects to the database
+require 'connection.php';
 
-// Initialize error variables
-$FailMsg = '';
-$invaliduser = '';
+$failMsg = '';
 
-// Ensure form submission is via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if email and password are provided
-    if (empty($_POST['email']) || empty($_POST['password'])) {
-        $FailMsg = "Both email and password are required.";
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+
+    if (empty($email) || empty($password)) {
+        $failMsg = "Both email and password are required.";
     } else {
-        // Sanitize input
-        $email = trim($_POST['email']);
-        $password = trim($_POST['password']);
+        $stmt = $conn->prepare("SELECT userid, email, password, status FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        // Check if user exists
-        $sql = "SELECT userid, email, password FROM users WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+        if ($result && $result->num_rows === 1) {
+            $user = $result->fetch_assoc();
 
-            if ($result->num_rows == 1) {
-                $user = $result->fetch_assoc();
-                if (password_verify($password, $user['password'])) {
-                    // Store session data
-                    $_SESSION['user_id'] = $user['userid'];
-                    $_SESSION['email'] = $user['email'];
+            if ($user['status'] !== 'active') {
+                $failMsg = "Your account is not active. Please contact support.";
+            } elseif (password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['userid'];
+                $_SESSION['email'] = $user['email'];
 
-                    // Set remember me cookie if checked
-                    if (isset($_POST['remember-me'])) {
-                        setcookie('remember_email', $email, time() + (30 * 24 * 60 * 60), '/');
-                    }
-
-                    // Redirect to profile page
-                    header("Location: my-account.php");
-                    exit();
-                } else {
-                    $FailMsg = "Invalid password.";
-                }
+                // Redirect to user dashboard or account page
+                header("Location: my-account.php");
+                exit();
             } else {
-                $invaliduser = "User not found.";
+                $failMsg = "Incorrect password.";
             }
-            // Close statement
-            $stmt->close();
         } else {
-            $FailMsg = "Database error. Please try again later.";
+            $failMsg = "No account found with that email.";
         }
+
+        $stmt->close();
     }
-    // Close connection
-    $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="assets/css/index.css">
+    <meta charset="UTF-8" />
+    <title>Login - Thank You Nepal Trip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg,rgb(253, 253, 255) 0%,rgb(224, 239, 224) 100%);
+            background: linear-gradient(135deg, #fdfdff 0%, #e0efe0 100%);
             min-height: 100vh;
-            padding: 20px 0;
-        }
-
-        .login-container {
-            margin: 50px auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-container h2 {
-            color: #2d3748;
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 28px;
-            text-align: center;
-        }
-
-        .login-container label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            padding: 3px 0;
-        }
-
-        .login-container input[type="email"],
-        .login-container input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-
-        .login-container .remember-me {
             display: flex;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            font-family: "Roboto", sans-serif;
+            padding: 20px;
         }
 
-        .login-container .remember-me input {
-            margin-right: 10px;
-        }
-
-        .login-container .forgot-password {
-            text-align: right;
-            margin-bottom: 10px;
-        }
-
-        .login-container .forgot-password a {
-            color: #00bfa5;
-            text-decoration: none;
-        }
-
-        .login-container .login-button {
+        .login-card {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg,rgb(48, 151, 137) 0%,rgb(153, 182, 183) 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
+            padding: 2.5rem 2rem 3rem;
+            position: relative;
         }
 
-        .login-container .login-button:hover {
+        .btn-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        h2 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #309789 0%, #99b6b7 100%);
+            font-weight: 600;
+        }
+
+        .btn-login:hover {
             background-color: #008c7a;
         }
 
-        .login-container .signup {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
+        .input-icon {
+            position: relative;
         }
 
-        .login-container .signup a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .login-container .signup a:hover {
-            color: #4c51bf;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
         }
 
-        @media (max-width: 576px) {
-            .login-container {
-                padding: 20px;
-                margin: 20px auto;
-            }
+        .input-icon input {
+            padding-right: 2.5rem;
         }
     </style>
 </head>
-
 <body>
-    <?php include("frontend/header.php"); ?>
 
-    <div class="login-container">
-        <h2>Login</h2>
+<div class="login-card shadow-sm">
+    <a href="index.php" class="btn-close" aria-label="Close"></a>
 
-        <?php if ($FailMsg): ?>
-            <div class="error-message"><?php echo htmlspecialchars($FailMsg); ?></div>
-        <?php endif; ?>
+    <h2>Login</h2>
 
-        <?php if ($invaliduser): ?>
-            <div class="error-message"><?php echo htmlspecialchars($invaliduser); ?></div>
-        <?php endif; ?>
+    <?php if ($failMsg): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($failMsg) ?></div>
+    <?php endif; ?>
 
-        <form id="loginForm" method="post">
-            <label for="email">Email <span style="color:red;">*</span></label>
-            <input type="email" id="email" name="email" placeholder="Enter your email"
-                value="<?php echo isset($_COOKIE['remember_email']) ? htmlspecialchars($_COOKIE['remember_email']) : ''; ?>"
-                required>
-
-            <label for="password">Password <span style="color:red;">*</span></label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-            <div class="remember-me">
-                <input type="checkbox" id="remember-me" name="remember-me" <?php echo isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
-                <label for="remember-me">Remember me</label>
-            </div>
-
-            <div class="forgot-password">
-                <a href="forgot-password.php">Forgot Password?</a>
-            </div>
-
-            <button type="submit" class="login-button">Login</button>
-        </form>
-
-        <div class="signup">
-            Don't have an account? <a href="signup.php"><i class="fas fa-sign-in-alt"></i> Sign Up</a>
+    <form method="post" novalidate>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
         </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+            <div class="input-icon">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" minlength="6" required />
+                <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-login w-100">Login</button>
+    </form>
+
+    <div class="mt-4 text-center">
+        Don't have an account? <a href="signup.php" class="text-primary text-decoration-none">Sign Up</a>
     </div>
+</div>
 
-    <?php include("frontend/footer.php"); ?>
-    <?php include("frontend/scrollup.html"); ?>
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
-            // Client-side validation
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            let isValid = true;
-
-            // Clear previous errors
-            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-
-            // Email validation
-            if (!email) {
-                showError('email', 'Email is required.');
-                isValid = false;
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('email', 'Please enter a valid email address.');
-                isValid = false;
-            }
-
-            // Password validation
-            if (!password) {
-                showError('password', 'Password is required.');
-                isValid = false;
-            } else if (password.length < 6) {
-                showError('password', 'Password must be at least 6 characters.');
-                isValid = false;
-            }
-
-            if (!isValid) {
-                event.preventDefault();
-            }
-        });
-
-        function showError(fieldId, message) {
-            const field = document.getElementById(fieldId);
-            let errorElement = document.getElementById(fieldId + '-error');
-
-            if (!errorElement) {
-                errorElement = document.createElement('div');
-                errorElement.id = fieldId + '-error';
-                errorElement.className = 'error-message';
-                field.parentNode.insertBefore(errorElement, field.nextSibling);
-            }
-
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-            errorElement.style.textAlign = 'left';
-            errorElement.style.marginBottom = '10px';
+<script>
+    function togglePasswordVisibility() {
+        const input = document.getElementById("password");
+        const icon = document.getElementById("togglePassword");
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
         }
-    </script>
+    }
+</script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

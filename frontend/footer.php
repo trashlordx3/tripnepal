@@ -44,27 +44,27 @@
                 </h3>
                 <p>
                     <a href="#">
-                        Nepal
+                        Kathmandu
                     </a>
                 </p>
                 <p>
                     <a href="#">
-                        Maldives
+                        Lalitpur
                     </a>
                 </p>
                 <p>
                     <a href="#">
-                        Srilanka
+                        Bhaktapur
                     </a>
                 </p>
                 <p>
                     <a href="#">
-                        India
+                        Pokhara
                     </a>
                 </p>
                 <p>
                     <a href="#">
-                        Philippines
+                        Mustang
                     </a>
                 </p>
             </div>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'connection.php';
 
 // Fetch all activities from the database
@@ -14,17 +15,30 @@ $result = $conn->query($sql);
 
   <!-- Fonts & Bootstrap -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/index.css">
 
-  <!-- Custom Styles for Trip Types -->
+  <!-- Custom Styles -->
   <style>
     .hero {
-      background: url('assets/img/Manaslu.jpg') no-repeat center center/cover;
+      position: relative;
+      background: url('assets/img/rafting.jpg') no-repeat center center/cover;
       color: white;
       text-align: center;
       padding: 80px 20px;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
     }
 
     .hero h1 {
@@ -89,7 +103,7 @@ $result = $conn->query($sql);
   <!-- Hero Section -->
   <div class="hero">
     <h1>Explore Popular Activities</h1>
-    <p>  Discover your perfect destination and dive into unforgettable experiences.</p>
+    <p>Discover your perfect destination and dive into unforgettable experiences.</p>
   </div>
 
   <!-- Activity Cards Section -->
@@ -99,18 +113,30 @@ $result = $conn->query($sql);
         <?php while ($activities = $result->fetch_assoc()): ?>
           <div class="col-md-4">
             <div class="activities-card h-100">
-              <a href="view-activities?activity_id=<?php echo $activities['activity_id']; ?>">
+              <a href="view-activities.php?activity_id=<?php echo $activities['activity_id']; ?>">
+
+                <?php
+                  $imagePath = htmlspecialchars($activities['act_image']);
+                  
+                  // If only filename is stored (e.g., rafting.jpg), prepend path
+                  if (!str_contains($imagePath, '/') && !empty($imagePath)) {
+                      $imagePath = "assets/img/" . $imagePath;
+                  }
+                ?>
+
                 <?php if (!empty($activities['act_image'])): ?>
-                  <img src="<?php echo htmlspecialchars($activities['act_image']); ?>" alt="<?php echo htmlspecialchars($activities['activity']); ?>">
+                  <img src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($activities['activity']); ?>"
+                       onerror="this.onerror=null;this.src='assets/img/no-image.jpg';">
                 <?php else: ?>
                   <div class="d-flex justify-content-center align-items-center bg-light text-muted" style="height: 200px;">
-                    No image
+                    No image available
                   </div>
                 <?php endif; ?>
               </a>
+
               <div class="activities-card-body">
                 <h5 class="activities-card-title">
-                  <a href="view-activities?activity_id=<?php echo $activities['activity_id']; ?>">
+                  <a href="view-activities.php?activity_id=<?php echo $activities['activity_id']; ?>">
                     <?php echo htmlspecialchars($activities["activity"]); ?>
                   </a>
                 </h5>
@@ -118,8 +144,8 @@ $result = $conn->query($sql);
                   <?php
                     $description = $activities['description'];
                     $words = explode(" ", $description);
-                    $firstTenWords = implode(" ", array_slice($words, 0, 20));
-                    echo htmlspecialchars($firstTenWords) . '...';
+                    $firstTwentyWords = implode(" ", array_slice($words, 0, 20));
+                    echo htmlspecialchars($firstTwentyWords) . '...';
                   ?>
                 </p>
               </div>
@@ -127,17 +153,17 @@ $result = $conn->query($sql);
           </div>
         <?php endwhile; ?>
       <?php else: ?>
-        <div class="col-12 text-center text-muted py-4">No activities types found.</div>
+        <div class="col-12 text-center text-muted py-4">No activity types found.</div>
       <?php endif; ?>
     </div>
   </div>
 
-  <?php include("frontend/footer.php"); 
-  include("frontend/scrollup.html");?>
+  <?php include("frontend/footer.php"); ?>
+  <?php include("frontend/scrollup.html"); ?>
 
-  <!-- Bootstrap JS Bundle -->
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

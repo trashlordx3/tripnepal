@@ -103,11 +103,10 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+   <link rel="stylesheet" href="assets/css/index.css" />
 
     <style>
         .py-5 {
@@ -135,22 +134,6 @@ $conn->close();
             color: red;
         }
 
-        .hero {
-            background: url('assets/img/pk.jpg') no-repeat center center/cover;
-            color: white;
-            text-align: center;
-            padding: 90px 20px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: bold;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-        }
-
         .booking-right {
             width: 30%;
         }
@@ -166,10 +149,6 @@ $conn->close();
     <?php
     include("frontend/header.php");
     ?>
-    <header class="hero">
-        <h1>Booking Form</h1>
-        <p>Your trusted partner for unforgettable journeys around the Nepal.</p>
-    </header>
     <div class="features">
         <div class="container py-5 ">
             <div class="book-container">

@@ -181,6 +181,21 @@ body {
 .footer-column h3 {
   font-size: 1.5rem;
   font-weight: 200;
+  position: relative; /* Added for underline positioning */
+  padding-bottom: 0.4rem; /* space for underline */
+  display: inline-block;
+}
+
+/* Small orange underline below footer h3 */
+.footer-column h3::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px; /* underline length */
+  height: 3px; /* underline thickness */
+  background-color: #f59e0b; /* small orange underline color */
+  border-radius: 2px;
 }
 
 .footer-containers a {

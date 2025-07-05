@@ -1,13 +1,6 @@
 <?php
 require '../connection.php';
-
-// session_start();
-// if (!isset($_SESSION['admin_id'])) {
-//   header('location:adminlogin.php');
-//   exit;
-// }
  
-
 // Get fresh data for display
 $stmt = $conn->prepare("SELECT * FROM users ORDER BY userid DESC");
 $stmt->execute();
@@ -16,175 +9,38 @@ $result = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - ThankYouNepalTrip</title>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .hover-scale {
-      transition: transform 0.2s ease;
-    }
-    
-    .hover-scale:hover {
-      transform: scale(1.02);
-    }
-
-    .action-button {
-      transition: all 0.3s ease;
-    }
-    
-    .action-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .table-row {
-      transition: all 0.2s ease;
-    }
-    
-    .table-row:hover {
-      background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
-      transform: translateX(4px);
-    }
-
-    .status-active {
-      background: linear-gradient(135deg, #10b981, #059669);
-    }
-    
-    .status-inactive {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-    }
-    
-    .status-suspended {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-    }
-
-    @media (max-width: 768px) {
-      .hidden-mobile {
-        display: none;
-      }
-    }
-
-    /* Custom scrollbar */
-    .custom-scrollbar::-webkit-scrollbar {
-      height: 8px;
-    }
-    
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 4px;
-    }
-    
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 4px;
-    }
-
-    .search-input {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-    }
-    
-    .search-input:focus {
-      border-color: #667eea;
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-    }
-  </style>
-  <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Dropdown functionality
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        if (menu !== this.nextElementSibling) {
-                            menu.classList.add('hidden');
-                        }
-                    });
-                    const dropdownMenu = this.nextElementSibling;
-                    dropdownMenu.classList.toggle('hidden');
-                });
-            });
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function (event) {
-                if (!event.target.closest('.dropdown-toggle')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.classList.add('hidden');
-                    });
-                }
-            });
-
-            // Search functionality
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.addEventListener('input', function() {
-                    const searchTerm = this.value;
-                    const url = new URL(window.location);
-                    if (searchTerm) {
-                        url.searchParams.set('search', searchTerm);
-                    } else {
-                        url.searchParams.delete('search');
-                    }
-                    window.location.href = url.toString();
-                });
-            }
-
-            // Delete confirmation
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const tripName = this.dataset.tripName;
-                    if (confirm(`Are you sure you want to delete "${tripName}"? This action cannot be undone.`)) {
-                        const form = document.createElement('form');
-                        form.method = 'POST';
-                        form.innerHTML = `
-                            <input type="hidden" name="delete_trip" value="1">
-                            <input type="hidden" name="trip_id" value="${this.dataset.tripId}">
-                        `;
-                        document.body.appendChild(form);
-                        form.submit();
-                    }
-                });
-            });
-        });
-    </script>
+  <link rel="stylesheet" href="frontend/sidebar.css">
 </head>
 
-<body class="bg-gray-50 font-sans leading-normal tracking-normal">
-  <div class="flex h-screen">
-    <!-- Sidebar -->
-    <?php include("frontend/asidebar.php"); ?>
-    
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col ml-64">
-      <main class="flex-1 p-6 mt-16">
+<body class="bg-gray-50 font-sans leading-normal tracking-normal" x-data="{ sidebarOpen: false }">
+  <!-- Overlay for mobile sidebar -->
+  <div class="overlay" :class="{ 'open': sidebarOpen }" @click="sidebarOpen = false"></div>
+
+  <!-- Top Navigation Bar -->
+  <?php include 'frontend/header.php'; ?>
+
+  <!-- Sidebar -->
+  <?php include 'frontend/sidebar.php'; ?>
+
+  <!-- Main Content Area -->
+  <main class="main-content pt-16 min-h-screen transition-all duration-300">
+    <div class="p-6">
+      <!-- Users Management Content -->
+      <div class="bg-white rounded-xl shadow-md p-6">
         <!-- Header Section -->
         <div class="mb-8">
           <div class="gradient-bg rounded-2xl p-6 text-white">
@@ -204,54 +60,9 @@ $result = $stmt->get_result();
             </div>
           </div>
         </div>
-
-        <!-- Controls Section -->
-        <div class="glass-effect rounded-2xl p-6 mb-6 shadow-xl">
-          <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-            <!-- Export Buttons -->
-            <div class="flex flex-wrap items-center gap-3">
-              <h3 class="text-lg font-semibold text-gray-700 mr-4">Export Data:</h3>
-              <button onclick="printTable()" class="action-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
-                <i class="fas fa-print"></i>
-                <span class="hidden sm:inline">Print</span>
-              </button>
-              <button onclick="exportToPDF()" class="action-button bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
-                <i class="fas fa-file-pdf"></i>
-                <span class="hidden sm:inline">PDF</span>
-              </button>
-              <button onclick="exportToExcel()" class="action-button bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
-                <i class="fas fa-file-excel"></i>
-                <span class="hidden sm:inline">Excel</span>
-              </button>
-            </div>
-
-            <!-- Search and Filter -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div class="flex items-center gap-2">
-                <label class="text-gray-600 font-medium" for="entries">Show:</label>
-                <select class="search-input border-0 rounded-lg px-3 py-2 outline-none" id="entries" onchange="changeEntries()">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                </select>
-                <span class="text-gray-600">entries</span>
-              </div>
-              
-              <div class="flex items-center gap-2">
-                <label class="text-gray-600 font-medium" for="search">Search:</label>
-                <div class="relative">
-                  <input class="search-input border-0 rounded-lg px-4 py-2 pl-10 outline-none w-64" 
-                         id="search" 
-                         type="text" 
-                         placeholder="Search users..."
-                         oninput="searchTable()" />
-                  <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
+        <!-- Export Buttons -->
+        <?php include 'frontend/exportdata.php'; ?>
 
         <!-- Table Section -->
         <div class="glass-effect rounded-2xl shadow-xl overflow-hidden">
@@ -279,6 +90,9 @@ $result = $stmt->get_result();
                   </th>
                   <th class="py-4 px-6 text-left font-semibold">
                     <i class="fas fa-info-circle mr-2"></i>Status
+                  </th>
+                  <th class="py-4 px-6 text-left font-semibold">
+                    <i class="fas fa-cog mr-2"></i>Actions
                   </th>
                 </tr>
               </thead>
@@ -381,11 +195,36 @@ $result = $stmt->get_result();
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
-  </div>
+  </main>
 
+  <!-- Alpine JS for dropdown functionality -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  
   <script>
+    // Initialize sidebar state
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('main', () => ({
+        sidebarOpen: window.innerWidth >= 1024,
+        
+        init() {
+          // Close sidebar on mobile by default
+          if (window.innerWidth < 1024) {
+            this.sidebarOpen = false;
+          }
+          
+          // Update state when window is resized
+          window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+              this.sidebarOpen = true;
+            }
+          });
+        }
+      }));
+    });
+
+    // Table functionality
     let currentPage = 1;
     let entriesPerPage = 10;
     let allRows = [];

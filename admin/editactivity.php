@@ -1,260 +1,232 @@
 <?php
 require '../connection.php';
 
-$act = [];
+// Check if activity ID is provided
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header("Location: allactivities.php");
+    exit();
+}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $act_id = filter_input(INPUT_POST, 'act_id', FILTER_VALIDATE_INT);
-        $act_name = trim($_POST['act_name']);
-        $act_desc = trim($_POST['act_desc']);
-        $status = trim($_POST['status']);
-        $current_image = trim($_POST['current_image']);
+$activity_id = (int)$_GET['id'];
 
-        // Validation
-        if (empty($act_name)) throw new Exception("Error: Activity name is required");
-        if (empty($act_desc)) throw new Exception("Error: Description is required");
-        if (empty($status)) throw new Exception("Error: Status is required");
+// Fetch activity data
+$stmt = $conn->prepare("SELECT * FROM activity WHERE activity_id = ?");
+$stmt->bind_param("i", $activity_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$activity = $result->fetch_assoc();
 
-        // Handle file upload
-        $targetFile = $current_image;
-        if (!empty($_FILES['act_image']['name'])) {
-            $targetDir = "uploads/";
-            $fileName = basename($_FILES["act_image"]["name"]);
-            $targetFile = $targetDir . uniqid() . '_' . $fileName;
-            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+if (!$activity) {
+    header("Location: allactivities.php");
+    exit();
+}
 
-            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-            if (!in_array($imageFileType, $allowedTypes)) {
-                throw new Exception("Error: Only JPG, JPEG, PNG & GIF files are allowed.");
-            }
-
-            if ($_FILES["act_image"]["size"] > 5000000) {
-                throw new Exception("Error: File is too large. Max 5MB allowed.");
-            }
-
-            if (!move_uploaded_file($_FILES["act_image"]["tmp_name"], $targetFile)) {
-                throw new Exception("Error: Error uploading file.");
-            }
-        }
-
-        // Update query
-        $stmt = $conn->prepare("UPDATE activity SET 
-            act_name = ?,
-            act_desc = ?,
-            act_image = ?,
-            status = ?
-            WHERE aid = ?");
-
-        $stmt->bind_param("ssssi", 
-            $act_name,
-            $act_desc,
-            $targetFile,
-            $status,
-            $act_id
-        );
-
-        if (!$stmt->execute()) {
-            throw new Exception("Error: " . $stmt->error);
-        }
-
-        $_SESSION['message'] = "Success: Activity updated successfully!";
-        header("Location: listactivities.php");
-        exit();
-
-    } catch (Exception $e) {
-        $_SESSION['message'] = $e->getMessage();
-        header("Location: editactivity.php?id=" . $act_id);
-        exit();
-    }
-} else {
-    if (isset($_GET['id'])) {
-        $act_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $activity_name = trim($_POST['activity']);
+    $description = trim($_POST['description']);
+    $status = strtolower(trim($_POST['status']));
+    
+    // Validate status
+    $status = in_array($status, ['active', 'inactive']) ? $status : 'active';
+    
+    // Initialize image path with existing value
+    $image_path = $activity['act_image'];
+    
+    // Handle image upload if new file was provided
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $target_dir = "../uploads/activities/";
         
-        if ($act_id) {
-            $stmt = $conn->prepare("SELECT * FROM activity WHERE aid = ?");
-            $stmt->bind_param("i", $act_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $act = $result->fetch_assoc();
+        // Create directory if it doesn't exist
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+        
+        // Validate image
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if ($check !== false) {
+            $imageFileType = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
             
-            if (!$act) {
-                $_SESSION['message'] = "Error: Activity not found";
-                header("Location: listactivities.php");
-                exit();
+            if (in_array($imageFileType, $allowedTypes)) {
+                // Generate unique filename
+                $new_filename = uniqid() . '.' . $imageFileType;
+                $target_file = $target_dir . $new_filename;
+                
+                // Move uploaded file
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                    // Delete old image if it exists
+                    if (!empty($activity['act_image']) && file_exists($target_dir . $activity['act_image'])) {
+                        @unlink($target_dir . $activity['act_image']);
+                    }
+                    $image_path = $new_filename;
+                } else {
+                    echo "<script>alert('Error uploading image file.');</script>";
+                }
+            } else {
+                echo "<script>alert('Only JPG, JPEG, PNG & GIF files are allowed.');</script>";
             }
         } else {
-            $_SESSION['message'] = "Error: Invalid activity ID";
-            header("Location: listactivities.php");
-            exit();
+            echo "<script>alert('File is not an image.');</script>";
         }
-    } else {
-        $_SESSION['message'] = "Error: Activity ID not specified";
-        header("Location: listactivities.php");
-        exit();
     }
+    
+    // Update activity in database
+    $update_stmt = $conn->prepare("UPDATE activity SET activity = ?, description = ?, act_image = ?, activity_status = ? WHERE activity_id = ?");
+    $update_stmt->bind_param("ssssi", $activity_name, $description, $image_path, $status, $activity_id);
+    
+    if ($update_stmt->execute()) {
+        echo "<script>alert('Activity updated successfully'); window.location.href = 'allactivities.php';</script>";
+        exit();
+    } else {
+        echo "<script>alert('Error updating activity: " . addslashes($conn->error) . "');</script>";
+    }
+    
+    $update_stmt->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    
-                    // Close all dropdowns
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        if (menu !== this.nextElementSibling) {
-                            menu.classList.add('hidden');
-                        }
-                    });
-
-                    // Toggle current dropdown
-                    const dropdownMenu = this.nextElementSibling;
-                    dropdownMenu.classList.toggle('hidden');
-                });
-            });
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function (event) {
-                if (!event.target.closest('.dropdown-toggle')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.classList.add('hidden');
-                    });
-                }
-            });
-
-            document.getElementById('act_image').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('image-preview');
-            const currentImage = document.getElementById('current-image');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" class="max-h-48 w-auto object-cover rounded-lg">`;
-                    currentImage.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        });
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edit Activity - ThankYouNepalTrip</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="frontend/sidebar.css">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-   <div class="flex h-screen">
-        <!-- Sidebar -->
-            <?php
-            include("frontend/asidebar.php");
-            ?>
 
-        <!-- main section -->
-        <div class="ml-64 p-6 w-[84%] mx-auto">
-            <div class="bg-white shadow-md rounded-lg p-6">
-                <h1 class="text-2xl font-bold mb-4"><br></h1>
-                <div class="bg-gray-100 p-4 rounded-lg mb-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h1 class="text-2xl font-bold text-gray-800">Edit Activity</h1>
-                        <a href="listactivities.php" 
-                           class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center">
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            Back to List
-                        </a>
-                    </div>
-                    <!-- <form id="editForm" class="grid grid-cols-1 md:grid-cols-2 gap-4"> -->
-                        <?php include('messages.php') ?> <!-- Create separate messages file or use previous message code -->
+<body class="bg-gray-50 font-sans leading-normal tracking-normal" x-data="{ sidebarOpen: false }">
+  <!-- Overlay for mobile sidebar -->
+  <div class="overlay" :class="{ 'open': sidebarOpen }" @click="sidebarOpen = false"></div>
 
-                        <form action="editactivity.php" method="POST" enctype="multipart/form-data" class="space-y-6">
-                            <input type="hidden" name="act_id" value="<?= htmlspecialchars($act['aid']) ?>">
-                            <input type="hidden" name="current_image" value="<?= htmlspecialchars($act['act_image']) ?>">
+  <!-- Top Navigation Bar -->
+  <?php include 'frontend/header.php'; ?>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <!-- Activity Name -->
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Activity Name</label>
-                                    <input type="text" name="act_name" 
-                                        value="<?= htmlspecialchars($act['act_name']) ?>" 
-                                        class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                        required>
-                                </div>
+  <!-- Sidebar -->
+  <?php include 'frontend/sidebar.php'; ?>
 
-                                <!-- Status -->
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Status</label>
-                                    <select name="status" class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                                        <option value="Active" <?= $act['status'] === 'Active' ? 'selected' : '' ?>>Active</option>
-                                        <option value="Expired" <?= $act['status'] === 'Expired' ? 'selected' : '' ?>>Expired</option>
-                                        <option value="Draft" <?= $act['status'] === 'Draft' ? 'selected' : '' ?>>Draft</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Description</label>
-                                <textarea name="act_desc" rows="4"
-                                    class="w-full px-3 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                    required><?= htmlspecialchars($act['act_desc']) ?></textarea>
-                            </div>
-
-                            <!-- Image Upload -->
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Activity Image</label>
-                                <div class="flex items-center gap-4">
-                                    <div id="current-image" class="w-48">
-                                        <img src="<?= htmlspecialchars($act['act_image']) ?>" 
-                                            class="max-h-48 w-auto object-cover rounded-lg border">
-                                        <span class="text-xs text-gray-500">Current Image</span>
-                                    </div>
-                                    
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-center w-full">
-                                            <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                                    </svg>
-                                                    <p class="mb-2 text-sm text-gray-500">
-                                                        <span class="font-semibold">Click to upload</span>
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 5MB)</p>
-                                                </div>
-                                                <input id="act_image" name="act_image" type="file" class="hidden" accept="image/*">
-                                            </label>
-                                        </div>
-                                        <div id="image-preview" class="mt-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-end space-x-4">
-                                <a href="allactivities.php" 
-                                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                    Cancel
-                                </a>
-                                <button type="submit" 
-                                     class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                     <i class="fas fa-save mr-2"></i>
-                                    Update Activity
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+  <!-- Main Content Area -->
+  <main class="main-content pt-16 min-h-screen transition-all duration-300">
+    <div class="p-6">
+      <div class="glass-effect rounded-2xl shadow-xl p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Activity</h1>
+        
+        <form method="post" enctype="multipart/form-data">
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Activity Information -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4 text-gray-800">Activity Information</h2>
+              
+              <div class="form-group">
+                <label class="form-label" for="activity">Activity Name *</label>
+                <input type="text" name="activity" id="activity" class="form-input" 
+                       value="<?php echo htmlspecialchars($activity['activity']); ?>" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="description">Description *</label>
+                <textarea name="description" id="description" class="form-input h-32" required><?php echo htmlspecialchars($activity['description']); ?></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="status">Status *</label>
+                <select name="status" id="status" class="form-input" required>
+                  <option value="active" <?= ($activity['activity_status'] ?? 'active') === 'active' ? 'selected' : '' ?>>Active</option>
+                  <option value="inactive" <?= ($activity['activity_status'] ?? 'active') === 'inactive' ? 'selected' : '' ?>>Inactive</option>
+                </select>
+              </div>
             </div>
-        </div>
+            
+            <!-- Image Section -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4 text-gray-800">Activity Image</h2>
+              
+              <div class="form-group">
+                <label class="form-label">Current Image</label>
+                <div class="mt-2">
+                  <?php if (!empty($activity['act_image']) && file_exists("../uploads/activities/" . $activity['act_image'])): ?>
+                    <img src="../uploads/activities/<?php echo htmlspecialchars($activity['act_image']); ?>" 
+                         alt="Current Activity Image" 
+                         class="w-32 h-32 object-cover rounded-lg"
+                         onerror="this.onerror=null; this.src='../assets/no-image.jpg';">
+                  <?php else: ?>
+                    <div class="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">
+                      <i class="fas fa-image text-2xl"></i>
+                    </div>
+                  <?php endif; ?>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="image">Upload New Image</label>
+                <input type="file" name="image" id="image" accept="image/*" class="form-input">
+                <p class="text-xs text-gray-500 mt-1">Only JPG, JPEG, PNG, GIF files (Max 5MB)</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-end space-x-4 mt-8">
+            <button type="button" class="btn-secondary" onclick="window.location.href='allactivities.php'">Cancel</button>
+            <button type="submit" class="btn-primary">Update Activity</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </main>
+
+  <!-- Alpine JS for dropdown functionality -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  
+  <script>
+    // Initialize sidebar state
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('main', () => ({
+        sidebarOpen: window.innerWidth >= 1024,
+        
+        init() {
+          if (window.innerWidth < 1024) {
+            this.sidebarOpen = false;
+          }
+          
+          window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+              this.sidebarOpen = true;
+            }
+          });
+        }
+      }));
+    });
+
+    // Client-side image validation
+    document.getElementById('image').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        // Check file size (5MB max)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+          alert('File is too large. Maximum size is 5MB.');
+          this.value = '';
+          return;
+        }
+        
+        // Check file type
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+          alert('Only JPG, PNG, and GIF images are allowed.');
+          this.value = '';
+        }
+      }
+    });
+  </script>
 </body>
 </html>
-        
+
+<?php
+$stmt->close();
+$conn->close();
+?>
